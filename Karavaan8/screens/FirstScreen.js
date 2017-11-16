@@ -8,7 +8,7 @@ export default class FirstScreen extends React.Component {
     var { navigate } = this.props.navigation;
     return (
       <View style={styles.navbar}>
-            <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><Text style={styles.buttonText}>Test</Text></TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => navigate("Trips", {})} title="Best"><Text style={styles.buttonText}>Trips</Text></TouchableHighlight>
             <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><Text style={styles.buttonText}>Test</Text></TouchableHighlight>
             <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><Text style={styles.buttonText}>Test</Text></TouchableHighlight>
             <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><Text style={styles.buttonText}>Test</Text></TouchableHighlight>
