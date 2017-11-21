@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, Image } from 'react-native';
 import { CreateParticipantJSON } from '../model/JSONTransformer'
 const util = require("util");
 
@@ -8,10 +8,10 @@ export default class FirstScreen extends React.Component {
     var { navigate } = this.props.navigation;
     return (
       <View style={styles.navbar}>
-            <TouchableHighlight style={styles.button} onPress={() => navigate("Trips", {})} title="Best"><Text style={styles.buttonText}>Trips</Text></TouchableHighlight>
-            <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><Text style={styles.buttonText}>Test</Text></TouchableHighlight>
-            <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><Text style={styles.buttonText}>Test</Text></TouchableHighlight>
-            <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><Text style={styles.buttonText}>Test</Text></TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => navigate("Trips", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/trip.png')} style={styles.icon}/><Text style={styles.buttonText}>Trips</Text></View></TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/person.png')} style={styles.icon}/><Text style={styles.buttonText}>People</Text></View></TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/expenses.png')} style={styles.icon}/><Text style={styles.buttonText}>Expenses</Text></View></TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/settings.png')} style={styles.icon}/><Text style={styles.buttonText}>Settings</Text></View></TouchableHighlight>
       </View>
     );
   }
@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
   },
   buttonText:{
     fontSize:48,
+    marginLeft:10
+  },
+  buttonImage:{
+    flexDirection: 'row'
   },
   container:
   {
@@ -45,5 +49,10 @@ const styles = StyleSheet.create({
   article:
   {
     flex: 10,
+  },
+  icon: {
+    height:40,
+    marginTop: 'auto',
+    marginBottom: 'auto'
   }
 });
