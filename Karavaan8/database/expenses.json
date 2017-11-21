@@ -1,0 +1,9 @@
+{"expense_id": "expenseid1",
+"person_id": "personid1",
+"target_id": "personid2",
+"trip_id": "tripid1",
+"value": 12,
+"currency": "EUR",
+"date": "10/10/17",
+"category": "food",
+"reason": "hungry"}

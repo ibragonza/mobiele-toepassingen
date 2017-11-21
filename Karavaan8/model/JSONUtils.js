@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component} from 'react-native';
 const util = require("util");
 
-export function createExpenseJSON(expenceId, personId, targetId, tripId, value, currency, date, category, reason)
+export function createExpenseJSON(expenseId, personId, targetId, tripId, value, currency, date, category, reason)
 {
-    return JSON.parse(`{"expence_id": expenceId,
+    return JSON.parse(`{"expense_id": expenseId,
                         "person_id": personId,
                         "target_id": targetId,
                         "trip_id": tripId,
@@ -48,4 +48,24 @@ export function CreateDebtJSON(donorId, receiverId, tripId, value, currency)
 	                "currency": currency`);
 }
 
-export
+export function writeToJSONDB(file, jsonText)
+{
+    var f= './database/' + file + ".json",
+        fs=require('fs');
+    fs.appendFile(f, jsonText, function(err){
+        console.log('Appended!');
+    });
+
+}
+
+export function readTextFile(file) {
+	var str = "";
+	var txtFile = new File('./database/' + file + ".json");
+	txtFile.open("r");
+	while (!txtFile.eof) {
+		// read each line of text
+		str += txtFile.readln() + "\n";
+	}
+	console.log(str);
+	return str;
+}
