@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View,Alert,TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View,Alert,TouchableHighlight,Image} from 'react-native';
+
 const util = require("util");
 
 export default class ExpensesScreen extends React.Component {
   render() {
     return (
+      <Image source={require('../images/expense-background.png')} style={styles.container}>
 	<View style={styles.navbar}>
 		<Text>Expenses</Text>
     </View>
+    </Image>
     );
   }
 }
@@ -21,4 +24,12 @@ const styles = StyleSheet.create({
   {
 	  fontSize:20,
   },
+  container:{
+    flex: 1,
+    width: undefined,
+    height: undefined,
+    backgroundColor:'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
