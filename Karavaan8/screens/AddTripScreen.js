@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground} from 'react-native';
-import {CreateParticipantJSON} from '../model/JSONTransformer'
+import { CreateParticipantJSON } from '../model/JSONUtils'
 const util = require("util");
 
 export default class AddTripScreen extends React.Component {

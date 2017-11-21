@@ -7,6 +7,6 @@ export default class Participant
     name: string;
     constructor(name)
     {
-    this.name = name;
+        this.name = name;
     }
 }

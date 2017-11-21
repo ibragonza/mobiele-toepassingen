@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Alert,TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableHighlight } from 'react-native';
 const util = require("util");
 
 export default class ExpensesScreen extends React.Component {
