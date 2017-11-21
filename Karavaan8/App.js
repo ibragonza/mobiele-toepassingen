@@ -3,12 +3,12 @@ import { StyleSheet, Text, View,Button,Alert,TouchableHighlight} from 'react-nat
 import TimerMixin from 'react-timer-mixin';
 import {StackNavigator} from 'react-navigation'; 
 import FirstScreen from './screens/FirstScreen'
-import SecondScreen from './screens/SecondScreen'
+import ExpensesScreen from './screens/ExpensesScreen'
 import TripScreen from './screens/TripScreen'
 
 const Navigation = StackNavigator({
 	First:{screen: FirstScreen},
-	Second : {screen: SecondScreen},
+	Expenses : {screen: ExpensesScreen},
 	Trips : {screen : TripScreen}
 });
 export default Navigation;

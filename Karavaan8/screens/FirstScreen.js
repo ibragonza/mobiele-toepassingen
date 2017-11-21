@@ -10,7 +10,7 @@ export default class FirstScreen extends React.Component {
       <View style={styles.navbar}>
             <TouchableHighlight style={styles.button} onPress={() => navigate("Trips", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/trip.png')} style={styles.icon}/><Text style={styles.buttonText}>Trips</Text></View></TouchableHighlight>
             <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/person.png')} style={styles.icon}/><Text style={styles.buttonText}>People</Text></View></TouchableHighlight>
-            <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/expenses.png')} style={styles.icon}/><Text style={styles.buttonText}>Expenses</Text></View></TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => navigate("Expenses", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/expenses.png')} style={styles.icon}/><Text style={styles.buttonText}>Expenses</Text></View></TouchableHighlight>
             <TouchableHighlight style={styles.button} onPress={() => navigate("Second", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/settings.png')} style={styles.icon}/><Text style={styles.buttonText}>Settings</Text></View></TouchableHighlight>
       </View>
     );

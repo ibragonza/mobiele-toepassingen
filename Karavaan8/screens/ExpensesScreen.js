@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View,Alert,TouchableHighlight} from 'react-native';
 const util = require("util");
 
-export default class SecondScreen extends React.Component {
+export default class ExpensesScreen extends React.Component {
   render() {
     return (
 	<View style={styles.navbar}>
-		<Text>Test</Text>
+		<Text>Expenses</Text>
     </View>
     );
   }
