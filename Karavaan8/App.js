@@ -5,10 +5,12 @@ import {StackNavigator} from 'react-navigation';
 import FirstScreen from './screens/FirstScreen'
 import ExpensesScreen from './screens/ExpensesScreen'
 import TripScreen from './screens/TripScreen'
+import AddTripScreen from './screens/AddTripScreen'
 
 const Navigation = StackNavigator({
 	First:{screen: FirstScreen},
 	Expenses : {screen: ExpensesScreen},
-	Trips : {screen : TripScreen}
+	Trips : {screen : TripScreen},
+	AddTrip : {screen : AddTripScreen}
 });
 export default Navigation;
