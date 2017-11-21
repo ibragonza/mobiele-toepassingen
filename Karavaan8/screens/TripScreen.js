@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground} from 'react-native';
-import { * } from '../model/JSONUtils'
+import { createExpenseJSON } from '../model/JSONUtils'
 const util = require("util");
 
 export default class FirstScreen extends React.Component {

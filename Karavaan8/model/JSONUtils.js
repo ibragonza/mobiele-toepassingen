@@ -46,6 +46,7 @@ export function CreateDebtJSON(donorId, receiverId, tripId, value, currency)
 	                "trip_id": tripId,
 	                "value": value,
 	                "currency": currency`);
+<<<<<<< HEAD
 }
 
 export function writeToJSONDB(file, jsonText)
@@ -68,4 +69,6 @@ export function readTextFile(file) {
 	}
 	console.log(str);
 	return str;
+=======
+>>>>>>> 54c942945c630dc43777b6ced78cc6372cbee036
 }
