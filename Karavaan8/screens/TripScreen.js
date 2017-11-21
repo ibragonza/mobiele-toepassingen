@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground} from 'react-native';
-import {CreateParticipantJSON} from '../model/JSONTransformer'
+import { createExpenseJSON } from '../model/JSONUtils'
 const util = require("util");
 
 export default class FirstScreen extends React.Component {
@@ -19,7 +19,7 @@ export default class FirstScreen extends React.Component {
 	}
     return (
 		<ScrollView style={styles.navbar}>
-			<TouchableHighlight style={styles.addTripbutton} onPress={() => Alert.alert("Hallo")}>
+			<TouchableHighlight style={styles.addTripbutton} onPress={() => navigate("AddTrip", {})}>
 				<View>
 					<Text style={styles.buttonText}>ADD TRIP</Text>
 				</View>
@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
   navbar :
   {
 	backgroundColor:'#2F4F4F',
-	fontFamily:'Roboto',
   },
   button : 
   {
