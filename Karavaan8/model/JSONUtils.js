@@ -22,15 +22,6 @@ export function createPersonJSON(personId, firstName, lastName)
                         "last_name": lastName}`)
 }
 
-export function CreatePaymentJSON(trip_id, payer, receiver, date, currency)
-{
-	return JSON.parse(`{"trip_id": trip_id,
-	                    "payer": payer,
-	                    "receiver": receiver,
-	                    "date": date,
-	                    "currency": currency`);
-}
-
 export function CreateTripJSON(trip_id, destination, startDate, endDate)
 {
 	return JSON.parse(`{"trip_id": trip_id,
@@ -46,27 +37,4 @@ export function CreateDebtJSON(donorId, receiverId, tripId, value, currency)
 	                "trip_id": tripId,
 	                "value": value,
 	                "currency": currency`);
-}
-
-export function writeToJSONDB(file, jsonText)
-{
-    var f= './database/' + file + ".json",
-        fs=require('fs');
-    fs.appendFile(f, jsonText, function(err){
-        console.log('Appended!');
-    });
-
-}
-
-export function readTextFile(file) {
-	var str = "";
-	var txtFile = new File('./database/' + file + ".json");
-	txtFile.open("r");
-	while (!txtFile.eof) {
-		// read each line of text
-		str += txtFile.readln() + "\n";
-	}
-	console.log(str);
-	return str;
-
 }
