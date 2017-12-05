@@ -7,12 +7,14 @@ import ExpensesScreen from './screens/ExpensesScreen'
 import TripScreen from './screens/TripScreen'
 import AddTripScreen from './screens/AddTripScreen'
 import SettingsScreen from './screens/SettingsScreen'
+import PeopleScreen from './screens/PeopleScreen'
 
 const Navigation = StackNavigator({
 	First:{screen: FirstScreen},
 	Expenses : {screen: ExpensesScreen},
 	Trips : {screen : TripScreen},
 	AddTrip : {screen : AddTripScreen},
-	Settings :{screen: SettingsScreen}
+	Settings :{screen: SettingsScreen},
+	People : {screen : PeopleScreen}
 });
 export default Navigation;
