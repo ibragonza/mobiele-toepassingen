@@ -1,14 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View,Alert,TouchableHighlight,Image} from 'react-native';
+import { StyleSheet, Text, View,Alert,TouchableHighlight,Image, Dropdown} from 'react-native';
+import OurPicker from '../view/OurPicker.js';
+
 
 const util = require("util");
 
 export default class ExpensesScreen extends React.Component {
+  
   render() {
     return (
       <Image source={require('../images/expense-background.png')} style={styles.container}>
 	<View style={styles.navbar}>
 		<Text>Expenses</Text>
+    </View>
+    <View style={styles.navbar}>
+    <OurPicker />
+    
     </View>
     </Image>
     );
