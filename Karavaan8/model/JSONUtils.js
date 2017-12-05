@@ -2,13 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component} from 'react-native';
 const util = require("util");
 
-export function createExpenseJSON(expenseId, personId, targetId, tripId, value, currency, date, category, reason)
+export function createExpenseJSON(expenseId, personId, targetId, tripId, value, numberOfTargets, currency, date, category, reason)
 {
     return JSON.parse(`{"expense_id": expenseId,
                         "person_id": personId,
                         "target_id": targetId,
                         "trip_id": tripId,
                         "value": value,
+                        "number_of_targets": numberOfTargets,
                         "currency": currency,
                         "date": date,
                         "category": category,
