@@ -3,12 +3,12 @@ import { StyleSheet, Text, View,Alert,TouchableHighlight,Image} from 'react-nati
 
 const util = require("util");
 
-export default class SettingsScreen extends React.Component {
+export default class PeopleScreen extends React.Component {
   render() {
     return (
-      <Image source={require('../images/settings-background.jpg')} style={styles.container}>
+      <Image source={require('../images/people-background.png')} style={styles.container}>
 	<View style={styles.navbar}>
-		<Text>Settings</Text>
+		<Text>People</Text>
     </View>
     </Image>
     );
