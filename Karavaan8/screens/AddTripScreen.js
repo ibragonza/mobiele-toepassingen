@@ -7,7 +7,7 @@ const util = require("util");
 export default class AddTripScreen extends React.Component {
 	constructor(props)
 	{
-		super(props)
+		super(props);
 		this.state = { destination: "", start_date:"",end_date:""};
 		this.send = this.send.bind(this);
 	}

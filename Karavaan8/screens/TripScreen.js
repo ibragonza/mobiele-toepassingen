@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground} from 'react-native';
+import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
 import { createExpenseJSON } from '../model/JSONUtils'
 const util = require("util");
 
@@ -19,18 +19,28 @@ export default class FirstScreen extends React.Component {
 	}
     return (
 		<ScrollView style={styles.navbar}>
+			<Image source={require('../images/trips.jpg')} style={styles.imagecontainer}>
 			<TouchableHighlight style={styles.addTripbutton} onPress={() => navigate("AddTrip", {})}>
 				<View>
 					<Text style={styles.buttonText}>ADD TRIP</Text>
 				</View>
 			</TouchableHighlight>
 			{trip}
+		</Image>
 		</ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  imagecontainer:{
+	flex: 1,
+	width: undefined,
+	height: undefined,
+	backgroundColor:'transparent',
+	justifyContent: 'center',
+	alignItems: 'center',
+  },
   addTripbutton : 
   {
 	marginTop : 5,
@@ -43,10 +53,6 @@ const styles = StyleSheet.create({
 	backgroundColor : '#00FF7F',
 	justifyContent : 'center',
 	alignItems: 'center',
-  },
-  navbar :
-  {
-	backgroundColor:'#2F4F4F',
   },
   button : 
   {
@@ -69,4 +75,5 @@ const styles = StyleSheet.create({
 	color: 'white',
 	textAlign:'center',
   }
+
 });
