@@ -6,7 +6,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 export default class OurPicker extends React.Component {
   render() {
     return (
-      <ModalDropdown options={this.props.values} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.buttonText} defaultIndex={0} defaultValue={"Option 1"}/>
+      <ModalDropdown options={this.props.values} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.buttonText} defaultIndex={0} defaultValue={this.props.defaultVal}/>
     );
   }
 }
@@ -14,11 +14,11 @@ export default class OurPicker extends React.Component {
 
 const styles = StyleSheet.create({
   Modal : {
-    backgroundColor: "#b3b3b3",
+    //backgroundColor: "#b3b3b3",
     width: 200,
     height: 50,
-    borderWidth: 2,
-    borderColor: '#A2A794'
+    //borderWidth: 1,
+    //borderColor: 'black'
   },
   dropdown : {
     backgroundColor: "#d3d3d3",
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     borderColor: '#A2A794'
   },
   buttonText: {
-    fontSize: 32,
+    fontSize: 24,
     color:'#656A58',
     marginLeft : 10
   },
