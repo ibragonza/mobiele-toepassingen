@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, TextInput,Image} from 'react-native';
 import { createExpenseJSON,} from '../model/JSONUtils'
 import DatePicker from 'react-native-datepicker'
-const util = require("util");
 
 export default class AddTripScreen extends React.Component {
 	constructor(props)
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
 	margin: 20,
 	width: 200,
 	height: 50,
-	borderRadius: 10,
+	borderRadius: 2,
 	borderWidth: 2,
 	borderColor: '#A2A794',
 	alignItems: 'center',

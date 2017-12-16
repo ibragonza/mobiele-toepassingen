@@ -20,6 +20,7 @@ export default class AddExpense extends React.Component {
                     <TextInput
                         style={styles.textInput}
                         editable = {true}
+						keyboardType = 'numeric'
                     />
                     <Text style={styles.entryText}>Category</Text>
                     <OurPicker values={["Option 1", "Option 2"]} />
