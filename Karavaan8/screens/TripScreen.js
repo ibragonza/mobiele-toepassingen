@@ -1,12 +1,54 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
-import { createExpenseJSON } from '../model/JSONUtils'
+import { createExpenseJSON, getTrips } from '../model/JSONUtils'
 const util = require("util");
 
 export default class FirstScreen extends React.Component {
+	constructor(props)
+	{
+		super(props);
+		this.state = { trips : []};
+		this.fetchData = this.fetchData.bind(this);
+		//[{"trip_id","Destination","start","end"}]
+	}
+
+	componentDidMount() {
+    this.fetchData().done()
+	}
+	
+	async fetchData() {
+    const trips = await getTrips();
+		this.setState({trips : trips});
+		console.log("---------------------------------------------------------------------------------");
+		console.log(this.state.trips);
+  }
+
+
 	render() {
 	var {navigate} = this.props.navigation;
+	var trips = this.state.trips;
 	var trip = [];
+	for(var key in trips){
+		console.log(trips[key]);
+		trip.push(	
+			<View style={styles.buttonContainer}>
+				<View style={styles.buttonView}>
+					<TouchableHighlight onPress={() => navigate("AddTrip", {})}>
+					<View>
+						<Text style={styles.buttonText}>{trips[key].destination}</Text>
+						<Text style={styles.buttonText}>{trips[key].start_date}</Text>
+					</View>
+					</TouchableHighlight>
+				</View>
+				<View>
+						<TouchableHighlight style={styles.exitcolumn} onPress={() => navigate("AddTrip", {})}>
+							<Text style={styles.exitText}>X</Text>
+						</TouchableHighlight>
+				</View>
+			</View>)
+	}
+/*
+	
 	for(let i = 0; i < 15; i++)
 	{
 		trip.push(
@@ -25,7 +67,7 @@ export default class FirstScreen extends React.Component {
 						</TouchableHighlight>
 				</View>
 			</View>)
-	}
+	}*/
     return (
 		<Image source={require('../images/trips.jpg')} style={styles.imagecontainer}>
 		<ScrollView style={styles.navbar}>

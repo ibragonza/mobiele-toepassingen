@@ -60,6 +60,24 @@ export async function CreateTripJSON(trip_id, destination, startDate, endDate)
       }
 }
 
+export async function getTrips(){
+    try {
+        const value = await AsyncStorage.getItem('@Store:trips');
+        if (value !== null){
+          var obj = JSON.parse(value);
+          console.log("Got value:", obj);
+          return obj;
+        }else{
+            console.log("No value");
+            return [];
+        }
+      } catch (error) {
+        // Error retrieving data
+        console.log(error);
+        return [];
+      }
+}
+
 export function CreateDebtJSON(donorId, receiverId, tripId, value, currency)
 {
 	return JSON.parse(`{"donor_id": donorId,
