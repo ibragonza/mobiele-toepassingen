@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, TextInput,Image} from 'react-native';
-import { createExpenseJSON,} from '../model/JSONUtils'
+import { CreateTripJSON } from '../model/JSONUtils'
 import DatePicker from 'react-native-datepicker'
 
 export default class AddTripScreen extends React.Component {
 	constructor(props)
 	{
 		super(props);
-		this.state = { destination: "", start_date:"",end_date:""};
+		this.state = { trip_id: "",destination: "", start_date:"",end_date:""};
 		this.send = this.send.bind(this);
+		//[{"trip_id","Destination","start","end"}]
 	}
 	send()
 	{
@@ -23,10 +24,10 @@ export default class AddTripScreen extends React.Component {
 				destination: this.state.destination,
 				start_date:  this.state.start_date,
 				end_date: this.state.end_date,
+				trip_id:"0",
+
 			};
-			Alert.alert(result.destination);
-			Alert.alert(result.start_date);
-			Alert.alert(result.end_date);
+			CreateTripJSON(result.trip_id,result.destination,result.start_date,result.end_date);
 		}
 	}
 	render() {

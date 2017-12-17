@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component} from 'react-native';
+import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
 const util = require("util");
 
 export function createExpenseJSON(expenseId, personId, targetId, tripId, value, numberOfTargets, currency, date, category, reason)
@@ -23,12 +23,35 @@ export function createPersonJSON(personId, firstName, lastName)
                         "last_name": lastName}`)
 }
 
-export function CreateTripJSON(trip_id, destination, startDate, endDate)
+export async function CreateTripJSON(trip_id, destination, startDate, endDate)
 {
-	return JSON.parse(`{"trip_id": trip_id,
-	                "destination": destination,
-	                "start_date": startDate,
-	                "end_date": endDate`);
+    var json = {"trip_id" : trip_id,"destination":destination,"start_date":startDate,"end_date":endDate};
+    try {
+        const value = await AsyncStorage.getItem('@Store:trips');
+        if (value !== null){
+          var obj = JSON.parse(value);
+          console.log("was stored:",obj);
+          obj[trip_id] = json;
+          var JsonString = JSON.stringify(obj);
+        }else{
+            var obj = {};
+            obj[trip_id] = json;
+            var JsonString = JSON.stringify(obj);
+        }
+        var set = true;
+      } catch (error) {
+        // Error retrieving data
+        console.log(error);
+        var set = false;
+      }
+
+      if(set === true){
+        try {
+            await AsyncStorage.setItem('@Store:trips', JsonString);
+          } catch (error) {
+            console.log(error);
+          }
+      }
 }
 
 export function CreateDebtJSON(donorId, receiverId, tripId, value, currency)
