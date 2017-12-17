@@ -13,6 +13,7 @@ export default class AddTripScreen extends React.Component {
 	}
 	send()
 	{
+		var {navigate} = this.props.navigation;
 		if(this.state.destination == "")
 		{
 			 Alert.alert("The Destination cannot be zero");
@@ -27,7 +28,13 @@ export default class AddTripScreen extends React.Component {
 				trip_id:"0",
 
 			};
-			CreateTripJSON(result.trip_id,result.destination,result.start_date,result.end_date);
+			var setResult = CreateTripJSON(result.trip_id,result.destination,result.start_date,result.end_date);
+			if(!setResult){
+				Alert.alert("Oops, something went wrong :(");
+			}else{
+				Alert.alert("Yay! trip was successfully added <3");
+				navigate("Trips", {})
+			}
 		}
 	}
 	render() {

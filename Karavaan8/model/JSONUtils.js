@@ -25,6 +25,7 @@ export function createPersonJSON(personId, firstName, lastName)
 
 export async function CreateTripJSON(trip_id, destination, startDate, endDate)
 {
+    var trip_id = startDate.split("-").join("")  + "" + endDate.split("-").join("");
     var json = {"trip_id" : trip_id,"destination":destination,"start_date":startDate,"end_date":endDate};
     try {
         const value = await AsyncStorage.getItem('@Store:trips');
@@ -43,14 +44,19 @@ export async function CreateTripJSON(trip_id, destination, startDate, endDate)
         // Error retrieving data
         console.log(error);
         var set = false;
+        return false;
       }
 
       if(set === true){
         try {
             await AsyncStorage.setItem('@Store:trips', JsonString);
+            return true;
           } catch (error) {
             console.log(error);
+            return false;
           }
+      }else{
+          return false;
       }
 }
 
