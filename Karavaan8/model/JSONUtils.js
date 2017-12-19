@@ -25,7 +25,7 @@ export function createPersonJSON(personId, firstName, lastName)
 
 export async function CreateTripJSON(trip_id, destination, startDate, endDate)
 {
-    var trip_id = startDate.split("-").join("")  + "" + endDate.split("-").join("");
+    var trip_id = startDate.split("-").join("")  + "" + endDate.split("-").join("") + Math.random();
     var json = {"trip_id" : trip_id,"destination":destination,"start_date":startDate,"end_date":endDate};
     try {
         const value = await AsyncStorage.getItem('@Store:trips');
@@ -77,7 +77,24 @@ export async function getTrips(){
         return [];
       }
 }
-
+export async function removeTrip(tripId)
+{
+	const value = await AsyncStorage.getItem('@Store:trips');
+	if (value !== null)
+	{
+			//alert(tripId);
+			var obj = JSON.parse(value);
+			if(! obj[tripId])
+			{
+				delete obj.tripId;
+				alert("Trip Deleted");
+			}
+			else
+			{
+				//alert("Something went wrong");
+			}
+	}
+}
 export function CreateDebtJSON(donorId, receiverId, tripId, value, currency)
 {
 	return JSON.parse(`{"donor_id": donorId,

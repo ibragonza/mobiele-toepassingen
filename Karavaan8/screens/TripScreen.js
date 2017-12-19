@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
-import { createExpenseJSON, getTrips } from '../model/JSONUtils'
+import { createExpenseJSON, getTrips,removeTrip } from '../model/JSONUtils'
 const util = require("util");
 
 export default class FirstScreen extends React.Component {
@@ -9,6 +9,7 @@ export default class FirstScreen extends React.Component {
 		super(props);
 		this.state = { trips : []};
 		this.fetchData = this.fetchData.bind(this);
+		this.deleteTrip = this.deleteTrip.bind(this);
 		//[{"trip_id","Destination","start","end"}]
 	}
 
@@ -22,6 +23,12 @@ export default class FirstScreen extends React.Component {
 		console.log("---------------------------------------------------------------------------------");
 		console.log(this.state.trips);
   }
+	async deleteTrip(tripId)
+	{
+		removeTrip(tripId);
+		alert("Gelukt");
+		navigate("TripScreen",{})
+	}
 
 
 	render() {
@@ -41,7 +48,7 @@ export default class FirstScreen extends React.Component {
 					</TouchableHighlight>
 				</View>
 				<View>
-						<TouchableHighlight style={styles.exitcolumn} onPress={() => navigate("AddTrip", {})}>
+						<TouchableHighlight style={styles.exitcolumn} onPress={() => this.deleteTrip(trips[key]["trip_id"])}>
 							<Text style={styles.exitText}>X</Text>
 						</TouchableHighlight>
 				</View>
@@ -94,19 +101,21 @@ const styles = StyleSheet.create({
   },
   exitcolumn : 
   {
-	backgroundColor : 'white',
+	//backgroundColor : 'red',
+	backgroundColor: '#FF4136',
 	width : 40,
-	height: 53,
+	flex: 1,
+	//height: 55,
 	alignSelf:'center',
 	justifyContent:'center',
-	borderRadius: 8,
-	borderWidth: 2,
+	//borderRadius: 8,
+	//borderWidth: 2,
 	borderColor: '#A2A794',
 	
   },
     exitText : 
   {
-	color: 'red',
+	color: 'white',
 	alignSelf:'center',
 	justifyContent:'center',
 	fontSize:30,
@@ -138,15 +147,22 @@ const styles = StyleSheet.create({
   },
   buttonView:
   {
+	width: 160,
+	/*
 	backgroundColor : '#FF6347',
 	width : 160,
 	borderRadius: 8,
 	borderWidth: 2,
 	borderColor: '#A2A794',
+	*/
   },
   buttonContainer:
   {
 	flexDirection: 'row',
+	backgroundColor: '#DDDDDD',
+	//backgroundColor: 'white',
+	borderRadius: 4,
+	borderWidth: 2,
 	marginTop:20,
   },
   buttonText :
