@@ -20,42 +20,56 @@ export default class FirstScreen extends React.Component {
 	}
 	
 	async fetchData() {
-    const trips = await getTrips();
-		this.setState({trips : trips});
+		const trips = await getTrips();
+		const TripA = [];
+		for(var key in trips){
+			TripA.push({
+				trip_id : trips[key].trip_id,
+				destination : trips[key].destination,
+				start_date : trips[key].start_date,
+				end_date : trips[key].end_date
+			})
+		}
+		this.setState({trips : TripA});
   }
 	async deleteTrip(tripId)
 	{
 		console.log("-------------------------------Called deleteTrip-----------------------------------------------");		
 		const trips = await removeTrip(tripId);
-		this.setState({trips:trips});
+		const TripA = [];
+		for(var key in trips){
+			TripA.push({
+				trip_id : trips[key].trip_id,
+				destination : trips[key].destination,
+				start_date : trips[key].start_date,
+				end_date : trips[key].end_date
+			})
+		}
+		this.setState({trips : TripA});
 	}
 
 
 	render() {
 	var {navigate} = this.props.navigation;
-	var trips = this.state.trips;
-	console.log(trips);
 	var trip = [];
 
-
-	for(var key in trips){
-		console.log(trips[key]["trip_id"]);
-		trip.push(<View style={styles.buttonContainer}>
-				<View style={styles.buttonView}>
-					<TouchableHighlight onPress={() => navigate("TripOverviewScreen", {})}>
-					<View>
-						<Text style={styles.buttonText}>{trips[key].destination}</Text>
-						<Text style={styles.buttonText}>{trips[key].start_date}</Text>
-					</View>
-					</TouchableHighlight>
-				</View>
+	var trip = this.state.trips.map((entry,index) => (
+	<View style={styles.buttonContainer}>
+			<View style={styles.buttonView}>
+				<TouchableHighlight onPress={() => navigate("TripOverviewScreen", {})}>
 				<View>
-						<TouchableHighlight style={styles.exitcolumn} onPress={() => this.deleteTrip(trips[key]["trip_id"])}>
-							<Text style={styles.exitText}>X</Text>
-						</TouchableHighlight>
+					<Text style={styles.buttonText}>{entry.destination}</Text>
+					<Text style={styles.buttonText}>{entry.start_date}</Text>
 				</View>
-		</View>);
-	}
+				</TouchableHighlight>
+			</View>
+			<View>
+					<TouchableHighlight style={styles.exitcolumn} onPress={() => this.deleteTrip(entry.trip_id)}>
+						<Text style={styles.exitText}>X</Text>
+					</TouchableHighlight>
+			</View>
+	</View>));
+	
     return (
 		<Image source={require('../images/trips.jpg')} style={styles.imagecontainer}>
 		<ScrollView style={styles.navbar}>
