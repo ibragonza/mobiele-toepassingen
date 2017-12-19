@@ -31,7 +31,6 @@ export async function CreateTripJSON(trip_id, destination, startDate, endDate)
         const value = await AsyncStorage.getItem('@Store:trips');
         if (value !== null){
           var obj = JSON.parse(value);
-          console.log("was stored:",obj);
           obj[trip_id] = json;
           var JsonString = JSON.stringify(obj);
         }else{
@@ -65,10 +64,9 @@ export async function getTrips(){
         const value = await AsyncStorage.getItem('@Store:trips');
         if (value !== null){
           var obj = JSON.parse(value);
-          console.log("Got value:", obj);
+
           return obj;
         }else{
-            console.log("No value");
             return [];
         }
       } catch (error) {
@@ -79,21 +77,18 @@ export async function getTrips(){
 }
 export async function removeTrip(tripId)
 {
-	const value = await AsyncStorage.getItem('@Store:trips');
-	if (value !== null)
-	{
-			//alert(tripId);
-			var obj = JSON.parse(value);
-			if(! obj[tripId])
-			{
-				delete obj.tripId;
-				alert("Trip Deleted");
-			}
-			else
-			{
-				//alert("Something went wrong");
-			}
-	}
+  console.log(tripId);
+  var obj = await getTrips();
+  delete obj[tripId];
+
+  try {
+    await AsyncStorage.setItem('@Store:trips', JSON.stringify(obj));
+    return obj;
+  } catch (error) {
+    console.log(error);
+    return obj;
+  }
+	
 }
 export function CreateDebtJSON(donorId, receiverId, tripId, value, currency)
 {

@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
 import { createExpenseJSON, getTrips,removeTrip } from '../model/JSONUtils'
+import TripButton from '../view/TripButton.js';
+
 const util = require("util");
 
 export default class FirstScreen extends React.Component {
@@ -20,25 +22,25 @@ export default class FirstScreen extends React.Component {
 	async fetchData() {
     const trips = await getTrips();
 		this.setState({trips : trips});
-		console.log("---------------------------------------------------------------------------------");
-		console.log(this.state.trips);
   }
 	async deleteTrip(tripId)
 	{
-		removeTrip(tripId);
-		alert("Gelukt");
-		navigate("TripScreen",{})
+		console.log("-------------------------------Called deleteTrip-----------------------------------------------");		
+		const trips = await removeTrip(tripId);
+		this.setState({trips:trips});
 	}
 
 
 	render() {
 	var {navigate} = this.props.navigation;
 	var trips = this.state.trips;
+	console.log(trips);
 	var trip = [];
+
+
 	for(var key in trips){
-		console.log(trips[key]);
-		trip.push(	
-			<View style={styles.buttonContainer}>
+		console.log(trips[key]["trip_id"]);
+		trip.push(<View style={styles.buttonContainer}>
 				<View style={styles.buttonView}>
 					<TouchableHighlight onPress={() => navigate("TripOverviewScreen", {})}>
 					<View>
@@ -52,29 +54,8 @@ export default class FirstScreen extends React.Component {
 							<Text style={styles.exitText}>X</Text>
 						</TouchableHighlight>
 				</View>
-			</View>)
+		</View>);
 	}
-/*
-	
-	for(let i = 0; i < 15; i++)
-	{
-		trip.push(
-			<View style={styles.buttonContainer}>
-				<View style={styles.buttonView}>
-					<TouchableHighlight onPress={() => navigate("AddTrip", {})}>
-					<View>
-						<Text style={styles.buttonText}>BARCELONA</Text>
-						<Text style={styles.buttonText}>XX/XX/XX</Text>
-					</View>
-					</TouchableHighlight>
-				</View>
-				<View>
-						<TouchableHighlight style={styles.exitcolumn} onPress={() => navigate("AddTrip", {})}>
-							<Text style={styles.exitText}>X</Text>
-						</TouchableHighlight>
-				</View>
-			</View>)
-	}*/
     return (
 		<Image source={require('../images/trips.jpg')} style={styles.imagecontainer}>
 		<ScrollView style={styles.navbar}>
