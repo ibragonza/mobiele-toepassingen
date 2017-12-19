@@ -3,8 +3,8 @@ import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,Image
 import { createExpenseJSON, getTrips,removeTrip } from '../model/JSONUtils'
 const util = require("util");
 
-export default class FirstScreen extends React.Component {
-	constructor(props)
+export default class TripOverviewScreen extends React.Component {
+constructor(props)
 	{
 		super(props);
 		this.state = { trips : []};
@@ -54,37 +54,8 @@ export default class FirstScreen extends React.Component {
 				</View>
 			</View>)
 	}
-/*
-	
-	for(let i = 0; i < 15; i++)
-	{
-		trip.push(
-			<View style={styles.buttonContainer}>
-				<View style={styles.buttonView}>
-					<TouchableHighlight onPress={() => navigate("AddTrip", {})}>
-					<View>
-						<Text style={styles.buttonText}>BARCELONA</Text>
-						<Text style={styles.buttonText}>XX/XX/XX</Text>
-					</View>
-					</TouchableHighlight>
-				</View>
-				<View>
-						<TouchableHighlight style={styles.exitcolumn} onPress={() => navigate("AddTrip", {})}>
-							<Text style={styles.exitText}>X</Text>
-						</TouchableHighlight>
-				</View>
-			</View>)
-	}*/
     return (
 		<Image source={require('../images/trips.jpg')} style={styles.imagecontainer}>
-		<ScrollView style={styles.navbar}>
-			<TouchableHighlight style={styles.addTripbutton} onPress={() => navigate("AddTrip", {})}>
-				<View>
-					<Text style={styles.buttonText}>ADD TRIP</Text>
-				</View>
-			</TouchableHighlight>
-			{trip}
-		</ScrollView>
 		</Image>
     );
   }
