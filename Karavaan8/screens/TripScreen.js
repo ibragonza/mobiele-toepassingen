@@ -16,10 +16,16 @@ export default class FirstScreen extends React.Component {
 	}
 
 	componentDidMount() {
-    this.fetchData().done()
+    this.fetchData().done();
+	}
+
+	refresh() {
+		console.log("REFRESH IS CALLED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			this.fetchData();
 	}
 	
 	async fetchData() {
+		console.log("FetchData too");
 		const trips = await getTrips();
 		const TripA = [];
 		for(var key in trips){
@@ -34,7 +40,6 @@ export default class FirstScreen extends React.Component {
   }
 	async deleteTrip(tripId)
 	{
-		console.log("-------------------------------Called deleteTrip-----------------------------------------------");		
 		const trips = await removeTrip(tripId);
 		const TripA = [];
 		for(var key in trips){
@@ -73,7 +78,7 @@ export default class FirstScreen extends React.Component {
     return (
 		<Image source={require('../images/trips.jpg')} style={styles.imagecontainer}>
 		<ScrollView style={styles.navbar}>
-			<TouchableHighlight style={styles.addTripbutton} onPress={() => navigate("AddTrip", {})}>
+			<TouchableHighlight style={styles.addTripbutton} onPress={() => navigate("AddTrip", {onGoBack: () => this.refresh()})}>
 				<View>
 					<Text style={styles.buttonText}>ADD TRIP</Text>
 				</View>

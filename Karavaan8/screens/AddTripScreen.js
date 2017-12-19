@@ -11,7 +11,7 @@ export default class AddTripScreen extends React.Component {
 		this.send = this.send.bind(this);
 		//[{"trip_id","Destination","start","end"}]
 	}
-	send()
+	async send()
 	{
 		var {navigate} = this.props.navigation;
 		if(this.state.destination == "")
@@ -28,12 +28,13 @@ export default class AddTripScreen extends React.Component {
 				trip_id:"0",
 
 			};
-			var setResult = CreateTripJSON(result.trip_id,result.destination,result.start_date,result.end_date);
+			var setResult = await CreateTripJSON(result.trip_id,result.destination,result.start_date,result.end_date);
 			if(!setResult){
 				Alert.alert("Oops, something went wrong :(");
 			}else{
-				Alert.alert("Yay! trip was successfully added <3");
-				navigate("Trips", {})
+				//navigate("Trips", {})
+				this.props.navigation.state.params.onGoBack();
+				this.props.navigation.goBack();
 			}
 		}
 	}
