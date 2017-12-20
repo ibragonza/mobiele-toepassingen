@@ -33,7 +33,7 @@ export async function CreateTripJSON(trip_id, destination, startDate, endDate)
           var obj = JSON.parse(value);
           obj[trip_id] = json;
           var JsonString = JSON.stringify(obj);
-        }else{
+        }else{	
             var obj = {};
             obj[trip_id] = json;
             var JsonString = JSON.stringify(obj);
@@ -74,6 +74,36 @@ export async function getTrips(){
         console.log(error);
         return [];
       }
+}
+export async function getExpensesForId(tripId)
+{
+	try
+	{
+		const value = await AsyncStorage.getItem('@Store:expenses');
+		if(value !== null)
+		{
+			var obj = JSON.parse(value);
+			var result = [];
+			for(var i = 0; i < obj.length;i++)
+			{
+				exp = JSON.parse(obj[i]);
+				if(tripId == exp.trip_id)
+				{
+					result.append(exp);
+				}
+			}
+			return result;
+		}
+		else
+		{
+			return [];
+		}
+	}
+	catch(error)
+	{
+		console.log(error);
+		return [];
+	}
 }
 export async function removeTrip(tripId)
 {
