@@ -61,7 +61,7 @@ export default class FirstScreen extends React.Component {
 	var trip = this.state.trips.map((entry,index) => (
 	<View style={styles.buttonContainer}>
 			<View style={styles.buttonView}>
-				<TouchableHighlight onPress={() => navigate("TripOverviewScreen", {})}>
+				<TouchableHighlight onPress={() => navigate("TripOverviewScreen", {trip:entry})}>
 				<View>
 					<Text style={styles.buttonText}>{entry.destination}</Text>
 					<Text style={styles.buttonText}>{entry.start_date}</Text>

@@ -32,7 +32,6 @@ export default class AddTripScreen extends React.Component {
 			if(!setResult){
 				Alert.alert("Oops, something went wrong :(");
 			}else{
-				//navigate("Trips", {})
 				this.props.navigation.state.params.onGoBack();
 				this.props.navigation.goBack();
 			}
