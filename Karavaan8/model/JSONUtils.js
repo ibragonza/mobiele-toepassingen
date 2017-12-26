@@ -2,26 +2,43 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
 const util = require("util");
 
-export function createExpenseJSON(expenseId, personId, targetId, tripId, value, numberOfTargets, currency, date, category, reason)
+export async function createExpense(personId, targetId, tripId, value, currency, date, category, reason)
 {
-    return JSON.parse(`{"expense_id": expenseId,
-                        "person_id": personId,
-                        "target_id": targetId,
-                        "trip_id": tripId,
-                        "value": value,
-                        "number_of_targets": numberOfTargets,
-                        "currency": currency,
-                        "date": date,
-                        "category": category,
-                        "reason": reason}`)
+  var expenseId = Math.random(); // improve dealing with this
+  var json = {"expense_id" : expenseId,"target_id":targetId,"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason};
+  try {
+      const value = await AsyncStorage.getItem('@Store:expenses');
+      if (value !== null){
+        var obj = JSON.parse(value);
+        obj[expenseId] = json;
+        var JsonString = JSON.stringify(obj);
+      }else{	
+          var obj = {};
+          obj[expenseId] = json;
+          var JsonString = JSON.stringify(obj);
+      }
+      var set = true;
+    } catch (error) {
+      // Error retrieving data
+      console.log(error);
+      var set = false;
+      return false;
+    }
+
+    if(set === true){
+      try {
+          await AsyncStorage.setItem('@Store:expenses', JsonString);
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+    }else{
+        return false;
+    }
 }
 
-export function createPersonJSON(personId, firstName, lastName)
-{
-    return JSON.parse(`{"person_id": personId,
-                        "first_name": firstName,
-                        "last_name": lastName}`)
-}
+
 
 export async function CreateTripJSON(trip_id, destination, startDate, endDate)
 {
@@ -120,11 +137,4 @@ export async function removeTrip(tripId)
   }
 	
 }
-export function CreateDebtJSON(donorId, receiverId, tripId, value, currency)
-{
-	return JSON.parse(`{"donor_id": donorId,
-	                "receiver_id": receiverId,
-	                "trip_id": tripId,
-	                "value": value,
-	                "currency": currency`);
-}
+

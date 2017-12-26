@@ -20,7 +20,6 @@ export default class FirstScreen extends React.Component {
 	}
 
 	refresh() {
-		console.log("REFRESH IS CALLED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			this.fetchData();
 	}
 	
@@ -61,7 +60,7 @@ export default class FirstScreen extends React.Component {
 	var trip = this.state.trips.map((entry,index) => (
 	<View style={styles.buttonContainer}>
 			<View style={styles.buttonView}>
-				<TouchableHighlight onPress={() => navigate("TripOverviewScreen", {trip:entry})}>
+				<TouchableHighlight>
 				<View>
 					<Text style={styles.buttonText}>{entry.destination}</Text>
 					<Text style={styles.buttonText}>{entry.start_date}</Text>

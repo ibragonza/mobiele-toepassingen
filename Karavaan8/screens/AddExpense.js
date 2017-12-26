@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown, TextInput } from 'react-native';
 import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
+import { createExpenseJSON, getTrips,removeTrip } from '../model/JSONUtils'
 
 
 const util = require("util");
@@ -9,8 +10,26 @@ const util = require("util");
 export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { myNumber: '0', start_date: "", end_date: "" };
+        this.state = { myNumber: '0', start_date: "", end_date: "",trips:[], target : "",currency:"",value:"",date:"",reason:"",category:"" };
+        this.fetchTrips = this.fetchTrips.bind(this);
     }
+
+    componentDidMount() {
+        this.fetchTrips().done();
+    }
+
+    async fetchTrips() {
+		console.log("FetchData too");
+		const trips = await getTrips();
+		const TripA = [];
+		for(var key in trips){
+			TripA.push({
+				destination : trips[key].destination
+			})
+		}
+		this.setState({trips : TripA});
+  }
+
     render() {
         return (
             <Image source={require('../images/expense-background.png')} style={styles.container}>
