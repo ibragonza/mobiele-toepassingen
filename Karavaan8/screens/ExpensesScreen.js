@@ -15,9 +15,14 @@ export default class ExpensesScreen extends React.Component {
           <Text style={styles.header}>Expenses</Text>
         </View>
         <View style={styles.navbar}>
-          <TouchableHighlight style={styles.addExpensebutton} onPress={() => navigate("AddExpense", {})}>
+          <TouchableHighlight style={styles.button} onPress={() => navigate("AddExpense", {})}>
             <View>
               <Text style={styles.buttonText}>ADD EXPENSE</Text>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => navigate("TransferMoney", {})}>
+            <View>
+              <Text style={styles.buttonText}>TRANSFER MONEY</Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  addExpensebutton:
+  button:
     {
       marginTop: 5,
       marginBottom: 10,
