@@ -138,3 +138,9 @@ export async function removeTrip(tripId)
 	
 }
 
+export async function CreateMoneyTransfer(username, targetUsername, date, currency, amount)
+{
+    var moneyTransferId = date + Math.random();
+    var json = {"username" : username, "targetUsername": targetUsername, "date": date, "currency": currency, "amount": amount};
+    console.log(json)
+}
