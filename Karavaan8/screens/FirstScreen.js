@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, Image,ScrollView} from 'react-native';
 import { createExpenseJSON } from '../model/JSONUtils';
 const util = require("util");
 
@@ -7,6 +7,7 @@ export default class FirstScreen extends React.Component {
   render() {
     var { navigate } = this.props.navigation;
     return (
+	<ScrollView>
       <Image source={require('../images/index-background.png')} style={styles.container}>
         <View style={styles.navbar}>
           <TouchableHighlight style={styles.button} onPress={() => navigate("Trips", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/trip.png')} style={styles.icon} /><Text style={styles.buttonText}>Trips</Text></View></TouchableHighlight>
@@ -15,6 +16,7 @@ export default class FirstScreen extends React.Component {
           <TouchableHighlight style={styles.button} onPress={() => navigate("Settings", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/settings.png')} style={styles.icon} /><Text style={styles.buttonText}>Settings</Text></View></TouchableHighlight>
         </View>
       </Image>
+	</ScrollView>
     );
   }
 }

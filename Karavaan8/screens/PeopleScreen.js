@@ -1,19 +1,47 @@
 import React from 'react';
 import { StyleSheet, Text, View,Alert,TouchableHighlight,Image} from 'react-native';
-
+import { getPersons} from '../model/JSONUtils'
 const util = require("util");
 
 export default class PeopleScreen extends React.Component {
   constructor(props)
 	{
 		super(props);
-		this.state = { People : []};
+		this.state = { people : [], loaded : ""};
+		this.fetchPersons = this.fetchPersons.bind(this);
 	}
-  refresh() {
-    // refresh data
+
+	componentDidMount() {
+    this.fetchPersons().done();
+	}
+  async fetchPersons()
+  {
+	try
+	{
+		var setPerson = await getPersons(this.state.name);
+		if(!setPerson)
+		{
+			Alert.alert("Oops, something went wrong :(");
+		}
+		else
+		{
+			this.setState({people : setPerson});
+			this.setState({loaded : "True"});
+		}
+	}
+	catch(error)
+	{
+		alert(error);
+	}
   }
   render() {
     var {navigate} = this.props.navigation;
+	if(this.state.loaded == "")
+	{
+		return false;
+	}
+	else
+	{
     return (
       <Image source={require('../images/people-background.png')} style={styles.container}>
 	<View style={styles.navbar}>
@@ -29,6 +57,7 @@ export default class PeopleScreen extends React.Component {
 
     </Image>
     );
+	}
   }
 }
 

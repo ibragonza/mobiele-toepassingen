@@ -3,24 +3,40 @@ import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown, Tex
 import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
 import {  } from '../model/JSONUtils'
-
+import { createPerson} from '../model/JSONUtils'
 
 const util = require("util");
 
 export default class AddPerson extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {  };
-        this.fetchPersons = this.fetchPersons.bind(this);
+        this.state = {name:" "};
+		this.addPerson = this.addPerson.bind(this);
+        //this.fetchPersons = this.fetchPersons.bind(this);
     }
-
+	/*
     componentDidMount() {
         this.fetchPersons().done();
     }
-
-    async fetchPersons() {
-		
-  }
+	*/
+	async addPerson()
+	{
+		try
+		{
+			var setPerson = await createPerson(this.state.name);
+			if(!setPerson){
+				Alert.alert("Oops, something went wrong :(");
+			}
+			else
+			{
+				this.props.navigation.navigate("People");
+			}
+		}
+		catch(error)
+		{
+			alert(error);
+		}
+	}
 
     render() {
         return (
@@ -31,9 +47,10 @@ export default class AddPerson extends React.Component {
                     <TextInput
                         style={styles.textInput}
                         editable={true}
+						onChangeText={(text) => this.setState({name:text})} defaultValue={this.state.name}
                     />
                 </View>
-                <TouchableHighlight style={styles.addExpensebutton} >
+                <TouchableHighlight style={styles.addExpensebutton} onPress={() => this.addPerson()} >
                     <View>
                         <Text style={styles.buttonText}>CREATE PERSON</Text>
                     </View>

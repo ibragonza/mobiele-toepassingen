@@ -44,6 +44,7 @@ componentDidMount()
 	{
 		await AsyncStorage.setItem('@Store:currency',this.state.currency);
 		await AsyncStorage.setItem('@Store:name', this.state.name);
+		this.props.navigation.navigate("First");
 	}
 	catch(error)
 	{
@@ -62,11 +63,11 @@ componentDidMount()
 	<View style={styles.navbar}>
 		<Text style={styles.header}>Settings</Text>
 		<Text style={styles.entryText}>Default Currency</Text>
-		<ModalDropdown options={this.state.values} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.buttonText} defaultIndex={0} defaultValue={this.state.currency}
+		<ModalDropdown options={this.state.values} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.dropdownText} defaultIndex={0} defaultValue={this.state.currency}
 		onSelect ={(idx,value) => this.setState({currency : value}) }/>
 		<Text style={styles.entryText}>Name</Text>
 			<TextInput style={styles.textInput} editable={true}  onChangeText={(text) => this.setState({name:text})} defaultValue={this.state.name}/>
-		<TouchableHighlight style={styles.addExpensebutton} onPress={this.confirmSettings}>
+		<TouchableHighlight style={styles.addExpensebutton} onPress={() => this.confirmSettings()}>
 			<View>
 				<Text style={styles.buttonText}>Confirm</Text>
 			</View>
@@ -90,6 +91,8 @@ const styles = StyleSheet.create({
   textInput:
   {
 	backgroundColor : 'white',
+	marginTop : 10,
+	fontSize: 20,
   },
   addExpensebutton:
         {
@@ -139,12 +142,17 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 24,
-    color:'#656A58',
+    color:'white',
     marginLeft : 10
   },
   dropdownTextStyle:{
     color:'red',
     backgroundColor:'#b3b3b3'
 
-  }
+  },
+  dropdownText : 
+  {
+	color : 'red',
+	fontSize: 24,
+  },
 });

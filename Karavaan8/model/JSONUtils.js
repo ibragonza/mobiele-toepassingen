@@ -2,17 +2,17 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
 const util = require("util");
 
-export async function createExpense(personId, targetId, tripId, value, currency, date, category, reason)
+export async function createExpense(personId, targetId, tripId, value, currency, date, category, reason,amount)
 {
   var expenseId = Math.random(); // improve dealing with this
-  var json = {"expense_id" : expenseId,"target_id":targetId,"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason};
+  var json = {"expense_id" : expenseId,"target_id":targetId,"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : amount};
   try {
       const value = await AsyncStorage.getItem('@Store:expenses');
       if (value !== null){
         var obj = JSON.parse(value);
         obj[expenseId] = json;
         var JsonString = JSON.stringify(obj);
-      }else{	
+      }else{
           var obj = {};
           obj[expenseId] = json;
           var JsonString = JSON.stringify(obj);
@@ -81,7 +81,6 @@ export async function getTrips(){
         const value = await AsyncStorage.getItem('@Store:trips');
         if (value !== null){
           var obj = JSON.parse(value);
-
           return obj;
         }else{
             return [];
@@ -137,7 +136,56 @@ export async function removeTrip(tripId)
   }
 	
 }
+export async function createPerson(name)
+{
+	var person_id = name + Math.random();
+	var json = {"person_id" : person_id,"name":name};
+	try {
+        const value = await AsyncStorage.getItem('@Store:persons');
+        if (value !== null){
+          var obj = JSON.parse(value);
+          obj[person_id] = json;
+          var JsonString = JSON.stringify(obj);
+        }else{	
+            var obj = {};
+            obj[person_id] = json;
+            var JsonString = JSON.stringify(obj);
+        }
+        var set = true;
+      } catch (error) {
+        // Error retrieving data
+        console.log(error);
+        var set = false;
+        return false;
+      }
 
+      if(set === true){
+        try {
+            await AsyncStorage.setItem('@Store:persons', JsonString);
+            return true;
+          } catch (error) {
+            console.log(error);
+            return false;
+          }
+      }else{
+          return false;
+      }
+}
+export async function getPersons()
+{
+	try {
+        const value = await AsyncStorage.getItem('@Store:persons');
+        if (value !== null){
+          var obj = JSON.parse(value);
+          return obj;
+        }else{
+            return [];
+        }
+      } catch (error) {
+        console.log(error);
+        return [];
+      }
+}
 export async function CreateMoneyTransfer(username, targetUsername, date, currency, amount)
 {
     var moneyTransferId = date + Math.random();

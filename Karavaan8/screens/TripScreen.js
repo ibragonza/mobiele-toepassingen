@@ -52,7 +52,6 @@ export default class FirstScreen extends React.Component {
 		this.setState({trips : TripA});
 	}
 
-
 	render() {
 	var {navigate} = this.props.navigation;
 	var trip = [];
@@ -60,10 +59,11 @@ export default class FirstScreen extends React.Component {
 	var trip = this.state.trips.map((entry,index) => (
 	<View style={styles.buttonContainer}>
 			<View style={styles.buttonView}>
-				<TouchableHighlight>
+				<TouchableHighlight onPress={() => navigate("TripOverviewScreen",{trip:entry})}>
 				<View>
 					<Text style={styles.buttonText}>{entry.destination}</Text>
 					<Text style={styles.buttonText}>{entry.start_date}</Text>
+					<Text style={styles.buttonText}>{entry.end_date}</Text>
 				</View>
 				</TouchableHighlight>
 			</View>
@@ -79,7 +79,7 @@ export default class FirstScreen extends React.Component {
 		<ScrollView style={styles.navbar}>
 			<TouchableHighlight style={styles.addTripbutton} onPress={() => navigate("AddTrip", {onGoBack: () => this.refresh()})}>
 				<View>
-					<Text style={styles.buttonText}>ADD TRIP</Text>
+					<Text style={styles.addButtonText}>ADD TRIP</Text>
 				</View>
 			</TouchableHighlight>
 			{trip}
@@ -121,17 +121,15 @@ const styles = StyleSheet.create({
   },
   addTripbutton : 
   {
-	backgroundColor: "white",
-	margin: 20,
+	marginTop: 15,
+	borderRadius: 3,
 	width: 200,
-	height: 50,
-	borderRadius: 8,
-	borderWidth: 2,
-	borderColor: '#A2A794',
-	alignItems: 'center',
-	justifyContent: 'center',
+	height: 70,
 	marginLeft: 'auto',
-	marginRight: 'auto'
+	marginRight: 'auto',
+	backgroundColor: '#00FF7F',
+	justifyContent: 'center',
+	alignItems: 'center',
 	},
   button : 
   {
@@ -147,28 +145,25 @@ const styles = StyleSheet.create({
   buttonView:
   {
 	width: 160,
-	/*
-	backgroundColor : '#FF6347',
-	width : 160,
-	borderRadius: 8,
-	borderWidth: 2,
-	borderColor: '#A2A794',
-	*/
   },
   buttonContainer:
   {
 	flexDirection: 'row',
-	backgroundColor: '#DDDDDD',
-	//backgroundColor: 'white',
-	borderRadius: 4,
-	borderWidth: 2,
+	backgroundColor: 'white',
+	borderRadius: 6,
 	marginTop:20,
+	justifyContent: 'center',
+	alignItems: 'center',
   },
-  buttonText :
+  addButtonText :
   {
-	fontSize: 20,
-	color: 'black',
+	fontSize: 24,
+	color: 'white',
 	textAlign:'center',
-  }
-
+  },
+  buttonText : 
+  {
+	fontSize: 21,
+	textAlign: 'center',
+  },
 });

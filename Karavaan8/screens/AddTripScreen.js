@@ -39,6 +39,8 @@ export default class AddTripScreen extends React.Component {
 	}
 	render() {
 	var {navigate} = this.props.navigation;
+	const tableHead = ['Head', 'Head2', 'Head3', 'Head4'];
+	const tableData = [['1', '2', '3', '4'],['a', 'b', 'c', 'd']];
 	return (
 		<Image source={require('../images/addTrip.jpg')} style={styles.imagecontainer}>
 				<View style={styles.container}>
@@ -109,5 +111,5 @@ const styles = StyleSheet.create({
 	backgroundColor:'transparent',
 	justifyContent: 'center',
 	alignItems: 'center',
-  }
+  },
 });
