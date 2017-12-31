@@ -192,3 +192,7 @@ export async function CreateMoneyTransfer(username, targetUsername, date, curren
     var json = {"username" : username, "targetUsername": targetUsername, "date": date, "currency": currency, "amount": amount};
     console.log(json)
 }
+
+export async function getAllCurrencies(){
+    return ["EUR", "USD", "YEN"]
+}

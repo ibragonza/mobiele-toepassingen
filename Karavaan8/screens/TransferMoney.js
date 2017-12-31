@@ -2,7 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown, TextInput } from 'react-native';
 import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
-import { CreateMoneyTransfer } from '../model/JSONUtils'
+import { CreateMoneyTransfer, getPersons, getAllCurrencies } from '../model/JSONUtils'
+import ModalDropdown from 'react-native-modal-dropdown';
+
 
 
 const util = require("util");
@@ -15,9 +17,43 @@ export default class TransferMoney extends React.Component {
                         targetUsername: '',
                         date: "",
                         currency: "",
-                        amount: ""};
+                        amount: "",
+                        people: [],
+                        allCurrencies: []};
         this.send = this.send.bind(this);
+        this.fetchData = this.fetchData.bind(this);
     }
+
+    componentDidMount() {
+        this.fetchData().done();
+    }
+
+    async fetchData()
+    {
+        try
+        {
+            var setPerson = await getPersons(this.state.name);
+            if(!setPerson)
+            {
+                Alert.alert("Oops, something went wrong :(");
+            }
+            else
+            {
+                this.setState({people : setPerson});
+                this.setState({loaded : "True"});
+            }
+        }
+
+        catch(error)
+        {
+            alert(error);
+        }
+
+        var setCurrency = await getAllCurrencies();
+        this.setState({allCurrencies : setCurrency });
+        this.setState({currency : this.state.allCurrencies[0]})
+    }
+
     refresh()
     {
         // refresh data
@@ -83,8 +119,15 @@ export default class TransferMoney extends React.Component {
                     />
 
                     <Text style={styles.entryText}>Target username</Text>
-                    <OurPicker values={["person1", "person2", "person3"]}
-                        onSelect={(value) => this.setState({targetUsername}) }
+                    <ModalDropdown style={styles.Modal}
+                        dropdownStyle={styles.dropdown}
+                        dropdownTextStyle={styles.dropdownTextStyle}
+                        textStyle={styles.dropdownText}
+                        options={["person1", "person2"]}
+                        //options={this.state.people.name}
+                        //renderRow={this._targetUsername_renderRow.bind(this)}
+                        //renderSeparator={(sectionID, rowID) => this._targetUsername_renderSeparator(sectionID, rowID)}
+                        onSelect ={(idx,value) => this.setState({targetUsername : value}) }
                         value={this.state.targetUsername}
                     />
 
@@ -103,8 +146,13 @@ export default class TransferMoney extends React.Component {
                         value={this.state.amount}
                     />
 
-                    <OurPicker values={["USD", "YEN", "EURO"]} defaultVal={"EURO"}
-                        onSelect={(currency) => this.setState({currency})}
+                    <ModalDropdown style={styles.Modal}
+                        dropdownStyle={styles.dropdown}
+                        dropdownTextStyle={styles.dropdownTextStyle}
+                        textStyle={styles.dropdownText}
+                        defaultValue={"EUR"}
+                        options={this.state.allCurrencies}
+                        onSelect ={(idx,value) => this.setState({currency : value}) }
                         value={this.state.currency}
                     />
 
@@ -134,6 +182,27 @@ export default class TransferMoney extends React.Component {
                 </TouchableHighlight>
             </Image>
         );
+    }
+
+
+    _targetUsername_renderRow(rowData, rowID){
+        console.log(rowData)
+        console.log(rowId)
+        console.log("test")
+        return (
+              <TouchableHighlight>
+                <View>
+                  <Text>
+                    {`${rowData.name}`}
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            );
+    }
+
+    targetUsername_renderSeparator(sectionID, rowID){
+        let key = `spr_${rowID}`;
+        return (<View key={key} />);
     }
 }
 
@@ -203,5 +272,33 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'white',
         textAlign: 'center',
-    }
+    },
+     Modal : {
+        //backgroundColor: "#b3b3b3",
+        width: 200,
+        height: 50,
+        //borderWidth: 1,
+        //borderColor: 'black'
+      },
+      dropdown : {
+        backgroundColor: "#d3d3d3",
+        width: 200,
+        borderWidth: 2,
+        borderColor: '#A2A794'
+      },
+      buttonText: {
+        fontSize: 24,
+        color:'white',
+        marginLeft : 10
+      },
+      dropdownTextStyle:{
+        color:'red',
+        backgroundColor:'#b3b3b3'
+
+      },
+      dropdownText :
+      {
+    	color : 'red',
+    	fontSize: 24,
+      }
 });
