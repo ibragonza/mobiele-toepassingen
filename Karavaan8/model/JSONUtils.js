@@ -186,11 +186,40 @@ export async function getPersons()
         return [];
       }
 }
-export async function CreateMoneyTransfer(username, targetUsername, date, currency, amount)
+export async function CreateMoneyTransfer(username, targetId, date, currency, amount)
 {
     var moneyTransferId = date + Math.random();
-    var json = {"username" : username, "targetUsername": targetUsername, "date": date, "currency": currency, "amount": amount};
-    console.log(json)
+    var json = {"username" : username, "target_id": targetId, "date": date, "currency": currency, "amount": amount};
+    try {
+          const value = await AsyncStorage.getItem('@Store:transfers');
+          if (value !== null){
+            var obj = JSON.parse(value);
+            obj[moneyTransferId] = json;
+            var JsonString = JSON.stringify(obj);
+          }else{
+              var obj = {};
+              obj[moneyTransferId] = json;
+              var JsonString = JSON.stringify(obj);
+          }
+          var set = true;
+        } catch (error) {
+          // Error retrieving data
+          console.log(error);
+          var set = false;
+          return false;
+        }
+
+        if(set === true){
+          try {
+              await AsyncStorage.setItem('@Store:transfer', JsonString);
+              return true;
+            } catch (error) {
+              console.log(error);
+              return false;
+            }
+        }else{
+            return false;
+        }
 }
 
 export async function getAllCurrencies(){

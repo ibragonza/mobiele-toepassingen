@@ -14,6 +14,7 @@ export default class TransferMoney extends React.Component {
     {
         super(props);
         this.state = { username: '',
+                        targetId: '',
                         targetUsername: '',
                         date: "",
                         currency: "",
@@ -87,17 +88,16 @@ export default class TransferMoney extends React.Component {
             var result =
             {
                 username: this.state.username,
-                targetUsername: this.state.targetUsername,
+                targetId: this.state.targetUsername.person_id,
                 date: this.state.date,
                 currency: this.state.currency,
                 amount: this.state.amount
             };
-            var setResult = await CreateMoneyTransfer(result.username, result.targetUsername, result.date, result.currency, result.amount);
+            var setResult = await CreateMoneyTransfer(result.username, result.targetId, result.date, result.currency, result.amount);
             if(!setResult){
                 Alert.alert("Oops, something went wrong :(");
             }else{
-                this.props.navigation.state.params.onGoBack();
-                this.props.navigation.goBack();
+		        this.props.navigation.navigate("First"); //zal later naar de summary gaan
             }
         }
     }
@@ -123,15 +123,16 @@ export default class TransferMoney extends React.Component {
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
                         textStyle={styles.dropdownText}
-                        options={["person1", "person2"]}
-                        //options={this.state.people.name}
-                        //renderRow={this._targetUsername_renderRow.bind(this)}
-                        //renderSeparator={(sectionID, rowID) => this._targetUsername_renderSeparator(sectionID, rowID)}
+                        options={this.state.people}
+                        renderRow={this._targetUsername_renderRow.bind(this)}
+                        renderSeparator={(rowID) => this._targetUsername_renderSeparator(rowID)}
                         onSelect ={(idx,value) => this.setState({targetUsername : value}) }
-                        value={this.state.targetUsername}
-                    />
+                        value={this.state.targetUsername.name}
+                    >
+                    <Text style={styles.entryText}>Tap to choose: {this.state.targetUsername.name}</Text>
+                    </ModalDropdown>
 
-                    <TouchableHighlight style={styles.addPersonButton} onPress={() => navigate("AddPerson", {onGoBack: () => this.refresh()})}>
+                    <TouchableHighlight style={styles.addPersonButton} onPress={() => navigate("AddPerson")}>
                         <View>
                           <Text style={styles.addPersonButtonText}>ADD PERSON</Text>
                         </View>
@@ -185,10 +186,7 @@ export default class TransferMoney extends React.Component {
     }
 
 
-    _targetUsername_renderRow(rowData, rowID){
-        console.log(rowData)
-        console.log(rowId)
-        console.log("test")
+    _targetUsername_renderRow(rowData){
         return (
               <TouchableHighlight>
                 <View>
@@ -200,9 +198,9 @@ export default class TransferMoney extends React.Component {
             );
     }
 
-    targetUsername_renderSeparator(sectionID, rowID){
+    _targetUsername_renderSeparator(rowID){
         let key = `spr_${rowID}`;
-        return (<View key={key} />);
+        return (<View key={key.name} />);
     }
 }
 
