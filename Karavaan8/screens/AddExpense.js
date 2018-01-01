@@ -10,7 +10,7 @@ const util = require("util");
 export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {person: "",trip: "", expense_date: "",trips:[{"trip_id" : "01", "destination":"Barcelona"},{"trip_id":"02","destination":"Frankrijk"}], people : [], target : "",currency:"",amount:"",date:"",reason:"",category:"",loaded:false };
+        this.state = {person: "", target:"",trip: "", expense_date: "",trips:[{"trip_id" : "01", "destination":"Barcelona"},{"trip_id":"02","destination":"Frankrijk"}], people : [], target : "",currency:"",amount:"",date:"",reason:"",category:"",loaded:false };
 		this.addExpense = this.addExpense.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
@@ -18,17 +18,55 @@ export default class AddExpense extends React.Component {
     componentWillMount() {
         this.fetchData().done();
     }
-	addExpense()
+	async addExpense()
 	{
 		try
 		{
-			//await createExpense(person.person_id,
+			if(this.state.username == "")
+			{
+				alert("Please enter your username");
+			}
+			if(this.state.targetUsername == "")
+			{
+				alert("Please choose target username");
+			}
+			if(this.state.date == "")
+			{
+				alert("Please choose date"); //Misschien beter om automatisch datum op te halen?
+			}
+			if(this.state.currency == "")
+			{
+				alert("Please choose currency you paid in");
+			}
+			if(this.state.amount == "")
+			{
+				alert("Please enter amount");
+			}
+			else
+			{
+				var result =
+				{
+					username: this.state.username,
+					targetId: this.state.targetUsername.person_id,
+					date: this.state.date,
+					currency: this.state.currency,
+					amount: this.state.amount
+				};
+				var setResult = await CreateMoneyTransfer(result.username, result.targetId, result.date, result.currency, result.amount);
+				if(!setResult)
+				{
+					alert("Oops, something went wrong :(");
+				}
+				else
+				{
+					this.props.navigation.goBack();
+				}
+			}
 		}
 		catch(error)
 		{
 			console.log(error);
 		}
-		this.props.navigation.goBack();
 	}
     async fetchData() {
 		try
@@ -74,7 +112,7 @@ export default class AddExpense extends React.Component {
                 <View style={styles.navbar}>
                     <Text style={styles.header}>Add an Expense</Text>
 					
-					<Text style={styles.entryText}>Target Username</Text>
+					<Text style={styles.entryText}>Sender Username</Text>
                     <ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
@@ -85,7 +123,20 @@ export default class AddExpense extends React.Component {
                         onSelect ={(idx,value) => this.setState({person : value}) }	
                         value={this.state.person.name}
                     >
-                    <Text style={styles.entryText}>Tap to choose: {this.state.person.name}</Text>
+                    <Text style={styles.chosenText}>Tap to choose: {this.state.person.name}</Text>
+                    </ModalDropdown>
+					
+					<Text style={styles.entryText}>Target Username</Text>
+                    <ModalDropdown style={styles.Modal}
+                        dropdownStyle={styles.dropdown}
+                        dropdownTextStyle={styles.dropdownTextStyle}
+                        textStyle={styles.dropdownText}
+                        options={this.state.people}
+                        renderRow={this._person_renderRow.bind(this)}
+                        renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
+                        onSelect ={(idx,value) => this.setState({target : value}) }	
+                        value={this.state.target.name}>
+                    <Text style={styles.chosenText}>Tap to choose: {this.state.target.name}</Text>
                     </ModalDropdown>
 					
                     <Text style={styles.entryText}>Link to trip</Text>
@@ -98,12 +149,12 @@ export default class AddExpense extends React.Component {
                         renderSeparator={(rowID) => this._trip_renderSeparator(rowID)}
                         onSelect ={(idx,value) => this.setState({trip : value}) }
 						value={this.state.trip.destination}>
-                    <Text style={styles.entryText}>Tap to choose: {this.state.trip.destination}</Text>
+                    <Text style={styles.chosenText}>Tap to choose: {this.state.trip.destination}</Text>
                     </ModalDropdown>
 					
                     <Text style={styles.entryText}>Amount</Text>
                     <TextInput
-                        style={styles.textInput}
+                        style={styles.chosenText}
                         editable = {true}
 						keyboardType = 'numeric'
 						onChangeText={(text) => this.setState({amount:text})}
@@ -118,7 +169,7 @@ export default class AddExpense extends React.Component {
 					
                     <Text style={styles.entryText}>Reason</Text>
                     <TextInput
-                        style={styles.textInput}
+                        style={styles.chosenText}
                         keyboardType='numeric'
                         editable={true} onChangeText={(text) => this.setState({reason:text})}
                     />
@@ -175,16 +226,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     entryText: {
-        fontSize: 24
+        fontSize: 24,
+		marginTop : 20,
     },
+	chosenText : 
+	{
+		fontSize: 20,
+		color : 'red',
+	},
     navbar: {
         flex: 1,
         marginTop: 40,
     },
-    navbarText:
-        {
-            fontSize: 20,
-        },
     container: {
         flex: 1,
         width: undefined,

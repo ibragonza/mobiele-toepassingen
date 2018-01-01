@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, TextInput,Image} from 'react-native';
-import { CreateTripJSON } from '../model/JSONUtils'
+import { CreateTripJSON, getTrips } from '../model/JSONUtils'
 import DatePicker from 'react-native-datepicker'
 
 export default class AddTripScreen extends React.Component {
@@ -28,12 +28,23 @@ export default class AddTripScreen extends React.Component {
 				trip_id:"0",
 
 			};
+			try
+			{
 			var setResult = await CreateTripJSON(result.trip_id,result.destination,result.start_date,result.end_date);
 			if(!setResult){
 				Alert.alert("Oops, something went wrong :(");
-			}else{
-				this.props.navigation.state.params.onGoBack();
-				this.props.navigation.goBack();
+			}else
+				{
+					var test = await getTrips();
+					console.log(JSON.stringify(test));
+					this.props.navigation.state.params.onGoBack();
+					this.props.navigation.goBack();
+					
+				}
+			}
+			catch(error)
+			{
+				console.log(error);
 			}
 		}
 	}

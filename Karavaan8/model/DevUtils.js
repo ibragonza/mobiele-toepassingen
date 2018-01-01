@@ -6,7 +6,7 @@ export async function clearExpenses()
 {
 	try
 	{
-		await AsyncStorage.setItem('@Store:expenses',"[]");
+		await AsyncStorage.setItem('@Store:expenses',"{}");
 	}
 	catch (error)
 	{
@@ -18,7 +18,7 @@ export async function clearPersons()
 {
 	try
 	{
-		await AsyncStorage.setItem('@Store:persons',"[]");
+		await AsyncStorage.setItem('@Store:persons',"{}");
 	}
 	catch (error)
 	{
@@ -30,7 +30,7 @@ export async function clearTrips()
 {
 	try
 	{
-		await AsyncStorage.setItem('@Store:trips',"[]");
+		await AsyncStorage.setItem('@Store:trips',"{}");
 	}
 	catch (error)
 	{
