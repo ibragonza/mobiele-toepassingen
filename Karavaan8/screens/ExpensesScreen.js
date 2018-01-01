@@ -1,12 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown } from 'react-native';
 import OurPicker from '../view/OurPicker.js';
-
+import { createExpense, getTrips,removeTrip,getPersons } from '../model/JSONUtils'
 
 const util = require("util");
 
 export default class ExpensesScreen extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
+        this.fetchData = this.fetchData.bind(this);
+    }
 
+	componentWillMount()
+	{
+		this.fetchData().done();
+	}
+	async fetchData()
+	{
+		
+	}
   render() {
     var { navigate } = this.props.navigation;
     return (
@@ -18,11 +31,6 @@ export default class ExpensesScreen extends React.Component {
           <TouchableHighlight style={styles.button} onPress={() => navigate("AddExpense", {})}>
             <View>
               <Text style={styles.buttonText}>ADD EXPENSE</Text>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.button} onPress={() => navigate("TransferMoney", {})}>
-            <View>
-              <Text style={styles.buttonText}>TRANSFER MONEY</Text>
             </View>
           </TouchableHighlight>
         </View>

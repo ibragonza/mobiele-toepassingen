@@ -2,10 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
 const util = require("util");
 
-export async function createExpense(personId, targetId, tripId, value, currency, date, category, reason,amount)
+export async function createExpense(personId, targetId, tripId, currency, date, category, reason,amount)
 {
   var expenseId = Math.random(); // improve dealing with this
   var json = {"expense_id" : expenseId,"target_id":targetId,"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : amount};
+  console.log(json);
   try {
       const value = await AsyncStorage.getItem('@Store:expenses');
       if (value !== null){
@@ -158,7 +159,6 @@ export async function createPerson(name)
         var set = false;
         return false;
       }
-
       if(set === true){
         try {
             await AsyncStorage.setItem('@Store:persons', JsonString);

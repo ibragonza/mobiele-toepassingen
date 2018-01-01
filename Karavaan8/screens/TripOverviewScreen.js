@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { createExpenseJSON, getTrips,removeTrip,getExpenses } from '../model/JSONUtils'
 const util = require("util");
 
