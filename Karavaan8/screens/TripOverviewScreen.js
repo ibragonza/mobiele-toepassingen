@@ -1,18 +1,48 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-import { createExpenseJSON, getTrips,removeTrip,getExpenses } from '../model/JSONUtils'
+import { createExpenseJSON, getTrips,removeTrip,getExpensesPerTrip } from '../model/JSONUtils'
 const util = require("util");
 
 export default class TripOverviewScreen extends React.Component {
 constructor(props)
 	{
 		super(props);
-		this.state = { trips : []};
+		this.state = { expenses : []};
 	}
+
+	componentDidMount() {
+    this.fetchData().done();
+	}
+
+	refresh() {
+			this.fetchData();
+	}
+
+	async fetchData() {
+		console.log("FetchData too");
+		var trip = this.props.navigation.state.params.trip;
+		const expenses = await getExpensesPerTrip(trip.trip_id);
+		
+		this.setState({expenses : expenses});
+  }
+
 	render() {
 	var {navigate} = this.props.navigation;
 	var trip = this.props.navigation.state.params.trip;
+
+	var expensesView = this.state.expenses.map((entry,index) => (
+<View style={styles.rows}>
+			<Text style={styles.rowText}>{entry.reason}</Text>
+			<Text style={styles.rowText}>{entry.reason}</Text>
+			<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
+			<TouchableHighlight style={styles.edit} onPress = {navigate()}>
+			<View>
+				<Text style={styles.editText}>X</Text>
+			</View>
+			</TouchableHighlight>
+		</View>
+		));
+
     return (
 		<Image source={require('../images/tripOverview.jpeg')} style={styles.imagecontainer}>
 		<Text style={styles.headerText}>Your trip to {trip.destination}</Text>
@@ -21,21 +51,12 @@ constructor(props)
 		<ScrollView>
 		<View style={styles.tableView}>
 		<View style={styles.head}>
-		<Text style={styles.headText}>Discription</Text>
+		<Text style={styles.headText}>Description</Text>
 		<Text style={styles.headText}>Reason</Text>
 		<Text style={styles.headText}>Amount</Text>
 		<Text style={styles.headText}>Edit</Text>
 		</View>
-		<View style={styles.rows}>
-			<Text style={styles.rowText}>ROW</Text>
-			<Text style={styles.rowText}>ROW</Text>
-			<Text style={styles.rowText}>ROW</Text>
-			<TouchableHighlight style={styles.edit} onPress = {navigate()}>
-			<View>
-				<Text style={styles.editText}>X</Text>
-			</View>
-			</TouchableHighlight>
-		</View>
+		
 		</View>
 		</ScrollView>
 		</Image>

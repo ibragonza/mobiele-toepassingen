@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
 const util = require("util");
 
-export async function createExpense(personId, targetId, tripId, value, currency, date, category, reason,amount)
+export async function createExpense(senderID, targetId, tripId, value, currency, date, category, reason,amount)
 {
   var expenseId = Math.random(); // improve dealing with this
-  var json = {"expense_id" : expenseId,"target_id":targetId,"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : amount};
+  var json = {"expense_id" : expenseId,"sender_id":senderID,"target_id":targetId,"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : amount};
   try {
       const value = await AsyncStorage.getItem('@Store:expenses');
       if (value !== null){
@@ -138,10 +138,12 @@ export async function removeTrip(tripId)
 }
 export async function createPerson(name)
 {
-	var person_id = name + Math.random();
+	var person_id = name;
 	var json = {"person_id" : person_id,"name":name};
 	try {
         const value = await AsyncStorage.getItem('@Store:persons');
+
+        // implement extra check for if user already exists!;
         if (value !== null){
           var obj = JSON.parse(value);
           obj[person_id] = json;
@@ -186,6 +188,32 @@ export async function getPersons()
         return [];
       }
 }
+
+export async function getExpensesPerTrip(tripid){
+  try{
+    const na = await AsyncStorage.getItem('@Store:name');
+    const value = await AsyncStorage.getItem('@Store:expenses');
+    if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);
+      const arr = [];
+      for(var i = 0; i < obj.length;i++){
+        var cur = obj[i];
+        if(cur.sender_id == name || cur.target_id == name){
+          arr.push(cur);
+        }
+      }
+    }else{
+      const arr = [];
+    }
+    return arr;
+  }catch(err){
+    console.log(error);
+    return [];
+  }
+}
+
+
+
 export async function CreateMoneyTransfer(username, targetId, date, currency, amount)
 {
     var moneyTransferId = date + Math.random();

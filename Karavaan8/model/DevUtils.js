@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
 const util = require("util");
-
+//Philip J Fry
 export async function clearExpenses()
 {
 	try

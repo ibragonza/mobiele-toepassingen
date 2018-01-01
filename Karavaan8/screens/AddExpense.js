@@ -10,7 +10,7 @@ const util = require("util");
 export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {person: "", target:"",trip: "", expense_date: "",trips:[{"trip_id" : "01", "destination":"Barcelona"},{"trip_id":"02","destination":"Frankrijk"}], people : [], target : "",currency:"",amount:"",date:"",reason:"",category:"",loaded:false };
+        this.state = {person: "", target:"",trip: "", expense_date: "",trips:[], people : [], target : "",currency:"",amount:"",date:"",reason:"",category:"",loaded:false };
 		this.addExpense = this.addExpense.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
@@ -86,7 +86,7 @@ export default class AddExpense extends React.Component {
         {
             alert(error);
         }
-		/*
+		
 		const trips = await getTrips();
 		const TripA = [];
 		for(var key in trips){
@@ -95,7 +95,7 @@ export default class AddExpense extends React.Component {
 			})
 		}
 		this.setState({trips : TripA});
-		¨*/
+		
 		this.setState({loaded : true});
   }
 
