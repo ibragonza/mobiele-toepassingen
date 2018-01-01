@@ -44,7 +44,14 @@ componentDidMount()
 	{
 		await AsyncStorage.setItem('@Store:currency',this.state.currency);
 		await AsyncStorage.setItem('@Store:name', this.state.name);
-		this.props.navigation.navigate("First");
+		if(this.state.name == "Philip J Fry")
+		{
+			this.props.navigation.navigate("DeveloperScreen");
+		}
+		else
+		{
+			this.props.navigation.navigate("First");
+		}
 	}
 	catch(error)
 	{
@@ -110,6 +117,7 @@ const styles = StyleSheet.create({
 	{
 		color : 'white',
 		fontSize : 15,
+		textAlign: 'center',
 	},
   navbar: {
     flex: 1,

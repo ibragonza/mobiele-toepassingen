@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
-import { createExpenseJSON, getTrips,removeTrip } from '../model/JSONUtils'
+import { clearExpenses, clearTrips,clearPersons } from '../model/DevUtils'
 import TripButton from '../view/TripButton.js';
 
 const util = require("util");
@@ -9,80 +9,73 @@ export default class DeveloperScreen extends React.Component {
 	constructor(props)
 	{
 		super(props);
-		this.state = { trips : []};
-		this.fetchData = this.fetchData.bind(this);
-		this.deleteTrip = this.deleteTrip.bind(this);
 		console.disableYellowBox = true;
+		this.clearExp = this.clearExp.bind(this);
+		this.clearTrip = this.clearTrip.bind(this);
+		this.clearPeople = this.clearPeople.bind(this);
 	}
-
-	componentDidMount() {
-    this.fetchData().done();
-	}
-
-	refresh() {
-			this.fetchData();
-	}
-	
-	async fetchData() {
-		console.log("FetchData too");
-		const trips = await getTrips();
-		const TripA = [];
-		for(var key in trips){
-			TripA.push({
-				trip_id : trips[key].trip_id,
-				destination : trips[key].destination,
-				start_date : trips[key].start_date,
-				end_date : trips[key].end_date
-			})
-		}
-		this.setState({trips : TripA});
-  }
-	async deleteTrip(tripId)
+	async clearExp()
 	{
-		const trips = await removeTrip(tripId);
-		const TripA = [];
-		for(var key in trips){
-			TripA.push({
-				trip_id : trips[key].trip_id,
-				destination : trips[key].destination,
-				start_date : trips[key].start_date,
-				end_date : trips[key].end_date
-			})
+		try
+		{
+			await clearExpenses();
+			alert("Succesfully deleted Expenses");
 		}
-		this.setState({trips : TripA});
+		catch(error)
+		{
+			console.log(error);
+		}
 	}
-
-	render() {
-	var {navigate} = this.props.navigation;
-	var trip = [];
-
-	var trip = this.state.trips.map((entry,index) => (
-	<View style={styles.buttonContainer}>
-			<View style={styles.buttonView}>
-				<TouchableHighlight onPress={() => navigate("TripOverviewScreen",{trip:entry})}>
-				<View>
-					<Text style={styles.buttonText}>{entry.destination}</Text>
-					<Text style={styles.buttonText}>{entry.start_date}</Text>
-					<Text style={styles.buttonText}>{entry.end_date}</Text>
-				</View>
-				</TouchableHighlight>
-			</View>
-			<View>
-					<TouchableHighlight style={styles.exitcolumn} onPress={() => this.deleteTrip(entry.trip_id)}>
-						<Text style={styles.exitText}>X</Text>
-					</TouchableHighlight>
-			</View>
-	</View>));
 	
-    return (
-		<Image source={require('../images/trips.jpg')} style={styles.imagecontainer}>
+	async clearTrip()
+	{
+		try
+		{
+			await clearTrips();
+			alert("Succesfully deleted Trips");
+		}
+		catch(error)
+		{
+			console.log(error);
+		}
+	}
+	async clearPeople()
+	{
+		try
+		{
+			await clearPersons();
+			alert("Succesfully deleted Persons");
+		}
+		catch(error)
+		{
+			console.log(error);
+		}
+	}
+	
+	render() {
+	return (
+		<Image source={require('../images/pjf.jpg')} style={styles.imagecontainer}>
 		<ScrollView style={styles.navbar}>
-			<TouchableHighlight style={styles.addTripbutton} onPress={() => navigate("AddTrip", {onGoBack: () => this.refresh()})}>
+			<TouchableHighlight style={styles.Back} onPress={() => this.props.navigation.goBack()}>
 				<View>
-					<Text style={styles.addButtonText}>ADD TRIP</Text>
+					<Text style={styles.addButtonText}>Back</Text>
 				</View>
 			</TouchableHighlight>
-			{trip}
+			<TouchableHighlight style={styles.addTripbutton} onPress={() => this.clearExp()}>
+				<View>
+					<Text style={styles.addButtonText}>Clear Expenses</Text>
+				</View>
+			</TouchableHighlight>
+			<TouchableHighlight style={styles.addTripbutton} onPress={() => this.clearPeople()}>
+				<View>
+					<Text style={styles.addButtonText}>Clear Persons</Text>
+				</View>
+			</TouchableHighlight>
+			<TouchableHighlight style={styles.addTripbutton} onPress={() => this.clearTrip()}>
+				<View>
+					<Text style={styles.addButtonText}>Clear Trips</Text>
+				</View>
+			</TouchableHighlight>
 		</ScrollView>
 		</Image>
     );
@@ -98,27 +91,6 @@ const styles = StyleSheet.create({
 	justifyContent: 'center',
 	alignItems: 'center',
   },
-  exitcolumn : 
-  {
-	//backgroundColor : 'red',
-	backgroundColor: '#FF4136',
-	width : 40,
-	flex: 1,
-	//height: 55,
-	alignSelf:'center',
-	justifyContent:'center',
-	//borderRadius: 8,
-	//borderWidth: 2,
-	borderColor: '#A2A794',
-	
-  },
-    exitText : 
-  {
-	color: 'white',
-	alignSelf:'center',
-	justifyContent:'center',
-	fontSize:30,
-  },
   addTripbutton : 
   {
 	marginTop: 15,
@@ -127,34 +99,22 @@ const styles = StyleSheet.create({
 	height: 70,
 	marginLeft: 'auto',
 	marginRight: 'auto',
-	backgroundColor: '#00FF7F',
+	backgroundColor: 'red',
 	justifyContent: 'center',
 	alignItems: 'center',
 	},
-  button : 
-  {
-	marginBottom : 10,
-	borderRadius : 3,
-	width : 200,
-	height: 70,
-	marginLeft: 'auto',
-	marginRight: 'auto',
-	backgroundColor:'transparent',
-	
-  },
-  buttonView:
-  {
-	width: 160,
-  },
-  buttonContainer:
-  {
-	flexDirection: 'row',
-	backgroundColor: 'white',
-	borderRadius: 6,
-	marginTop:20,
-	justifyContent: 'center',
-	alignItems: 'center',
-  },
+	Back:
+	{
+		marginTop: 15,
+		borderRadius: 3,
+		width: 200,
+		height: 70,
+		marginLeft: 'auto',
+		marginRight: 'auto',
+		backgroundColor: '#00FF7F',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
   addButtonText :
   {
 	fontSize: 24,
