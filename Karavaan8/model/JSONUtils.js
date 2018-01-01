@@ -6,6 +6,7 @@ export async function createExpense(senderID, targetId, tripId, value, currency,
 {
   var expenseId = Math.random(); // improve dealing with this
   var json = {"expense_id" : expenseId,"sender_id":senderID,"target_id":targetId,"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : amount};
+
   try {
       const value = await AsyncStorage.getItem('@Store:expenses');
       if (value !== null){
@@ -160,7 +161,6 @@ export async function createPerson(name)
         var set = false;
         return false;
       }
-
       if(set === true){
         try {
             await AsyncStorage.setItem('@Store:persons', JsonString);

@@ -10,7 +10,7 @@ const util = require("util");
 export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {person: "", target:"",trip: "", expense_date: "",trips:[], people : [], target : "",currency:"",amount:"",date:"",reason:"",category:"",loaded:false };
+        this.state = {person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
 		this.addExpense = this.addExpense.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
@@ -22,37 +22,44 @@ export default class AddExpense extends React.Component {
 	{
 		try
 		{
-			if(this.state.username == "")
+			if(this.state.person == "")
 			{
 				alert("Please enter your username");
 			}
-			if(this.state.targetUsername == "")
+			if(this.state.target == "")
 			{
 				alert("Please choose target username");
 			}
-			if(this.state.date == "")
+			if(this.state.trip == "")
+			{
+				alert("Please choose a trip");
+			}
+			if(this.state.expense_date == "")
 			{
 				alert("Please choose date"); //Misschien beter om automatisch datum op te halen?
-			}
-			if(this.state.currency == "")
-			{
-				alert("Please choose currency you paid in");
 			}
 			if(this.state.amount == "")
 			{
 				alert("Please enter amount");
 			}
+			if(this.state.reason == "")
+			{
+				alert("Please enter a reason");
+			}
 			else
 			{
 				var result =
 				{
-					username: this.state.username,
-					targetId: this.state.targetUsername.person_id,
-					date: this.state.date,
+					person: this.state.person.person_id,
+					target: this.state.target.person_id,
+					trip : this.state.trip.trip_id,
+					expense_date: this.state.expense_date,
+					category : this.state.category,
 					currency: this.state.currency,
-					amount: this.state.amount
+					amount: this.state.amount,
+					reason: this.state.reason,
 				};
-				var setResult = await CreateMoneyTransfer(result.username, result.targetId, result.date, result.currency, result.amount);
+				var setResult = await createExpense(result.person,result.target,result.trip,result.currency,result.expense_date,result.category, result.reason,result.amount)
 				if(!setResult)
 				{
 					alert("Oops, something went wrong :(");
@@ -80,12 +87,23 @@ export default class AddExpense extends React.Component {
             {
                 this.setState({people : setPerson});
             }
+			const trips = await getTrips();
+			const TripA = [];
+			for(var key in trips)
+			{
+				TripA.push
+				({
+					destination : trips[key].destination
+				})
+			}
+			this.setState({trips : TripA});
         }
 
         catch(error)
         {
             alert(error);
         }
+<<<<<<< HEAD
 		
 		const trips = await getTrips();
 		const TripA = [];
@@ -96,6 +114,8 @@ export default class AddExpense extends React.Component {
 		}
 		this.setState({trips : TripA});
 		
+=======
+>>>>>>> b01ab0ee017c696d23e6622acbf47c4b988dfbef
 		this.setState({loaded : true});
   }
 
@@ -157,23 +177,21 @@ export default class AddExpense extends React.Component {
                         style={styles.chosenText}
                         editable = {true}
 						keyboardType = 'numeric'
-						onChangeText={(text) => this.setState({amount:text})}
+						onChangeText={(value) => this.setState({amount : value})}
                     />
-					
 					<Text style={styles.entryText}>Currency</Text>
-                    <OurPicker values={["USD", "YEN", "EURO"]} defaultVal={"EURO"}
+					<ModalDropdown options={["USD", "YEN", "EURO"]} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText} defaultIndex={0}
+					defaultValue={this.state.currency}
 					onSelect ={(idx,value) => this.setState({currency : value}) }/>
-					
-                    <Text style={styles.entryText}>Category</Text>
-                    <OurPicker values={["Option 1", "Option 2"]} defaultVal={"Option 1"} />
-					
+					<Text style={styles.entryText}>Category</Text>
+                    <ModalDropdown options={["Optie A","Optie B"]} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText} defaultIndex={0} defaultValue={this.state.category}
+					onSelect ={(idx,value) => this.setState({category : value})}/>
                     <Text style={styles.entryText}>Reason</Text>
                     <TextInput
                         style={styles.chosenText}
                         keyboardType='numeric'
                         editable={true} onChangeText={(text) => this.setState({reason:text})}
                     />
-					
                     <Text style={styles.entryText}>Date</Text>
                     <DatePicker style={styles.date} date={this.state.expense_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
                         onDateChange={(date) => { this.setState({ expense_date: date }) }} customStyles={{ dateText: { color: 'black', }, placeholderText: { color: 'black', }, }} />
