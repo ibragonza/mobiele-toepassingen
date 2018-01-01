@@ -103,19 +103,6 @@ export default class AddExpense extends React.Component {
         {
             alert(error);
         }
-<<<<<<< HEAD
-		
-		const trips = await getTrips();
-		const TripA = [];
-		for(var key in trips){
-			TripA.push({
-				destination : trips[key].destination
-			})
-		}
-		this.setState({trips : TripA});
-		
-=======
->>>>>>> b01ab0ee017c696d23e6622acbf47c4b988dfbef
 		this.setState({loaded : true});
   }
 

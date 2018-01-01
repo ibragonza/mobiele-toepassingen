@@ -193,12 +193,13 @@ export async function getExpensesPerTrip(tripid){
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
+    const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
-      const obj = JSON.parse(value);
-      const arr = [];
+      const obj = JSON.parse(value);  
+      console.log(obj);
       for(var i = 0; i < obj.length;i++){
         var cur = obj[i];
-        if(cur.sender_id == name || cur.target_id == name){
+        if(cur.sender_id == na || cur.target_id == na){
           arr.push(cur);
         }
       }
@@ -207,7 +208,7 @@ export async function getExpensesPerTrip(tripid){
     }
     return arr;
   }catch(err){
-    console.log(error);
+    console.log(err);
     return [];
   }
 }
