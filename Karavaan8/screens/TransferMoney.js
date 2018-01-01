@@ -126,7 +126,7 @@ export default class TransferMoney extends React.Component {
                         options={this.state.people}
                         renderRow={this._targetUsername_renderRow.bind(this)}
                         renderSeparator={(rowID) => this._targetUsername_renderSeparator(rowID)}
-                        onSelect ={(idx,value) => this.setState({targetUsername : value}) }
+                        onSelect ={(idx,value) => this.setState({targetUsername : value}) }	
                         value={this.state.targetUsername.name}
                     >
                     <Text style={styles.entryText}>Tap to choose: {this.state.targetUsername.name}</Text>

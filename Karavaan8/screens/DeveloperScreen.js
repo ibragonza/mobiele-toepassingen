@@ -5,7 +5,7 @@ import TripButton from '../view/TripButton.js';
 
 const util = require("util");
 
-export default class FirstScreen extends React.Component {
+export default class DeveloperScreen extends React.Component {
 	constructor(props)
 	{
 		super(props);

@@ -29,7 +29,7 @@ export default class AddPerson extends React.Component {
 			}
 			else
 			{
-				this.props.navigation.navigate("People");
+				this.props.navigation.goBack();
 			}
 		}
 		catch(error)

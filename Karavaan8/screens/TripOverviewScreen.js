@@ -9,17 +9,16 @@ constructor(props)
 	{
 		super(props);
 		this.state = { trips : []};
-		//[{"trip_id","Destination","start","end"}]
 	}
 	render() {
 	var {navigate} = this.props.navigation;
 	var trip = this.props.navigation.state.params.trip;
     return (
 		<Image source={require('../images/tripOverview.jpeg')} style={styles.imagecontainer}>
-		<ScrollView>
 		<Text style={styles.headerText}>Your trip to {trip.destination}</Text>
 		<Text style={styles.dateText}>From {trip.start_date} To {trip.end_date}</Text>
 		<Text style={styles.expenseText}>Expenses</Text>
+		<ScrollView>
 		<View style={styles.tableView}>
 		<View style={styles.head}>
 		<Text style={styles.headText}>Discription</Text>
@@ -60,10 +59,11 @@ const styles = StyleSheet.create({
 	},
   expenseText:
 	{
+		textAlign : 'left',
+		alignSelf:'stretch',
 		color : 'white',
 		fontSize : 30,
 		marginTop: 20,
-		alignSelf:'flex-start',
 	},
   head:
 	{ 

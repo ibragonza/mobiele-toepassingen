@@ -12,6 +12,7 @@ import AddExpense from './screens/AddExpense'
 import AddPerson from './screens/AddPerson'
 import TransferMoney from './screens/TransferMoney'
 import TripOverviewScreen from './screens/TripOverviewScreen'
+import DeveloperScreen from './screens/DeveloperScreen'
 
 const Navigation = StackNavigator({
 	First:{screen: FirstScreen},
@@ -23,6 +24,7 @@ const Navigation = StackNavigator({
 	AddExpense : {screen: AddExpense},
 	AddPerson : {screen: AddPerson},
 	TripOverviewScreen : {screen : TripOverviewScreen},
-	TransferMoney : {screen: TransferMoney}
+	TransferMoney : {screen: TransferMoney},
+	DeveloperScreen : {screen : DeveloperScreen}
 });
 export default Navigation;
