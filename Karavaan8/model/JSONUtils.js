@@ -5,7 +5,7 @@ const util = require("util");
 export async function createExpense(senderID, targetId, tripId, value, currency, date, category, reason,amount)
 {
   var expenseId = Math.random(); // improve dealing with this
-  var json = {"expense_id" : expenseId,"sender_id":senderID,"target_id":targetId,"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : amount};
+  var json = {"expense_id" : expenseId,"sender_id":senderID.trim(),"target_id":targetId.trim(),"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : amount};
 
   try {
       const value = await AsyncStorage.getItem('@Store:expenses');
@@ -196,9 +196,8 @@ export async function getExpensesPerTrip(tripid){
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
-      console.log(obj);
-      for(var i = 0; i < obj.length;i++){
-        var cur = obj[i];
+      for(key in obj){
+        var cur = obj[key];
         if(cur.sender_id == na || cur.target_id == na){
           arr.push(cur);
         }

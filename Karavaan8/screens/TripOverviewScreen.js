@@ -8,6 +8,7 @@ constructor(props)
 	{
 		super(props);
 		this.state = { expenses : []};
+		this.fetchData = this.fetchData.bind(this);
 	}
 
 	componentDidMount() {
@@ -19,10 +20,10 @@ constructor(props)
 	}
 
 	async fetchData() {
-		console.log("FetchData too");
+		console.log("=========================== started loading ========================");
 		var trip = this.props.navigation.state.params.trip;
 		const expenses = await getExpensesPerTrip(trip.trip_id);
-		
+		console.log(expenses);
 		this.setState({expenses : expenses});
   }
 
@@ -56,7 +57,7 @@ constructor(props)
 		<Text style={styles.headText}>Amount</Text>
 		<Text style={styles.headText}>Edit</Text>
 		</View>
-		
+		{expensesView}
 		</View>
 		</ScrollView>
 		</Image>
