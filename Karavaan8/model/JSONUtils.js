@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
 const util = require("util");
 
-export async function createExpense(senderID, targetId, tripId, value, currency, date, category, reason,amount)
+export async function createExpense(senderID, targetId, tripId, value, currency, date, category, reason)
 {
   var expenseId = Math.random(); // improve dealing with this
-  var json = {"expense_id" : expenseId,"sender_id":senderID.trim(),"target_id":targetId.trim(),"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : amount};
+  var json = {"expense_id" : expenseId,"sender_id":senderID.trim(),"target_id":targetId.trim(),"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : value};
 
   try {
       const value = await AsyncStorage.getItem('@Store:expenses');
@@ -198,7 +198,30 @@ export async function getExpensesPerTrip(tripid){
       const obj = JSON.parse(value);  
       for(key in obj){
         var cur = obj[key];
-        if(cur.sender_id == na || cur.target_id == na){
+        if(cur.sender_id == na){
+          arr.push(cur);
+        }
+      }
+    }else{
+      const arr = [];
+    }
+    return arr;
+  }catch(err){
+    console.log(err);
+    return [];
+  }
+}
+
+export async function getLoansPerTrip(tripid){
+  try{
+    const na = await AsyncStorage.getItem('@Store:name');
+    const value = await AsyncStorage.getItem('@Store:expenses');
+    const arr = [];
+    if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);  
+      for(key in obj){
+        var cur = obj[key];
+        if(cur.target_id == na){
           arr.push(cur);
         }
       }
