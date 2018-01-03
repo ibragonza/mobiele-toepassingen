@@ -231,7 +231,6 @@ export async function getLoansPerTrip(tripid){
     return arr;
   }catch(error){
     console.log(error);
-  }
     return [];
   }
 }
