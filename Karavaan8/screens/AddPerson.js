@@ -61,10 +61,11 @@ export default class AddPerson extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    header: {
-        fontSize: 48,
-        fontWeight: 'bold'
-    },
+  header:
+  {
+	fontSize: 48,
+	fontWeight: 'bold'
+  },
     entryText: {
         fontSize: 24
     },
@@ -72,6 +73,11 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 40,
     },
+  textInput : 
+  {
+	color : 'red',
+	fontSize : 24,
+  },
     navbarText:
         {
             fontSize: 20,

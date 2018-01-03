@@ -126,15 +126,41 @@ const styles = StyleSheet.create({
   head:
 	{ 
 		flexDirection : 'row',
+		alignSelf:'stretch',
 		borderBottomWidth : 2,
 		borderBottomColor : 'black',
 		backgroundColor: 'white',
 	},
+  headthirdText:
+  {
+	width : 80,
+	marginLeft : 2,
+	fontSize : 21,
+  },
+  headFirstText:
+  {
+	width : 120,
+	marginLeft: 2,
+	fontSize: 21,
+  },
+  headSecText:
+  {
+	width : 100,
+	fontSize: 21,
+	textAlign : 'center',
+  },
+  headEditText:
+  {
+	marginLeft: 2,
+	fontSize : 21,
+	width: 60,
+  },
   headText:
 	{
 		marginLeft: 5,
 		fontSize : 21,
-		width: 105,
+		textAlign: 'center',
+		alignSelf:'stretch',
 		
 	},
   rows:

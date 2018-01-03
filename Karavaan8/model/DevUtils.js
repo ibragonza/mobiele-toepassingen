@@ -18,6 +18,7 @@ export async function clearPersons()
 {
 	try
 	{
+		var result = {};
 		await AsyncStorage.setItem('@Store:persons',"{}");
 	}
 	catch (error)
