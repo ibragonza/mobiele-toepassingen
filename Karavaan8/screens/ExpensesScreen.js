@@ -1,32 +1,98 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableHighlight, ScrollView, Image, Dropdown } from 'react-native';
 import OurPicker from '../view/OurPicker.js';
-import { createExpense, getTrips,removeTrip,getPersons } from '../model/JSONUtils'
+import { createExpense, getTrips,removeTrip,getPersons,getExpenses,getLoans } from '../model/JSONUtils'
 
 const util = require("util");
 
 export default class ExpensesScreen extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
+		this.state = {expenses:[],loans:[],person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
         this.fetchData = this.fetchData.bind(this);
     }
 
 	componentWillMount()
 	{
-		this.fetchData().done();
+    this.fetchData().done();
+    this.getLoans().done();
 	}
 	async fetchData()
 	{
-		
-	}
+		console.log("=========================== started loading ========================");
+		const expenses = await getExpenses();
+		console.log(expenses);
+		this.setState({ expenses: expenses });
+  }
+  
+  async getLoans()
+	{
+		console.log("=========================== started loading ========================");
+		const loans = await getLoans();
+		console.log(loans);
+		this.setState({ loans: loans });
+  }
+
   render() {
     var { navigate } = this.props.navigation;
+
+    var expensesView = this.state.expenses.map((entry, index) => (
+			<View style={styles.rows}>
+				<Text style={styles.rowText}>{entry.reason}</Text>
+				<Text style={styles.rowText}>{entry.target_id}</Text>
+				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
+				<TouchableHighlight style={styles.edit} onPress={navigate()}>
+					<View>
+						<Text style={styles.editText}>X</Text>
+					</View>
+				</TouchableHighlight>
+			</View>
+		));
+
+		var loansView = this.state.loans.map((loan, index) => (
+			<View style={styles.rows}>
+				<Text style={styles.rowText}>{loan.reason}</Text>
+				<Text style={styles.rowText}>{loan.sender_id}</Text>
+				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
+				<TouchableHighlight style={styles.edit} onPress={navigate()}>
+					<View>
+						<Text style={styles.editText}>X</Text>
+					</View>
+				</TouchableHighlight>
+			</View>
+		));
+
+
+
     return (
       <Image source={require('../images/expense-background.png')} style={styles.container}>
         <View style={styles.navbar}>
           <Text style={styles.header}>Expenses</Text>
         </View>
+        <Text style={styles.expenseText}>Money Lend</Text>
+        <ScrollView>
+					<View style={styles.tableView}>
+						<View style={styles.head}>
+							<Text style={styles.headText}>Description</Text>
+							<Text style={styles.headText}>To</Text>
+							<Text style={styles.headText}>Amount</Text>
+							<Text style={styles.headText}>Edit</Text>
+						</View>
+						{expensesView}
+					</View>
+				</ScrollView>
+        <Text style={styles.expenseText}>Money Borrowed</Text>
+				<ScrollView>
+					<View style={styles.tableView}>
+						<View style={styles.head}>
+							<Text style={styles.headText}>Description</Text>
+							<Text style={styles.headText}>From</Text>
+							<Text style={styles.headText}>Amount</Text>
+							<Text style={styles.headText}>Edit</Text>
+						</View>
+						{loansView}
+					</View>
+				</ScrollView>
         <View style={styles.navbar}>
           <TouchableHighlight style={styles.button} onPress={() => navigate("AddExpense", {})}>
             <View>
@@ -78,5 +144,101 @@ const styles = StyleSheet.create({
       fontSize: 20,
       color: 'white',
       textAlign: 'center',
-    }
+    },
+    headerText:
+		{
+			color: 'white',
+			fontSize: 50,
+			textAlign: 'center',
+		},
+	dateText:
+		{
+			fontSize: 20,
+			color: 'white',
+			marginTop: 20,
+			alignSelf: 'center',
+		},
+	expenseText:
+		{
+			textAlign: 'left',
+			alignSelf: 'stretch',
+			color: '#2784A3',
+			fontSize: 30,
+			marginTop: 20,
+		},
+	head:
+		{
+			flexDirection: 'row',
+			alignSelf: 'stretch',
+			borderBottomWidth: 2,
+			borderBottomColor: 'black',
+			backgroundColor: 'white',
+		},
+	headthirdText:
+		{
+			width: 80,
+			marginLeft: 2,
+			fontSize: 21,
+		},
+	headFirstText:
+		{
+			width: 120,
+			marginLeft: 2,
+			fontSize: 21,
+		},
+	headSecText:
+		{
+			width: 100,
+			fontSize: 21,
+			textAlign: 'center',
+		},
+	headEditText:
+		{
+			marginLeft: 2,
+			fontSize: 21,
+			width: 60,
+		},
+	headText:
+		{
+			marginLeft: 5,
+			fontSize: 21,
+			textAlign: 'center',
+			alignSelf: 'stretch',
+
+		},
+	rows:
+		{
+			flexDirection: 'row',
+			backgroundColor: 'white',
+		},
+	rowText:
+		{
+			marginLeft: 5,
+			fontSize: 19,
+			width: 105,
+		},
+	tableView:
+		{
+			alignSelf: 'center',
+			marginTop: 20,
+		},
+	edit:
+		{
+			flexDirection: 'row',
+		},
+	editText:
+		{
+			textAlign: 'center',
+			fontSize: 19,
+			width: 50,
+			color: 'red',
+		},
+	imagecontainer: {
+		flex: 1,
+		width: undefined,
+		height: undefined,
+		backgroundColor: 'transparent',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 });
