@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown, TextInput,ScrollView} from 'react-native';
 import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
-import { createExpense, getTrips,removeTrip,getPersons,getAllCurrencies,getCategories} from '../model/JSONUtils'
+import { createExpense, getTrips,removeTrip,getPersons,getCategories} from '../model/JSONUtils'
+import { getAllCurrencies,convert} from '../model/Converter'
 import ModalDropdown from 'react-native-modal-dropdown';
 
 const util = require("util");
@@ -10,7 +11,8 @@ const util = require("util");
 export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currencies:[],currency:"EURO",amount:"",reason:"",categories : [],category:"ETEN",loaded:false };
+		console.disableYellowBox = true;
+        this.state = {person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currencies:[],currency:"EUR",amount:"",reason:"",categories : [],category:"ETEN",loaded:false };
 		this.addExpense = this.addExpense.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
@@ -48,6 +50,7 @@ export default class AddExpense extends React.Component {
 			}
 			else
 			{
+				var am = await convert(this.state.amount,this.state.currency);
 				var result =
 				{
 					person: this.state.person.person_id,
@@ -56,9 +59,10 @@ export default class AddExpense extends React.Component {
 					expense_date: this.state.expense_date,
 					category : this.state.category,
 					currency: this.state.currency,
-					amount: this.state.amount,
+					amount: am,
 					reason: this.state.reason,
 				};
+				
 				var setResult = await createExpense(result.person,result.target,result.trip,result.amount,result.currency,result.expense_date,result.category, result.reason)
 				if(!setResult)
 				{
@@ -79,7 +83,7 @@ export default class AddExpense extends React.Component {
 		try
         {
 			this.setState({categories : getCategories()});
-			this.setState({currencies : getAllCurrencies()});
+			this.setState({currencies : await getAllCurrencies()});
             var setPerson = await getPersons();
             if(!setPerson)
             {
@@ -267,10 +271,34 @@ const styles = StyleSheet.create({
             justifyContent: 'center',
             alignItems: 'center',
         },
-    buttonText:
-        {
-            fontSize: 20,
-            color: 'white',
-            textAlign: 'center',
-        }
+  buttonText:
+  {
+	fontSize: 20,
+	color: 'white',
+	textAlign: 'center',
+  },
+  Modal :
+  {
+	width: 200,
+	height: 40,
+  },
+  dropdown : 
+  {
+	backgroundColor: "#d3d3d3",
+	marginLeft:'auto',
+	marginRight:'auto',
+	width: 300,
+	borderWidth: 2,
+	borderColor: '#A2A794'
+  },
+  dropdownTextStyle:
+  {
+	color:'red',
+	backgroundColor:'#b3b3b3'
+  },
+  dropdownText : 
+  {
+	color : 'red',
+	fontSize: 24,
+  },
 });

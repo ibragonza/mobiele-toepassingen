@@ -273,11 +273,7 @@ export async function CreateMoneyTransfer(username, targetId, date, currency, am
         }
 }
 
-export function getAllCurrencies(){
-    return ["EUR", "USD", "YEN"];
-}
-
 export function getCategories()
 {
-	return ["ETEN","REIZEN","SOUVENIRS","EXTRA"];
+	return ["FOOD","TRANSPORTATION","WHEREABOUTS","SOUVENIRS","SHOPPING","ACTIVITIES","EXTRA"];
 }

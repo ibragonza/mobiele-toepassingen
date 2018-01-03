@@ -1,37 +1,34 @@
 import React from 'react';
 import { StyleSheet, Text, View,Alert,TouchableHighlight,Image,TextInput,Picker,AsyncStorage} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
+import {getAllCurrencies} from '../model/Converter'
 
 const util = require("util");
 
 export default class SettingsScreen extends React.Component {
 	constructor(props) {
 	super(props);
-	this.state = {currency : "", values: ["EURO","YEN"], name: "Jansen"};
-	this.setup = this.setup.bind(this);
+	this.state = {currency : "EUR", currencies: [], name: "Vogels",loaded : false,disabled : true};
+	this.fetchData = this.fetchData.bind(this);
 	this.confirmSettings = this.confirmSettings.bind(this);
 	}
 	
 componentDidMount()
   {
-	this.setup().done();
+	this.fetchData().done();
   }
   
-  async setup()
+  async fetchData()
   {
 	try
 	{
 		const cur = await AsyncStorage.getItem('@Store:currency');
 		const na = await AsyncStorage.getItem('@Store:name');
-		if(cur !== null)
-		{
-			this.setState({name : na});
-			this.setState({currency:cur});
-		}
-		else
-		{
-			this.setState({currency:"EURO"});
-		}
+		const currenc = await getAllCurrencies();
+		this.setState({name : na});
+		this.setState({currency:cur});
+		this.setState({currencies:currenc});
+		this.setState({loaded : true});
 	}
 	catch(error)
 	{
@@ -55,11 +52,11 @@ componentDidMount()
 	}
 	catch(error)
 	{
-		alert(error);
+		console.log(error);
 	}
   }
   render() {
-	if(this.state.currency == "")
+	if(!this.state.loaded)
 	{
 		return false;
 	}
@@ -70,11 +67,11 @@ componentDidMount()
 	<View style={styles.navbar}>
 		<Text style={styles.header}>Settings</Text>
 		<Text style={styles.entryText}>Default Currency</Text>
-		<ModalDropdown options={this.state.values} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.dropdownText} defaultIndex={0} defaultValue={this.state.currency}
+		<ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.dropdownText} defaultIndex={0} defaultValue={this.state.currency}
 		onSelect ={(idx,value) => this.setState({currency : value}) }/>
 		<Text style={styles.entryText}>Name</Text>
 			<TextInput style={styles.textInput} editable={true}  onChangeText={(text) => this.setState({name:text})} defaultValue={this.state.name}/>
-		<TouchableHighlight style={styles.addExpensebutton} onPress={() => this.confirmSettings()}>
+		<TouchableHighlight style={styles.confirmButton} onPress={() => this.confirmSettings()}>
 			<View>
 				<Text style={styles.buttonText}>Confirm</Text>
 			</View>
@@ -87,76 +84,74 @@ componentDidMount()
 }
 
 const styles = StyleSheet.create({
-  header: {
+  header:
+  {
 	fontSize: 48,
 	fontWeight: 'bold'
   },
-  entryText: {
+  entryText:
+  {
 		marginTop : 20,
 		fontSize: 24
   },
   textInput:
   {
 	backgroundColor : 'white',
+	color : 'red',
 	marginTop : 10,
 	fontSize: 20,
   },
-  addExpensebutton:
-        {
-            marginTop: 15,
-            borderRadius: 3,
-            width: 200,
-            height: 70,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            backgroundColor: '#00FF7F',
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-	buttonText:
-	{
-		color : 'white',
-		fontSize : 15,
-		textAlign: 'center',
-	},
-  navbar: {
-    flex: 1,
+  confirmButton:
+  {
+	marginTop: 15,
+	borderRadius: 3,
+	width: 200,
+	height: 70,
+	marginLeft: 'auto',
+	marginRight: 'auto',
+	backgroundColor: '#00FF7F',
+	justifyContent: 'center',
+	alignItems: 'center',
+  },
+  buttonText: {
+	fontSize: 24,
+	color:'white',
+	marginLeft : 10
+  },
+  navbar: 
+  {
+	flex: 1,
 	marginTop: 40,
   },
   navbarText:
   {
-	  fontSize:20,
+	fontSize:20,
   },
-  container:{
-    flex: 1,
-    width: undefined,
-    height: undefined,
-    backgroundColor:'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
+  container:
+  {
+	flex: 1,
+	width: undefined,
+	height: undefined,
+	backgroundColor:'transparent',
+	justifyContent: 'center',
+	alignItems: 'center',
   },
-  Modal : {
-    //backgroundColor: "#b3b3b3",
-    width: 200,
-    height: 50,
-    //borderWidth: 1,
-    //borderColor: 'black'
+  Modal :
+  {
+	width: 200,
+	height: 50,
   },
-  dropdown : {
-    backgroundColor: "#d3d3d3",
-    width: 200,
-    borderWidth: 2,
-    borderColor: '#A2A794'
+  dropdown : 
+  {
+	backgroundColor: "#d3d3d3",
+	width: 200,
+	borderWidth: 2,
+	borderColor: '#A2A794'
   },
-  buttonText: {
-    fontSize: 24,
-    color:'white',
-    marginLeft : 10
-  },
-  dropdownTextStyle:{
-    color:'red',
-    backgroundColor:'#b3b3b3'
-
+  dropdownTextStyle:
+  {
+	color:'red',
+	backgroundColor:'#b3b3b3'
   },
   dropdownText : 
   {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
 import { clearExpenses, clearTrips,clearPersons } from '../model/DevUtils'
+import { getCurrentCies} from '../model/Converter'
 import TripButton from '../view/TripButton.js';
 
 const util = require("util");
@@ -10,12 +11,15 @@ export default class DeveloperScreen extends React.Component {
 	{
 		super(props);
 		console.disableYellowBox = true;
+		this.state = {currency : "EUR", currencies: [], name: "Vogels",loaded : false,disabled : true};
 		this.clearExp = this.clearExp.bind(this);
 		this.clearTrip = this.clearTrip.bind(this);
 		this.clearPeople = this.clearPeople.bind(this);
+		this.getCurrentCurrencies = this.getCurrentCurrencies.bind(this);
 	}
 	async clearExp()
 	{
+		this.setState({disabled:false});
 		try
 		{
 			await clearExpenses();
@@ -25,6 +29,8 @@ export default class DeveloperScreen extends React.Component {
 		{
 			console.log(error);
 		}
+		console.log("Succes");
+		this.setState({disabled:true});
 	}
 	
 	async clearTrip()
@@ -51,7 +57,18 @@ export default class DeveloperScreen extends React.Component {
 			console.log(error);
 		}
 	}
-	
+	async getCurrentCurrencies()
+	{
+		try
+		{
+			await getCurrentCies();
+			alert("Succesfully got Currencies");
+		}
+		catch(error)
+		{
+			console.log("DeveloperScreen : "+ error);
+		}
+	}
 	render() {
 	return (
 		<Image source={require('../images/pjf.jpg')} style={styles.imagecontainer}>
@@ -74,6 +91,11 @@ export default class DeveloperScreen extends React.Component {
 			<TouchableHighlight style={styles.addTripbutton} onPress={() => this.clearTrip()}>
 				<View>
 					<Text style={styles.addButtonText}>Clear Trips</Text>
+				</View>
+			</TouchableHighlight>
+			<TouchableHighlight style={styles.addTripbutton} activeOpacity={this.state.disabled ? 1 : 0.7} onPress={() => this.getCurrentCurrencies() && this.state.disabled}>
+				<View>
+					<Text style={styles.addButtonText}>Get Currencies</Text>
 				</View>
 			</TouchableHighlight>
 		</ScrollView>
