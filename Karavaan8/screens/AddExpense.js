@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown, TextInput,ScrollView} from 'react-native';
 import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
-import { createExpense, getTrips,removeTrip,getPersons } from '../model/JSONUtils'
+import { createExpense, getTrips,removeTrip,getPersons,getAllCurrencies,getCategories} from '../model/JSONUtils'
 import ModalDropdown from 'react-native-modal-dropdown';
 
 const util = require("util");
@@ -10,7 +10,7 @@ const util = require("util");
 export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
+        this.state = {person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currencies:[],currency:"EURO",amount:"",reason:"",categories : [],category:"ETEN",loaded:false };
 		this.addExpense = this.addExpense.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
@@ -78,6 +78,8 @@ export default class AddExpense extends React.Component {
     async fetchData() {
 		try
         {
+			this.setState({categories : getCategories()});
+			this.setState({currencies : getAllCurrencies()});
             var setPerson = await getPersons();
             if(!setPerson)
             {
@@ -103,19 +105,6 @@ export default class AddExpense extends React.Component {
         {
             alert(error);
         }
-<<<<<<< HEAD
-		
-		const trips = await getTrips();
-		const TripA = [];
-		for(var key in trips){
-			TripA.push({
-				destination : trips[key].destination
-			})
-		}
-		this.setState({trips : TripA});
-		
-=======
->>>>>>> b01ab0ee017c696d23e6622acbf47c4b988dfbef
 		this.setState({loaded : true});
   }
 
@@ -180,11 +169,11 @@ export default class AddExpense extends React.Component {
 						onChangeText={(value) => this.setState({amount : value})}
                     />
 					<Text style={styles.entryText}>Currency</Text>
-					<ModalDropdown options={["USD", "YEN", "EURO"]} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText} defaultIndex={0}
+					<ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText} defaultIndex={0}
 					defaultValue={this.state.currency}
 					onSelect ={(idx,value) => this.setState({currency : value}) }/>
 					<Text style={styles.entryText}>Category</Text>
-                    <ModalDropdown options={["Optie A","Optie B"]} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText} defaultIndex={0} defaultValue={this.state.category}
+                    <ModalDropdown options={this.state.categories} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText} defaultIndex={0} defaultValue={this.state.category}
 					onSelect ={(idx,value) => this.setState({category : value})}/>
                     <Text style={styles.entryText}>Reason</Text>
                     <TextInput

@@ -206,7 +206,7 @@ export async function getExpensesPerTrip(tripid){
       const arr = [];
     }
     return arr;
-  }catch(err){
+  }catch(error){
     console.log(error);
     return [];
   }
@@ -250,6 +250,11 @@ export async function CreateMoneyTransfer(username, targetId, date, currency, am
         }
 }
 
-export async function getAllCurrencies(){
-    return ["EUR", "USD", "YEN"]
+export function getAllCurrencies(){
+    return ["EUR", "USD", "YEN"];
+}
+
+export function getCategories()
+{
+	return ["ETEN","REIZEN","SOUVENIRS","EXTRA"];
 }
