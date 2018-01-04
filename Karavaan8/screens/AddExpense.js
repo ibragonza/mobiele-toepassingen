@@ -93,16 +93,8 @@ export default class AddExpense extends React.Component {
             {
                 this.setState({people : setPerson});
             }
-			const trips = await getTrips();
-			const TripA = [];
-			for(var key in trips)
-			{
-				TripA.push
-				({
-					destination : trips[key].destination
-				})
-			}
-			this.setState({trips : TripA});
+			const t = await getTrips();
+			this.setState({trips : t});
         }
 
         catch(error)
@@ -160,8 +152,8 @@ export default class AddExpense extends React.Component {
                         options={this.state.trips}
                         renderRow={this._trip_renderRow.bind(this)}
                         renderSeparator={(rowID) => this._trip_renderSeparator(rowID)}
-                        onSelect ={(idx,value) => this.setState({trip : value}) }
-						value={this.state.trip.destination}>
+                        onSelect ={(idx,value) => this.setState({trip : value})}
+						value={this.state.trip.trip_id}>
                     <Text style={styles.chosenText}>Tap to choose: {this.state.trip.destination}</Text>
                     </ModalDropdown>
 					
@@ -212,7 +204,7 @@ export default class AddExpense extends React.Component {
     }
     _trip_renderSeparator(rowID){
         let key = `spr_${rowID}`;
-        return (<View key={key.name} />);
+        return (<View key={key.trip_id} />);
     }
 	_person_renderRow(rowData){
         return (
