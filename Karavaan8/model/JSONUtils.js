@@ -197,6 +197,31 @@ export async function getExpensesPerTrip(tripid){
       const obj = JSON.parse(value);  
       for(key in obj){
         var cur = obj[key];
+        console.log(cur);
+        if(cur.sender_id == na && cur.trip_id == tripid){
+          arr.push(cur);
+        }
+      }
+    }else{
+      const arr = [];
+    }
+    return arr;
+  }catch(err){
+    console.log(err);
+    return [];
+  }
+}
+
+export async function getExpenses(tripid){
+  try{
+    const na = await AsyncStorage.getItem('@Store:name');
+    const value = await AsyncStorage.getItem('@Store:expenses');
+    const arr = [];
+    if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);  
+      for(key in obj){
+        var cur = obj[key];
+        console.log(cur);
         if(cur.sender_id == na){
           arr.push(cur);
         }
@@ -211,6 +236,30 @@ export async function getExpensesPerTrip(tripid){
   }
 }
 
+export async function getLoans(){
+  try{
+    const na = await AsyncStorage.getItem('@Store:name');
+    const value = await AsyncStorage.getItem('@Store:expenses');
+    const arr = [];
+    if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);  
+      for(key in obj){
+        var cur = obj[key];
+        console.log(cur);
+        if(cur.target_id == na){
+          arr.push(cur);
+        }
+      }
+    }else{
+      const arr = [];
+    }
+    return arr;
+  }catch(error){
+    console.log(error);
+    return [];
+  }
+}
+
 export async function getLoansPerTrip(tripid){
   try{
     const na = await AsyncStorage.getItem('@Store:name');
@@ -220,7 +269,8 @@ export async function getLoansPerTrip(tripid){
       const obj = JSON.parse(value);  
       for(key in obj){
         var cur = obj[key];
-        if(cur.target_id == na){
+        console.log(cur);
+        if(cur.target_id == na && cur.trip_id == tripid){
           arr.push(cur);
         }
       }
