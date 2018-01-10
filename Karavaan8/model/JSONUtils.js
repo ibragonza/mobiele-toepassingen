@@ -136,10 +136,25 @@ export async function removeTrip(tripId)
   }
 	
 }
-export async function createPerson(name)
+
+export async function deletePerson(person_id)
+{
+  var obj = await getPersons();
+  delete obj[person_id];
+  try {
+    await AsyncStorage.setItem('@Store:persons', JSON.stringify(obj));
+    return obj;
+  } catch (error) {
+    console.log(error);
+    return obj;
+  }
+
+}
+
+export async function createPerson(name, email)
 {
 	var person_id = name;
-	var json = {"person_id" : person_id,"name":name};
+	var json = {"person_id" : person_id, "name":name, "email": email};
 	try {
         const value = await AsyncStorage.getItem('@Store:persons');
 

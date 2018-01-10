@@ -24,6 +24,7 @@
     "react-font-face": "^0.2.1",
     "react-native": "^0.48.4",
     "react-native-datepicker": "^1.6.0",
+    "react-native-email": "^1.0.0",
     "react-native-modal-dropdown": "^0.5.0",
     "react-native-navbar": "^2.0.1",
     "react-native-simple-table": "0.0.3",

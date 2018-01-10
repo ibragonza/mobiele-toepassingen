@@ -2,15 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown, TextInput } from 'react-native';
 import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
-import {  } from '../model/JSONUtils'
-import { createPerson} from '../model/JSONUtils'
+import { createPerson, getPersons } from '../model/JSONUtils'
 
 const util = require("util");
 
 export default class AddPerson extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {name:" "};
+        this.state = {name:"", email:""};
 		this.addPerson = this.addPerson.bind(this);
         //this.fetchPersons = this.fetchPersons.bind(this);
     }
@@ -23,13 +22,13 @@ export default class AddPerson extends React.Component {
 	{
 		try
 		{
-			var setPerson = await createPerson(this.state.name);
+			var setPerson = await createPerson(this.state.name, this.state.email);
 			if(!setPerson){
 				Alert.alert("Oops, something went wrong :(");
 			}
 			else
 			{
-				this.props.navigation.goBack();
+			     this.props.navigation.navigate("People");
 			}
 		}
 		catch(error)
@@ -48,6 +47,12 @@ export default class AddPerson extends React.Component {
                         style={styles.textInput}
                         editable={true}
 						onChangeText={(text) => this.setState({name:text})} defaultValue={this.state.name}
+                    />
+                    <Text style={styles.entryText}>Email</Text>
+                    <TextInput
+                        style={styles.textInput}
+                        editable={true}
+                        onChangeText={(text) => this.setState({email:text})} defaultValue={this.state.email}
                     />
                 </View>
                 <TouchableHighlight style={styles.addExpensebutton} onPress={() => this.addPerson()} >
