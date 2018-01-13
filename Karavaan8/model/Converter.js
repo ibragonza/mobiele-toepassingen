@@ -5,28 +5,34 @@ const util = require("util");
 export var currencyRates = {};
 
 export async function getAllCurrencies(){
-    try
-	{
-		var currencies = [];
-		var currencyRates = {};
-		let response = await fetch('https://api.fixer.io/latest');
-		let responseJSON = await response.json();
-		responseJSON["rates"]["EUR"] = 1.00000;
-		currencyRates = responseJSON["rates"];
-		crstring = JSON.stringify(currencyRates);
-		await AsyncStorage.setItem('@Store:currencyRates',crstring);
-		for(var cName in currencyRates)
-		{
-			currencies.push(cName);
-		}
-		await AsyncStorage.setItem('@Store:currencies',currencies.toString());
-		console.log("SUCCES");
-		return currencies
-	}
-	catch(error)
-	{
-		console.log("THE ERROR " + error);
-	}
+    var currencies = []
+    const currencyString = await AsyncStorage.getItem('@Store:currencies');
+    if(!currencyString || 0 === currencyString.length){
+        try
+        {
+            var currencyRates = {};
+            let response = await fetch('https://api.fixer.io/latest');
+            let responseJSON = await response.json();
+            responseJSON["rates"]["EUR"] = 1.00000;
+            currencyRates = responseJSON["rates"];
+            crstring = JSON.stringify(currencyRates);
+            await AsyncStorage.setItem('@Store:currencyRates',crstring);
+            for(var cName in currencyRates)
+            {
+                currencies.push(cName);
+            }
+            await AsyncStorage.setItem('@Store:currencies',currencies.toString());
+            console.log("SUCCES");
+        }
+        catch(error)
+        {
+            console.log("THE ERROR " + error);
+        }
+    }
+    else{
+        currencies = currencyString.split(",");
+    }
+    return currencies;
 }
 
 export async function convert(amount,currency)
