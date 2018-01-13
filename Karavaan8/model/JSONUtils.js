@@ -123,18 +123,40 @@ export async function getExpensesForId(tripId)
 }
 export async function removeTrip(tripId)
 {
-  console.log(tripId);
-  var obj = await getTrips();
-  delete obj[tripId];
+    console.log(tripId);
+    var obj = await getTrips();
+    delete obj[tripId];
 
-  try {
-    await AsyncStorage.setItem('@Store:trips', JSON.stringify(obj));
-    return obj;
-  } catch (error) {
-    console.log(error);
-    return obj;
-  }
-	
+    removeExpensesByTrip(tripId)
+
+    try {
+        await AsyncStorage.setItem('@Store:trips', JSON.stringify(obj));
+        return obj;
+    } catch (error) {
+        console.log(error);
+        return obj;
+    }
+}
+
+export async function removeExpensesByTrip(tripId)
+{
+    var expenses = getExpensesForId(tripId)
+    for(var i = 0; i < expenses.length; i++){
+        removeExpenseById(expenses[i].expense_id)
+    }
+}
+
+export async function removeExpenseById(expense_id)
+{
+    var obj = await getExpenses();
+    delete obj[expense_id];
+    try {
+        await AsyncStorage.setItem('@Store:expenses', JSON.stringify(obj));
+        return obj;
+    } catch (error) {
+        console.log(error);
+        return obj;
+    }
 }
 
 export async function deletePerson(person_id)
