@@ -2,30 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
 const util = require("util");
 
-export var currencies = [];
 export var currencyRates = {};
 
 export async function getAllCurrencies(){
-	try	
-	{
-		const currencyString = await AsyncStorage.getItem('@Store:currencies');
-		var currencies = currencyString.split(",");
-		if(currencies == [])
-		{
-			this.getCurrentCies();
-			this.getAllCurrencies();
-		}
-		return currencies;
-	}
-	catch(error)
-	{
-		console.log(error);
-	}
-    return currencies;
-}
-export async function getCurrentCies()
-{
-	try
+    try
 	{
 		var currencies = [];
 		var currencyRates = {};
@@ -41,12 +21,14 @@ export async function getCurrentCies()
 		}
 		await AsyncStorage.setItem('@Store:currencies',currencies.toString());
 		console.log("SUCCES");
+		return currencies
 	}
 	catch(error)
 	{
 		console.log("THE ERROR " + error);
 	}
 }
+
 export async function convert(amount,currency)
 {
 	if(currency != "EUR")
