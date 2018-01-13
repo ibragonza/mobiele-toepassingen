@@ -1,16 +1,35 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, TextInput,Image} from 'react-native';
-import { CreateTripJSON, getTrips } from '../model/JSONUtils'
+import ModalDropdown from 'react-native-modal-dropdown';
+import { CreateTripJSON, getTrips, getUsersCurrency } from '../model/JSONUtils'
+import { getAllCurrencies } from '../model/Converter'
+
 import DatePicker from 'react-native-datepicker'
 
 export default class AddTripScreen extends React.Component {
 	constructor(props)
 	{
 		super(props);
-		this.state = { trip_id: "",destination: "", start_date:"",end_date:""};
+		this.state = { trip_id: "",destination: "", start_date: "", end_date: "", trip_currency: "", currencies: [], loaded: false, userscurrency: []};
+	    this.fetchData = this.fetchData.bind(this);
 		this.send = this.send.bind(this);
-		//[{"trip_id","Destination","start","end"}]
 	}
+
+    componentDidMount()
+    {
+	    this.fetchData().done();
+	}
+
+	async fetchData()
+	{
+	    const allCurrencies = await getAllCurrencies();
+	    this.setState({currencies : allCurrencies});
+	    const usersCurrency = await getUsersCurrency();
+	    this.setState({userscurrency: usersCurrency});
+	    this.setState({trip_currency: usersCurrency})
+        this.setState({loaded : true});
+	}
+
 	async send()
 	{
 		var {navigate} = this.props.navigation;
@@ -26,11 +45,11 @@ export default class AddTripScreen extends React.Component {
 				start_date:  this.state.start_date,
 				end_date: this.state.end_date,
 				trip_id:"0",
-
+				trip_currency: this.state.trip_currency
 			};
 			try
 			{
-			var setResult = await CreateTripJSON(result.trip_id,result.destination,result.start_date,result.end_date);
+			var setResult = await CreateTripJSON(result.trip_id, result.destination, result.start_date, result.end_date, result.trip_currency);
 			if(!setResult){
 				Alert.alert("Oops, something went wrong :(");
 			}else
@@ -46,28 +65,40 @@ export default class AddTripScreen extends React.Component {
 		}
 	}
 	render() {
-	var {navigate} = this.props.navigation;
-	const tableHead = ['Head', 'Head2', 'Head3', 'Head4'];
-	const tableData = [['1', '2', '3', '4'],['a', 'b', 'c', 'd']];
-	return (
-		<Image source={require('../images/addTrip.jpg')} style={styles.imagecontainer}>
-				<View style={styles.container}>
-					<Text style={styles.text}>BESTEMMING</Text>
-					<TextInput style={styles.textInput} onChangeText={(destination) => this.setState({destination})}value={this.state.destination}/>
-					
-					<Text style={styles.text}>STARTDATUM</Text>
-					<DatePicker style={styles.date} date={this.state.start_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
-					onDateChange={(date) => {this.setState({start_date: date})}} customStyles={{dateText :{color:'black',},placeholderText:{color : 'black',},}}/>
-					
-					<Text style={styles.text}>EINDDATUM</Text>
-					<DatePicker style={styles.date} date={this.state.end_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
-					onDateChange={(date) => {this.setState({end_date: date})}} customStyles={{dateText :{color:'black',},placeholderText:{color : 'black',},}}/>
-					<TouchableHighlight style={styles.submitButton} onPress={this.send}>
-						<Text>VOEG TOE</Text>
-					</TouchableHighlight>
-				</View>
-		</Image>
-    );
+	if(!this.state.loaded)
+    {
+        return false;
+    }
+    else
+    {
+        var {navigate} = this.props.navigation;
+        const tableHead = ['Head', 'Head2', 'Head3', 'Head4'];
+        const tableData = [['1', '2', '3', '4'],['a', 'b', 'c', 'd']];
+        return (
+            <Image source={require('../images/addTrip.jpg')} style={styles.imagecontainer}>
+                    <View style={styles.container}>
+                        <Text style={styles.text}>BESTEMMING</Text>
+                        <TextInput style={styles.textInput} onChangeText={(destination) => this.setState({destination})}value={this.state.destination}/>
+
+                        <Text style={styles.text}>STARTDATUM</Text>
+                        <DatePicker style={styles.date} date={this.state.start_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
+                        onDateChange={(date) => {this.setState({start_date: date})}} customStyles={{dateText :{color:'black',},placeholderText:{color : 'black',},}}/>
+
+                        <Text style={styles.text}>EINDDATUM</Text>
+                        <DatePicker style={styles.date} date={this.state.end_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
+                        onDateChange={(date) => {this.setState({end_date: date})}} customStyles={{dateText :{color:'black',},placeholderText:{color : 'black',},}}/>
+
+                        <Text style={styles.text}>Default currency for trip</Text>
+                        <ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.dropdownText} defaultIndex={0} defaultValue={this.state.trip_currency}
+                                onSelect ={(idx,value) => this.setState({trip_currency : value}) }/>
+
+                        <TouchableHighlight style={styles.submitButton} onPress={this.send}>
+                            <Text>VOEG TOE</Text>
+                        </TouchableHighlight>
+                    </View>
+            </Image>
+        );
+    }
   }
 }
 
@@ -113,11 +144,36 @@ const styles = StyleSheet.create({
 		textAlign:'center',
 	},
 	imagecontainer:{
-	flex: 1,
-	width: undefined,
-	height: undefined,
-	backgroundColor:'transparent',
-	justifyContent: 'center',
-	alignItems: 'center',
-  },
+        flex: 1,
+        width: undefined,
+        height: undefined,
+        backgroundColor:'transparent',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    Modal :
+    {
+        width: 200,
+        height: 40,
+        backgroundColor: "white"
+    },
+    dropdown :
+    {
+        backgroundColor: "#d3d3d3",
+        marginLeft:'auto',
+        marginRight:'auto',
+        width: 300,
+        borderWidth: 2,
+        borderColor: '#A2A794'
+    },
+    dropdownTextStyle:
+    {
+        color:'red',
+        backgroundColor:'#b3b3b3'
+    },
+    dropdownText :
+    {
+        color : 'red',
+        fontSize: 24,
+    },
 });

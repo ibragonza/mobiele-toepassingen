@@ -40,10 +40,10 @@ export async function createExpense(senderID, targetId, tripId, value, currency,
 
 
 
-export async function CreateTripJSON(trip_id, destination, startDate, endDate)
+export async function CreateTripJSON(trip_id, destination, startDate, endDate, trip_currency)
 {
     var trip_id = startDate.split("-").join("")  + "" + endDate.split("-").join("") + Math.random();
-    var json = {"trip_id" : trip_id,"destination":destination,"start_date":startDate,"end_date":endDate};
+    var json = {"trip_id" : trip_id,"destination":destination,"start_date":startDate,"end_date":endDate, "trip_currency": trip_currency};
     try {
         const value = await AsyncStorage.getItem('@Store:trips');
         if (value !== null){
@@ -91,6 +91,7 @@ export async function getTrips(){
         return [];
       }
 }
+
 export async function getExpensesForId(tripId)
 {
 	try
@@ -123,7 +124,6 @@ export async function getExpensesForId(tripId)
 }
 export async function removeTrip(tripId)
 {
-    console.log(tripId);
     var obj = await getTrips();
     delete obj[tripId];
 
@@ -362,4 +362,20 @@ export async function CreateMoneyTransfer(username, targetId, date, currency, am
 export function getCategories()
 {
 	return ["FOOD","TRANSPORTATION","WHEREABOUTS","SOUVENIRS","SHOPPING","ACTIVITIES","EXTRA"];
+}
+
+export async function getUsersCurrency()
+{
+    try {
+        const value = await AsyncStorage.getItem('@Store:currency');
+        if (value !== null){
+            return value;
+        }else{
+            return "EUR";
+        }
+      } catch (error) {
+        // Error retrieving data
+        console.log(error);
+        return [];
+      }
 }

@@ -16,11 +16,11 @@ export default class FirstScreen extends React.Component {
 	}
 
 	componentDidMount() {
-    this.fetchData().done();
+        this.fetchData().done();
 	}
 
 	refresh() {
-			this.fetchData();
+		this.fetchData();
 	}
 	
 	async fetchData() {
@@ -32,7 +32,8 @@ export default class FirstScreen extends React.Component {
 				trip_id : trips[key].trip_id,
 				destination : trips[key].destination,
 				start_date : trips[key].start_date,
-				end_date : trips[key].end_date
+				end_date : trips[key].end_date,
+				trip_currency : trips[key].trip_currency
 			})
 		}
 		this.setState({trips : TripA});
@@ -46,7 +47,8 @@ export default class FirstScreen extends React.Component {
 				trip_id : trips[key].trip_id,
 				destination : trips[key].destination,
 				start_date : trips[key].start_date,
-				end_date : trips[key].end_date
+				end_date : trips[key].end_date,
+				trip_currency : trips[key].trip_currency
 			})
 		}
 		this.setState({trips : TripA});
@@ -64,6 +66,7 @@ export default class FirstScreen extends React.Component {
 					<Text style={styles.buttonText}>{entry.destination}</Text>
 					<Text style={styles.buttonText}>{entry.start_date}</Text>
 					<Text style={styles.buttonText}>{entry.end_date}</Text>
+					<Text style={styles.buttonText}>{entry.trip_currency}</Text>
 				</View>
 				</TouchableHighlight>
 			</View>
