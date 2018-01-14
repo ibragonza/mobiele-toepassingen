@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, ScrollView, Image, Dropdown } from 'react-native';
 import OurPicker from '../view/OurPicker.js';
 import { createExpense, getTrips,removeTrip,getPersons,getExpenses,getLoans } from '../model/JSONUtils'
+import styles from './styles.js'
 
 const util = require("util");
 
@@ -102,7 +103,7 @@ export default class ExpensesScreen extends React.Component {
 					</View>
 				</ScrollView>
         <View style={styles.navbar}>
-          <TouchableHighlight style={styles.button} onPress={() => navigate("AddExpense", {})}>
+          <TouchableHighlight style={styles.addButton} onPress={() => navigate("AddExpense", {})}>
             <View>
               <Text style={styles.buttonText}>ADD EXPENSE</Text>
             </View>
@@ -112,7 +113,7 @@ export default class ExpensesScreen extends React.Component {
     );
   }
 }
-
+/*
 const styles = StyleSheet.create({
   header: {
     fontSize: 48,
@@ -250,4 +251,4 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-});
+});*/

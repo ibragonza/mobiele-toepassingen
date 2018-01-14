@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View,Alert,TouchableHighlight,Image,TextInput,Picker,AsyncStorage} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {getAllCurrencies} from '../model/Converter'
+import styles from './styles.js'
 
 const util = require("util");
 
@@ -71,7 +72,7 @@ componentDidMount()
 		onSelect ={(idx,value) => this.setState({currency : value}) }/>
 		<Text style={styles.entryText}>Name</Text>
 			<TextInput style={styles.textInput} editable={true}  onChangeText={(text) => this.setState({name:text})} defaultValue={this.state.name}/>
-		<TouchableHighlight style={styles.confirmButton} onPress={() => this.confirmSettings()}>
+		<TouchableHighlight style={styles.addButton} onPress={() => this.confirmSettings()}>
 			<View>
 				<Text style={styles.buttonText}>Confirm</Text>
 			</View>
@@ -82,7 +83,7 @@ componentDidMount()
 	}
   }
 }
-
+/*
 const styles = StyleSheet.create({
   header:
   {
@@ -159,3 +160,4 @@ const styles = StyleSheet.create({
 	fontSize: 24,
   },
 });
+*/

@@ -5,6 +5,7 @@ import DatePicker from 'react-native-datepicker'
 import { createExpense, getTrips, removeTrip, getPersons, getCategories, getUsersCurrency } from '../model/JSONUtils'
 import { getAllCurrencies, convert} from '../model/Converter'
 import ModalDropdown from 'react-native-modal-dropdown';
+import styles from './styles.js'
 
 const util = require("util");
 
@@ -187,7 +188,7 @@ export default class AddExpense extends React.Component {
                     <DatePicker style={styles.date} date={this.state.expense_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
                         onDateChange={(date) => { this.setState({ expense_date: date }) }} customStyles={{ dateText: { color: 'black', }, placeholderText: { color: 'black', }, }} />
                 </View>
-                <TouchableHighlight style={styles.addExpensebutton} onPress={() => this.addExpense() }>
+                <TouchableHighlight style={styles.addButton} onPress={() => this.addExpense() }>
                     <View>
                         <Text style={styles.buttonText}>ADD EXPENSE</Text>
                     </View>
@@ -241,7 +242,7 @@ export default class AddExpense extends React.Component {
         this.setState({trip_currency : currency})
     }
 }
-
+/*
 const styles = StyleSheet.create({
     header: {
         fontSize: 48,
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
 		marginTop : 20,
     },
-	chosenText : 
+	chosenText :
 	{
 		fontSize: 20,
 		color : 'red',
@@ -293,7 +294,7 @@ const styles = StyleSheet.create({
 	width: 200,
 	height: 40,
   },
-  dropdown : 
+  dropdown :
   {
 	backgroundColor: "#d3d3d3",
 	marginLeft:'auto',
@@ -307,9 +308,10 @@ const styles = StyleSheet.create({
 	color:'red',
 	backgroundColor:'#b3b3b3'
   },
-  dropdownText : 
+  dropdownText :
   {
 	color : 'red',
 	fontSize: 24,
   },
 });
+*/

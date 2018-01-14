@@ -4,8 +4,7 @@ import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
 import { CreateMoneyTransfer, getPersons, getAllCurrencies } from '../model/JSONUtils'
 import ModalDropdown from 'react-native-modal-dropdown';
-
-
+import styles from './styles.js'
 
 const util = require("util");
 
@@ -132,9 +131,9 @@ export default class TransferMoney extends React.Component {
                     <Text style={styles.entryText}>Tap to choose: {this.state.targetUsername.name}</Text>
                     </ModalDropdown>
 
-                    <TouchableHighlight style={styles.addPersonButton} onPress={() => navigate("AddPerson")}>
+                    <TouchableHighlight style={styles.addButton} onPress={() => navigate("AddPerson")}>
                         <View>
-                          <Text style={styles.addPersonButtonText}>ADD PERSON</Text>
+                          <Text style={styles.buttonText}>ADD PERSON</Text>
                         </View>
                     </TouchableHighlight>
 
@@ -176,7 +175,7 @@ export default class TransferMoney extends React.Component {
                         }
                         customStyles={{ dateText: { color: 'black', }, placeholderText: { color: 'black', }, }} />
                 </View>
-                <TouchableHighlight style={styles.transferMoneyButton} onPress={this.send}>
+                <TouchableHighlight style={styles.addButton} onPress={this.send}>
                     <View>
                         <Text style={styles.buttonText}>TRANSFER MONEY</Text>
                     </View>
@@ -203,7 +202,7 @@ export default class TransferMoney extends React.Component {
         return (<View key={key.name} />);
     }
 }
-
+/*
 const styles = StyleSheet.create({
     header:
     {
@@ -300,3 +299,4 @@ const styles = StyleSheet.create({
     	fontSize: 24,
       }
 });
+*/

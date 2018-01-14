@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image } from 'react-native';
 import { createExpenseJSON, getTrips, removeTrip, getExpensesPerTrip, getLoansPerTrip } from '../model/JSONUtils'
+import styles from './styles.js'
+
 const util = require("util");
 
 export default class TripOverviewScreen extends React.Component {
@@ -67,8 +69,8 @@ export default class TripOverviewScreen extends React.Component {
 		));
 
 		return (
-			<Image source={require('../images/tripOverview.jpeg')} style={styles.imagecontainer}>
-				<Text style={styles.headerText}>Your trip to {trip.destination}</Text>
+			<Image source={require('../images/tripOverview.jpeg')} style={styles.container}>
+				<Text style={styles.header}>Your trip to {trip.destination}</Text>
 				<Text style={styles.dateText}>From {trip.start_date} To {trip.end_date}</Text>
 				<Text style={styles.expenseText}>Money Lend</Text>
 				<ScrollView>
@@ -99,7 +101,7 @@ export default class TripOverviewScreen extends React.Component {
 		);
 	}
 }
-
+/*
 const styles = StyleSheet.create({
 	headerText:
 		{
@@ -197,4 +199,4 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-});
+});*/

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
 import { createExpenseJSON, getTrips,removeTrip } from '../model/JSONUtils'
 import TripButton from '../view/TripButton.js';
+import styles from './styles.js'
 
 const util = require("util");
 
@@ -86,9 +87,9 @@ export default class FirstScreen extends React.Component {
 	</View>));
 	
     return (
-		<Image source={require('../images/trips.jpg')} style={styles.imagecontainer}>
+		<Image source={require('../images/trips.jpg')} style={styles.container}>
 		<ScrollView style={styles.navbar}>
-			<TouchableHighlight style={styles.addTripbutton} onPress={() => navigate("AddTrip", {onGoBack: () => this.refresh()})}>
+			<TouchableHighlight style={styles.addButton} onPress={() => navigate("AddTrip", {onGoBack: () => this.refresh()})}>
 				<View>
 					<Text style={styles.addButtonText}>ADD TRIP</Text>
 				</View>
@@ -99,7 +100,7 @@ export default class FirstScreen extends React.Component {
     );
   }
 }
-
+/*
 const styles = StyleSheet.create({
   imagecontainer:{
 	flex: 1,
@@ -177,4 +178,4 @@ const styles = StyleSheet.create({
 	fontSize: 21,
 	textAlign: 'center',
   },
-});
+});*/

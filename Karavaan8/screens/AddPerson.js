@@ -4,6 +4,7 @@ import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
 import * as EmailValidator from 'email-validator';
 import { createPerson, getPersons } from '../model/JSONUtils'
+import styles from './styles.js'
 
 const util = require("util");
 
@@ -60,7 +61,7 @@ export default class AddPerson extends React.Component {
                         onChangeText={(text) => this.setState({email:text})} defaultValue={this.state.email}
                     />
                 </View>
-                <TouchableHighlight style={styles.addExpensebutton} onPress={() => this.addPerson()} >
+                <TouchableHighlight style={styles.addButton} onPress={() => this.addPerson()} >
                     <View>
                         <Text style={styles.buttonText}>CREATE PERSON</Text>
                     </View>
@@ -69,7 +70,7 @@ export default class AddPerson extends React.Component {
         );
     }
 }
-
+/*
 const styles = StyleSheet.create({
   header:
   {
@@ -120,3 +121,4 @@ const styles = StyleSheet.create({
             textAlign: 'center',
         }
 });
+*/

@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, ScrollView } from 'react-native';
 import { getPersons, deletePerson } from '../model/JSONUtils'
 import email from 'react-native-email'
+import styles from './styles.js'
+
 const util = require("util");
 
 export default class PeopleScreen extends React.Component {
@@ -101,8 +103,8 @@ export default class PeopleScreen extends React.Component {
         return (
           <Image source={require('../images/people-background.png')} style={styles.container}>
             <ScrollView style={styles.navbar}>
-            <Text style={styles.title}>People</Text>
-            <TouchableHighlight style={styles.addExpensebutton} onPress={() => navigate("AddPerson")}>
+            <Text style={styles.header}>People</Text>
+            <TouchableHighlight style={styles.addButton} onPress={() => navigate("AddPerson")}>
             <View>
               <Text style={styles.buttonText}>ADD PERSON</Text>
             </View>
@@ -121,7 +123,7 @@ export default class PeopleScreen extends React.Component {
         }).catch(console.error)
     }
 }
-
+/*
 const styles = StyleSheet.create({
   header: {
     fontSize: 48,
@@ -201,4 +203,4 @@ const styles = StyleSheet.create({
    {
     width: 160,
    },
-});
+});*/
