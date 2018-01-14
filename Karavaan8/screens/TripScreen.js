@@ -12,6 +12,7 @@ export default class FirstScreen extends React.Component {
 		this.state = { trips : []};
 		this.fetchData = this.fetchData.bind(this);
 		this.deleteTrip = this.deleteTrip.bind(this);
+		this.confirmDelete = this.confirmDelete.bind(this);
 		console.disableYellowBox = true;
 	}
 
@@ -51,6 +52,13 @@ export default class FirstScreen extends React.Component {
 		}
 		this.setState({trips : TripA});
 	}
+	confirmDelete(tripId)
+	{
+		Alert.alert('Delete Trip?','Are you sure you want to delete this Trip?',
+		[{text: 'Delete', onPress: () => this.deleteTrip(tripId)},
+		{text: 'I Changed my Mind', onPress: () => console.log('OK Pressed')},],
+		{ cancelable: false })
+	}
 
 	render() {
 	var {navigate} = this.props.navigation;
@@ -68,7 +76,7 @@ export default class FirstScreen extends React.Component {
 				</TouchableHighlight>
 			</View>
 			<View>
-					<TouchableHighlight style={styles.exitcolumn} onPress={() => this.deleteTrip(entry.trip_id)}>
+					<TouchableHighlight style={styles.exitcolumn} onPress={() => this.confirmDelete(entry.trip_id)}>
 						<Text style={styles.exitText}>X</Text>
 					</TouchableHighlight>
 			</View>

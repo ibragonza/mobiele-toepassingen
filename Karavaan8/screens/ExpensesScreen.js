@@ -32,7 +32,15 @@ export default class ExpensesScreen extends React.Component {
 		console.log(loans);
 		this.setState({ loans: loans });
   }
-
+  /*
+  confirmDelete(expense_id)
+  {
+	Alert.alert('Expense Paid For?','Are you sure this Expense is payed For?',
+	[{text: 'Delete', onPress: () => alert("Voorlopig")},
+	{text: 'I Changed my Mind', onPress: () => console.log('OK Pressed')},],
+	{ cancelable: false })
+  }
+  */
   render() {
     var { navigate } = this.props.navigation;
 
@@ -54,7 +62,7 @@ export default class ExpensesScreen extends React.Component {
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
 				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={navigate()}>
+				<TouchableHighlight style={styles.edit} onPress={() => alert("Hallo")}>
 					<View>
 						<Text style={styles.editText}>X</Text>
 					</View>
@@ -225,6 +233,7 @@ const styles = StyleSheet.create({
 	edit:
 		{
 			flexDirection: 'row',
+			backgroundColor : 'black',
 		},
 	editText:
 		{

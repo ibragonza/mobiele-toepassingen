@@ -11,11 +11,12 @@ export default class PeopleScreen extends React.Component {
 		this.state = { people : [], loaded : ""};
 		this.fetchPersons = this.fetchPersons.bind(this);
 	    this.deletePerson = this.deletePerson.bind(this);
+		this.confirmDelete = this.confirmDelete.bind(this);
 
 	}
 
 	componentDidMount() {
-        this.fetchPersons().done();
+		this.fetchPersons().done();
 	}
   async fetchPersons()
   {
@@ -49,6 +50,7 @@ export default class PeopleScreen extends React.Component {
 
   async deletePerson(person_id)
   	{
+		
   		const persons = await deletePerson(person_id);
   		const personsss = [];
   		for(var key in persons){
@@ -59,8 +61,15 @@ export default class PeopleScreen extends React.Component {
   			})
   		}
   		this.setState({people : personsss});
+		
   	}
-
+  confirmDelete(person_id)
+  {
+	Alert.alert('Delete Person?','Are you sure you want to delete this Person?',
+	[{text: 'Delete', onPress: () => this.deletePerson(person_id)},
+	{text: 'I Changed my Mind', onPress: () => console.log('OK Pressed')},],
+	{ cancelable: false })
+  }
 
   render() {
     var {navigate} = this.props.navigation;
@@ -82,7 +91,7 @@ export default class PeopleScreen extends React.Component {
                     </TouchableHighlight>
                 </View>
                 <View>
-                    <TouchableHighlight style={styles.exitcolumn} onPress={() => this.deletePerson(entry.person_id)}>
+                    <TouchableHighlight style={styles.exitcolumn} onPress={() => this.confirmDelete(entry.person_id)}>
                         <Text style={styles.exitText}>X</Text>
                     </TouchableHighlight>
                 </View>
@@ -92,7 +101,7 @@ export default class PeopleScreen extends React.Component {
         return (
           <Image source={require('../images/people-background.png')} style={styles.container}>
             <ScrollView style={styles.navbar}>
-            <Text>People</Text>
+            <Text style={styles.title}>People</Text>
             <TouchableHighlight style={styles.addExpensebutton} onPress={() => navigate("AddPerson")}>
             <View>
               <Text style={styles.buttonText}>ADD PERSON</Text>
@@ -126,6 +135,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  title : 
+  {
+	 fontSize : 32,
+	 textAlign : 'center',
+	 color : '#00FF7F',
   },
   buttonContainer: {
     flexDirection: 'row',

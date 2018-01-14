@@ -257,7 +257,8 @@ export async function getLoans(){
     const value = await AsyncStorage.getItem('@Store:expenses');
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
-      const obj = JSON.parse(value);  
+      console.log(JSON.stringify(value));
+      const obj = JSON.parse(value); 
       for(key in obj){
         var cur = obj[key];
         console.log(cur);
@@ -284,7 +285,6 @@ export async function getLoansPerTrip(tripid){
       const obj = JSON.parse(value);  
       for(key in obj){
         var cur = obj[key];
-        console.log(cur);
         if(cur.target_id == na && cur.trip_id == tripid){
           arr.push(cur);
         }
