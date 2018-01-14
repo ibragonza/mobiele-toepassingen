@@ -64,7 +64,7 @@ componentDidMount()
 	else
 	{
     return (
-      <Image source={require('../images/settings-background.jpg')} style={styles.container}>
+      <Image source={require('../images/settings-background.png')} style={styles.container}>
 	<View style={styles.navbar}>
 		<Text style={styles.header}>Settings</Text>
 		<Text style={styles.entryText}>Default Currency</Text>
