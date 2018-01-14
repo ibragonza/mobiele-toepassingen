@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown, TextInput } from 'react-native';
 import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
+import * as EmailValidator from 'email-validator';
 import { createPerson, getPersons } from '../model/JSONUtils'
 
 const util = require("util");
@@ -22,14 +23,18 @@ export default class AddPerson extends React.Component {
 	{
 		try
 		{
-			var setPerson = await createPerson(this.state.name, this.state.email);
-			if(!setPerson){
-				Alert.alert("Oops, something went wrong :(");
-			}
-			else
-			{
-			     this.props.navigation.navigate("People");
-			}
+		    if(EmailValidator.validate(this.state.email)){
+                var setPerson = await createPerson(this.state.name, this.state.email);
+                if(!setPerson){
+                    Alert.alert("Oops, something went wrong :(");
+                }
+                else
+                {
+                     this.props.navigation.navigate("People");
+                }
+            }else{
+                Alert.alert("Email address is not valid")
+            }
 		}
 		catch(error)
 		{

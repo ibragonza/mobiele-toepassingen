@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, ScrollView } from 'react-native';
 import { getPersons, deletePerson } from '../model/JSONUtils'
-//import email from 'react-native-email'
+import email from 'react-native-email'
 const util = require("util");
 
 export default class PeopleScreen extends React.Component {
@@ -83,7 +83,7 @@ export default class PeopleScreen extends React.Component {
 	    var people = this.state.people.map((entry,index) => (
            <View style={styles.buttonContainer}>
            		<View style={styles.buttonView}>
-                    <TouchableHighlight>
+                    <TouchableHighlight onPress={() => this.sendEmail(entry.email)}>
                         <View>
                             <Text style={styles.buttonText}>{entry.name}</Text>
                             <Text style={styles.buttonText}>{entry.email}</Text>
@@ -113,6 +113,13 @@ export default class PeopleScreen extends React.Component {
         );
     }
   }
+
+    async sendEmail(sendTo) {
+        email(sendTo, {
+        subject: 'Email from Karavaan',
+                 body: 'Some body right here'
+        }).catch(console.error)
+    }
 }
 
 const styles = StyleSheet.create({

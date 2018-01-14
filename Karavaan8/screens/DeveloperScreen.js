@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
 import { clearExpenses, clearTrips,clearPersons } from '../model/DevUtils'
-import { getCurrentCies} from '../model/Converter'
+import { getAllCurrencies } from '../model/Converter'
 import TripButton from '../view/TripButton.js';
 
 const util = require("util");
@@ -61,7 +61,7 @@ export default class DeveloperScreen extends React.Component {
 	{
 		try
 		{
-			await getCurrentCies();
+			await getAllCurrencies();
 			alert("Succesfully got Currencies");
 		}
 		catch(error)
