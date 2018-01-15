@@ -77,7 +77,7 @@ var styles = StyleSheet.create({
         height: 70,
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: 20,
+        marginTop: 10,
         marginBottom: 10,
         backgroundColor: '#00FF7F',
         justifyContent: 'center',
