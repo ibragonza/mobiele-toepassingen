@@ -240,7 +240,7 @@ export default class AddExpense extends React.Component {
 
     _updateDefaultTripCurrency(currency)
     {
-        this.setState({trip_currency : currency})
+        this.setState({currency : currency})
     }
 }
 /*
