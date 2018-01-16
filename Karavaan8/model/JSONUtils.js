@@ -226,9 +226,12 @@ export async function getPersons()
 }
 
 export async function getExpensesPerTrip(tripid){
+  console.log("Trip ID: ",tripid);
   try{
     const na = await AsyncStorage.getItem('@Store:name');
+    console.log("Name: ",na);
     const value = await AsyncStorage.getItem('@Store:expenses');
+    console.log("All Expenses: ",value);
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
@@ -236,6 +239,60 @@ export async function getExpensesPerTrip(tripid){
         var cur = obj[key];
         console.log(cur);
         if(cur.sender_id == na && cur.trip_id == tripid){
+          arr.push(cur);
+        }
+      }
+    }else{
+      const arr = [];
+    }
+    return arr;
+  }catch(err){
+    console.log(err);
+    return [];
+  }
+}
+
+export async function getExpensesPerPerson(person){
+  console.log("Person ID: ",person);
+  try{
+    const na = await AsyncStorage.getItem('@Store:name');
+    console.log("Name: ",na);
+    const value = await AsyncStorage.getItem('@Store:expenses');
+    console.log("All Expenses: ",value);
+    const arr = [];
+    if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);  
+      for(key in obj){
+        var cur = obj[key];
+        console.log(cur);
+        if(cur.sender_id == na && cur.target_id == person){
+          arr.push(cur);
+        }
+      }
+    }else{
+      const arr = [];
+    }
+    return arr;
+  }catch(err){
+    console.log(err);
+    return [];
+  }
+}
+
+export async function getLoansPerPerson(person){
+  console.log("Person ID: ",person);
+  try{
+    const na = await AsyncStorage.getItem('@Store:name');
+    console.log("Name: ",na);
+    const value = await AsyncStorage.getItem('@Store:expenses');
+    console.log("All Expenses: ",value);
+    const arr = [];
+    if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);  
+      for(key in obj){
+        var cur = obj[key];
+        console.log(cur);
+        if(cur.target_id == na && cur.sender_id == person){
           arr.push(cur);
         }
       }

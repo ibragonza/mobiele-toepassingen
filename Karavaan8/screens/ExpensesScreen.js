@@ -17,6 +17,12 @@ export default class ExpensesScreen extends React.Component {
     this.fetchData().done();
     this.getLoans().done();
 	}
+
+	refresh(){
+		this.fetchData();
+		this.getLoans();
+	}
+
 	async fetchData()
 	{
 		console.log("=========================== started loading ========================");
@@ -49,7 +55,7 @@ export default class ExpensesScreen extends React.Component {
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
 				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={navigate()}>
+				<TouchableHighlight style={styles.edit} onPress={() => alert("Add navigation")}>
 					<View>
 						<Text style={styles.editText}>X</Text>
 					</View>
@@ -78,7 +84,7 @@ export default class ExpensesScreen extends React.Component {
 			<Text style={styles.header}>Expenses</Text>
 		</View>
 		<View style={styles.navbar}>
-		<TouchableHighlight style={styles.addButton} onPress={() => navigate("AddExpense", {})}>
+		<TouchableHighlight style={styles.addButton} onPress={() => navigate("AddExpense", {onGoBack: () => this.refresh()})}>
 			<View>
 				<Text style={styles.buttonText}>ADD EXPENSE</Text>
 			</View>

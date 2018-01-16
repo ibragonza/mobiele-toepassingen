@@ -71,6 +71,7 @@ export default class AddExpense extends React.Component {
 				}
 				else
 				{
+					this.props.navigation.state.params.onGoBack();
 					this.props.navigation.goBack();
 				}
 			}
