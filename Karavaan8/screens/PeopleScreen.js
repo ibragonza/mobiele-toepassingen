@@ -12,9 +12,13 @@ export default class PeopleScreen extends React.Component {
 		super(props);
 		this.state = { people : [], loaded : ""};
 		this.fetchPersons = this.fetchPersons.bind(this);
-	    this.deletePerson = this.deletePerson.bind(this);
+	  this.deletePerson = this.deletePerson.bind(this);
 		this.confirmDelete = this.confirmDelete.bind(this);
 
+  }
+  
+  refresh() {
+		this.fetchPersons();
 	}
 
 	componentDidMount() {
@@ -104,7 +108,7 @@ export default class PeopleScreen extends React.Component {
           <Image source={require('../images/people-background.png')} style={styles.container}>
             <ScrollView style={styles.navbar}>
             <Text style={styles.header}>People</Text>
-            <TouchableHighlight style={styles.addButton} onPress={() => navigate("AddPerson")}>
+            <TouchableHighlight style={styles.addButton} onPress={() => navigate("AddPerson", {onGoBack: () => this.refresh()})}>
             <View>
               <Text style={styles.buttonText}>ADD PERSON</Text>
             </View>

@@ -12,7 +12,6 @@ export default class ExpensesScreen extends React.Component {
 		this.state = {expenses:[],loans:[],person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
         this.fetchData = this.fetchData.bind(this);
     }
-
 	componentWillMount()
 	{
     this.fetchData().done();

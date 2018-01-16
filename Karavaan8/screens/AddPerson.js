@@ -31,7 +31,8 @@ export default class AddPerson extends React.Component {
                 }
                 else
                 {
-                     this.props.navigation.navigate("People");
+                    this.props.navigation.state.params.onGoBack();
+					this.props.navigation.goBack();
                 }
             }else{
                 Alert.alert("Email address is not valid")
