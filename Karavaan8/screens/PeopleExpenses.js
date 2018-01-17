@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image,AsyncStorage } from 'react-native';
 import { getExpensesPerPerson, getLoansPerPerson } from '../model/JSONUtils'
 import styles from './styles.js'
 import email from 'react-native-email'
@@ -9,18 +9,24 @@ const util = require("util");
 export default class PeopleExpenses extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { expenses: [], loans: [], person:this.props.navigation.state.params.person };
+		this.state = { expenses: [], loans: [], person:this.props.navigation.state.params.person,preferredCurrency:"EUR" };
 		this.fetchData = this.fetchData.bind(this);
 	}
 
 	componentDidMount() {
 		this.fetchData().done();
 		this.getLoans().done();
+		this.getPreferredCurrency().done();
 	}
 
 	refresh() {
 		this.fetchData();
 		this.getLoans();
+	}
+
+	async getPreferredCurrency(){
+		const cur = await AsyncStorage.getItem('@Store:currency');
+		this.setState({preferredCurrency:cur});
 	}
 
     async sendEmail(sendTo) {

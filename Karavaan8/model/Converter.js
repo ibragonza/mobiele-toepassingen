@@ -41,7 +41,18 @@ export async function convert(amount,currency)
 	{
 		var currencyRates = JSON.parse(await AsyncStorage.getItem('@Store:currencyRates'));
 		var rate = currencyRates[currency];
-		amount = amount / rate * 1.00000;
-	}
-		return amount;
+        amount = amount / (rate * 1);  
+    }
+    amount = Math.round(amount * 100) / 100;   //rounding to 2 digits
+	return amount;
+}
+
+export async function convertBack(amountinEur,wantedCurrency){
+    var amount = amountinEur;
+    if(wantedCurrency != "EUR"){
+        var currencyRates = JSON.parse(await AsyncStorage.getItem('@Store:currencyRates'));
+		var rate = currencyRates[wantedCurrency];
+        amount = amount * (rate * 1);  
+    }
+	return amount;
 }

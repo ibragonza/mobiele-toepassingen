@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
+import {convertBack} from "./Converter"
 const util = require("util");
 
 export async function createExpense(senderID, targetId, tripId, value, currency, date, category, reason)
 {
+  console.log(value,currency);
   var expenseId = Math.random(); // improve dealing with this
   var json = {"expense_id" : expenseId,"sender_id":senderID.trim(),"target_id":targetId.trim(),"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : value};
   try {
@@ -229,9 +231,8 @@ export async function getExpensesPerTrip(tripid){
   console.log("Trip ID: ",tripid);
   try{
     const na = await AsyncStorage.getItem('@Store:name');
-    console.log("Name: ",na);
     const value = await AsyncStorage.getItem('@Store:expenses');
-    console.log("All Expenses: ",value);
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
@@ -239,6 +240,7 @@ export async function getExpensesPerTrip(tripid){
         var cur = obj[key];
         console.log(cur);
         if(cur.sender_id == na && cur.trip_id == tripid){
+          cur.amount = await convertBack(cur.amount,currency);
           arr.push(cur);
         }
       }
@@ -256,9 +258,8 @@ export async function getExpensesPerPerson(person){
   console.log("Person ID: ",person);
   try{
     const na = await AsyncStorage.getItem('@Store:name');
-    console.log("Name: ",na);
     const value = await AsyncStorage.getItem('@Store:expenses');
-    console.log("All Expenses: ",value);
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
@@ -266,6 +267,7 @@ export async function getExpensesPerPerson(person){
         var cur = obj[key];
         console.log(cur);
         if(cur.sender_id == na && cur.target_id == person){
+          cur.amount = await convertBack(cur.amount,currency);
           arr.push(cur);
         }
       }
@@ -283,9 +285,8 @@ export async function getLoansPerPerson(person){
   console.log("Person ID: ",person);
   try{
     const na = await AsyncStorage.getItem('@Store:name');
-    console.log("Name: ",na);
     const value = await AsyncStorage.getItem('@Store:expenses');
-    console.log("All Expenses: ",value);
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
@@ -293,6 +294,7 @@ export async function getLoansPerPerson(person){
         var cur = obj[key];
         console.log(cur);
         if(cur.target_id == na && cur.sender_id == person){
+          cur.amount = await convertBack(cur.amount,currency);
           arr.push(cur);
         }
       }
@@ -310,6 +312,7 @@ export async function getExpenses(tripid){
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
@@ -317,6 +320,7 @@ export async function getExpenses(tripid){
         var cur = obj[key];
         console.log(cur);
         if(cur.sender_id == na){
+          cur.amount = await convertBack(cur.amount,currency);
           arr.push(cur);
         }
       }
@@ -334,6 +338,7 @@ export async function getLoans(){
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       console.log(JSON.stringify(value));
@@ -342,6 +347,7 @@ export async function getLoans(){
         var cur = obj[key];
         console.log(cur);
         if(cur.target_id == na){
+          cur.amount = await convertBack(cur.amount,currency);
           arr.push(cur);
         }
       }
@@ -359,12 +365,14 @@ export async function getLoansPerTrip(tripid){
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
       for(key in obj){
         var cur = obj[key];
         if(cur.target_id == na && cur.trip_id == tripid){
+          cur.amount = await convertBack(cur.amount,currency);
           arr.push(cur);
         }
       }
@@ -433,7 +441,7 @@ export async function getUsersCurrency()
       } catch (error) {
         // Error retrieving data
         console.log(error);
-        return [];
+        return "EUR"; //return EUR by default
       }
 }
 
