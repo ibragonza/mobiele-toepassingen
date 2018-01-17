@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image,AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image } from 'react-native';
 import { getExpensesPerTrip, getLoansPerTrip } from '../model/JSONUtils'
 import styles from './styles.js'
 
@@ -8,23 +8,17 @@ const util = require("util");
 export default class TripOverviewScreen extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { expenses: [], loans: [],preferredCurrency:"EUR"};
+		this.state = { expenses: [], loans: []};
 		this.fetchData = this.fetchData.bind(this);
 	}
 	componentDidMount() {
 		this.fetchData().done();
 		this.getLoans().done();
-		this.getPreferredCurrency().done();
 	}
 
 	refresh() {
 		this.fetchData();
 		this.getLoans();
-	}
-
-	async getPreferredCurrency(){
-		const cur = await AsyncStorage.getItem('@Store:currency');
-		this.setState({preferredCurrency:cur});
 	}
 
 	async fetchData() {
@@ -47,7 +41,7 @@ export default class TripOverviewScreen extends React.Component {
 			<View style={styles.rows} key={"Expenses"+index}>
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
-				<Text style={styles.rowText}>{entry.amount} {this.state.preferredCurrency}</Text>
+				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
 				<TouchableHighlight style={styles.edit} onPress={navigate()}>
 					<View>
 						<Text style={styles.editText}>X</Text>
@@ -60,7 +54,7 @@ export default class TripOverviewScreen extends React.Component {
 			<View style={styles.rows} key={"Loans"+index}>
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
-				<Text style={styles.rowText}>{loan.amount} {this.state.preferredCurrency}</Text>
+				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
 				<TouchableHighlight style={styles.edit} onPress={navigate()}>
 					<View>
 						<Text style={styles.editText}>X</Text>

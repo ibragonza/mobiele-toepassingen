@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert, TouchableHighlight, ScrollView, Image, Dropdown,AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableHighlight, ScrollView, Image, Dropdown } from 'react-native';
 import { getExpenses,getLoans } from '../model/JSONUtils'
 import styles from './styles.js'
 
@@ -8,14 +8,13 @@ const util = require("util");
 export default class ExpensesScreen extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {expenses:[],loans:[],person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false,preferredCurrency:"EUR" };
+		this.state = {expenses:[],loans:[],person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
         this.fetchData = this.fetchData.bind(this);
     }
 	componentWillMount()
 	{
     this.fetchData().done();
 		this.getLoans().done();
-		this.getPreferredCurrency().done();
 	}
 
 	refresh(){
@@ -23,10 +22,6 @@ export default class ExpensesScreen extends React.Component {
 		this.getLoans();
 	}
 
-	async getPreferredCurrency(){
-		const cur = await AsyncStorage.getItem('@Store:currency');
-		this.setState({preferredCurrency:cur});
-	}
 	async fetchData()
 	{
 		const expenses = await getExpenses();
@@ -54,7 +49,7 @@ export default class ExpensesScreen extends React.Component {
 			<View style={styles.rows}>
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
-				<Text style={styles.rowText}>{entry.amount} {this.state.preferredCurrency}</Text>
+				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
 				<TouchableHighlight style={styles.edit} onPress={() => alert("Add navigation")}>
 					<View>
 						<Text style={styles.editText}>X</Text>
@@ -67,7 +62,7 @@ export default class ExpensesScreen extends React.Component {
 			<View style={styles.rows}>
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
-				<Text style={styles.rowText}>{loan.amount} {this.state.preferredCurrency}</Text>
+				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
 				<TouchableHighlight style={styles.edit} onPress={() => alert("Hallo")}>
 					<View>
 						<Text style={styles.editText}>X</Text>

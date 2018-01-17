@@ -241,6 +241,7 @@ export async function getExpensesPerTrip(tripid){
         console.log(cur);
         if(cur.sender_id == na && cur.trip_id == tripid){
           cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
@@ -268,6 +269,7 @@ export async function getExpensesPerPerson(person){
         console.log(cur);
         if(cur.sender_id == na && cur.target_id == person){
           cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
@@ -295,6 +297,7 @@ export async function getLoansPerPerson(person){
         console.log(cur);
         if(cur.target_id == na && cur.sender_id == person){
           cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
@@ -321,6 +324,7 @@ export async function getExpenses(tripid){
         console.log(cur);
         if(cur.sender_id == na){
           cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
@@ -348,6 +352,7 @@ export async function getLoans(){
         console.log(cur);
         if(cur.target_id == na){
           cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
@@ -373,6 +378,7 @@ export async function getLoansPerTrip(tripid){
         var cur = obj[key];
         if(cur.target_id == na && cur.trip_id == tripid){
           cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
