@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, ScrollView, Image, Dropdown } from 'react-native';
-import OurPicker from '../view/OurPicker.js';
-import { createExpense, getTrips,removeTrip,getPersons,getExpenses,getLoans } from '../model/JSONUtils'
+import { getExpenses,getLoans } from '../model/JSONUtils'
 import styles from './styles.js'
 
 const util = require("util");
@@ -25,17 +24,13 @@ export default class ExpensesScreen extends React.Component {
 
 	async fetchData()
 	{
-		console.log("=========================== started loading ========================");
 		const expenses = await getExpenses();
-		console.log(expenses);
 		this.setState({ expenses: expenses });
   }
   
   async getLoans()
 	{
-		console.log("=========================== started loading ========================");
 		const loans = await getLoans();
-		console.log(loans);
 		this.setState({ loans: loans });
   }
   /*

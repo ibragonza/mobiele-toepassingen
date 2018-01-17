@@ -46,9 +46,6 @@ export default class AddTripScreen extends React.Component {
 				if (!setResult) {
 					Alert.alert("Oops, something went wrong :(");
 				} else
-
-					var test = await getTrips();
-					console.log(JSON.stringify(test));
 					this.props.navigation.state.params.onGoBack();
 					this.props.navigation.goBack();
 			}
@@ -94,79 +91,3 @@ export default class AddTripScreen extends React.Component {
 		}
 	}
 }
-/*
-const styles = StyleSheet.create({
-	container :
-	{
-		marginTop: -200,
-	},
-	submitButton:
-	{
-	backgroundColor: "white",
-	margin: 20,
-	width: 200,
-	height: 50,
-	borderRadius: 2,
-	borderWidth: 2,
-	borderColor: '#A2A794',
-	alignItems: 'center',
-	justifyContent: 'center',
-	marginLeft: 'auto',
-	marginRight: 'auto'
-	},
-	date:
-	{
-		width: 200,
-		marginLeft:'auto',
-		marginRight:'auto',
-		backgroundColor:'white',
-		
-	},
-	text:
-	{
-		color : 'white',
-		fontSize: 20,
-	},
-	textInput:
-	{
-		backgroundColor: 'white',
-		height : 40,
-		borderWidth:1,
-		borderColor: 'grey',
-		fontSize: 18,
-		textAlign:'center',
-	},
-	imagecontainer:{
-        flex: 1,
-        width: undefined,
-        height: undefined,
-        backgroundColor:'transparent',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    Modal :
-    {
-        width: 200,
-        height: 40,
-        backgroundColor: "white"
-    },
-    dropdown :
-    {
-        backgroundColor: "#d3d3d3",
-        marginLeft:'auto',
-        marginRight:'auto',
-        width: 300,
-        borderWidth: 2,
-        borderColor: '#A2A794'
-    },
-    dropdownTextStyle:
-    {
-        color:'red',
-        backgroundColor:'#b3b3b3'
-    },
-    dropdownText :
-    {
-        color : 'red',
-        fontSize: 24,
-    },
-});*/

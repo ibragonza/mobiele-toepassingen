@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
-import { createExpenseJSON, getTrips,removeTrip } from '../model/JSONUtils'
+import { getTrips, removeTrip, createList } from '../model/JSONUtils'
 import TripButton from '../view/TripButton.js';
 import styles from './styles.js'
 
@@ -28,33 +28,17 @@ export default class FirstScreen extends React.Component {
 	async fetchData() {
 		console.log("FetchData too");
 		const trips = await getTrips();
-		const TripA = [];
-		for(var key in trips){
-			TripA.push({
-				trip_id : trips[key].trip_id,
-				destination : trips[key].destination,
-				start_date : trips[key].start_date,
-				end_date : trips[key].end_date,
-				trip_currency : trips[key].trip_currency
-			})
-		}
-		this.setState({trips : TripA});
-  }
+		var list = await createList(trips, "trip")
+		this.setState({trips : list});
+    }
+
 	async deleteTrip(tripId)
 	{
 		const trips = await removeTrip(tripId);
-		const TripA = [];
-		for(var key in trips){
-			TripA.push({
-				trip_id : trips[key].trip_id,
-				destination : trips[key].destination,
-				start_date : trips[key].start_date,
-				end_date : trips[key].end_date,
-				trip_currency : trips[key].trip_currency
-			})
-		}
-		this.setState({trips : TripA});
+		var list = await createList(trips, "trip")
+        this.setState({trips : list});
 	}
+
 	confirmDelete(tripId)
 	{
 		Alert.alert('Delete Trip?','Are you sure you want to delete this Trip?',
@@ -100,82 +84,3 @@ export default class FirstScreen extends React.Component {
     );
   }
 }
-/*
-const styles = StyleSheet.create({
-  imagecontainer:{
-	flex: 1,
-	width: undefined,
-	height: undefined,
-	backgroundColor:'transparent',
-	justifyContent: 'center',
-	alignItems: 'center',
-  },
-  exitcolumn : 
-  {
-	//backgroundColor : 'red',
-	backgroundColor: '#FF4136',
-	width : 40,
-	flex: 1,
-	//height: 55,
-	alignSelf:'center',
-	justifyContent:'center',
-	//borderRadius: 8,
-	//borderWidth: 2,
-	borderColor: '#A2A794',
-	
-  },
-    exitText : 
-  {
-	color: 'white',
-	alignSelf:'center',
-	justifyContent:'center',
-	fontSize:30,
-  },
-  addTripbutton : 
-  {
-	marginTop: 15,
-	borderRadius: 3,
-	width: 200,
-	height: 70,
-	marginLeft: 'auto',
-	marginRight: 'auto',
-	backgroundColor: '#00FF7F',
-	justifyContent: 'center',
-	alignItems: 'center',
-	},
-  button : 
-  {
-	marginBottom : 10,
-	borderRadius : 3,
-	width : 200,
-	height: 70,
-	marginLeft: 'auto',
-	marginRight: 'auto',
-	backgroundColor:'transparent',
-	
-  },
-  buttonView:
-  {
-	width: 160,
-  },
-  buttonContainer:
-  {
-	flexDirection: 'row',
-	backgroundColor: 'white',
-	borderRadius: 6,
-	marginTop:20,
-	justifyContent: 'center',
-	alignItems: 'center',
-  },
-  addButtonText :
-  {
-	fontSize: 24,
-	color: 'white',
-	textAlign:'center',
-  },
-  buttonText : 
-  {
-	fontSize: 21,
-	textAlign: 'center',
-  },
-});*/

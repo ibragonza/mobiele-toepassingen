@@ -436,3 +436,34 @@ export async function getUsersCurrency()
         return [];
       }
 }
+
+export async function createList(objects, type)
+{
+    var result = [];
+    if(type == "trip")
+    {
+        for(var key in objects)
+        {
+            result.push({
+                trip_id : objects[key].trip_id,
+                destination : objects[key].destination,
+                start_date : objects[key].start_date,
+                end_date : objects[key].end_date,
+                trip_currency : objects[key].trip_currency
+            })
+
+        }
+    }
+    else if(type == "person")
+    {
+        for(var key in objects)
+        {
+            result.push({
+                name : objects[key].name,
+                person_id : objects[key].person_id,
+                email : objects[key].email
+            })
+        }
+    }
+    return result;
+}

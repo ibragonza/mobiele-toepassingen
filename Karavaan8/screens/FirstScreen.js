@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, Image,ScrollView} from 'react-native';
-import { createExpenseJSON } from '../model/JSONUtils';
 import styles from './styles.js'
 
 const util = require("util");

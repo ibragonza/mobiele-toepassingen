@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown, TextInput,ScrollView} from 'react-native';
-import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
-import { createExpense, getTrips, removeTrip, getPersons, getCategories, getUsersCurrency } from '../model/JSONUtils'
-import { getAllCurrencies, convert} from '../model/Converter'
+import { createExpense, getTrips, getPersons, getCategories, getUsersCurrency } from '../model/JSONUtils'
+import { getAllCurrencies, convert } from '../model/Converter'
 import ModalDropdown from 'react-native-modal-dropdown';
 import styles from './styles.js'
 
@@ -243,76 +242,3 @@ export default class AddExpense extends React.Component {
         this.setState({currency : currency})
     }
 }
-/*
-const styles = StyleSheet.create({
-    header: {
-        fontSize: 48,
-        fontWeight: 'bold'
-    },
-    entryText: {
-        fontSize: 24,
-		marginTop : 20,
-    },
-	chosenText :
-	{
-		fontSize: 20,
-		color : 'red',
-	},
-    navbar: {
-        flex: 1,
-        marginTop: 40,
-    },
-    container: {
-        flex: 1,
-        width: undefined,
-        height: undefined,
-        backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    addExpensebutton:
-        {
-            marginTop: 5,
-            marginBottom: 10,
-            borderRadius: 3,
-            width: 200,
-            height: 70,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-			marginTop: 20,
-            backgroundColor: '#00FF7F',
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-  buttonText:
-  {
-	fontSize: 20,
-	color: 'white',
-	textAlign: 'center',
-  },
-  Modal :
-  {
-	width: 200,
-	height: 40,
-  },
-  dropdown :
-  {
-	backgroundColor: "#d3d3d3",
-	marginLeft:'auto',
-	marginRight:'auto',
-	width: 300,
-	borderWidth: 2,
-	borderColor: '#A2A794'
-  },
-  dropdownTextStyle:
-  {
-	color:'red',
-	backgroundColor:'#b3b3b3'
-  },
-  dropdownText :
-  {
-	color : 'red',
-	fontSize: 24,
-  },
-});
-*/

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image } from 'react-native';
-import { createExpenseJSON, getTrips, removeTrip, getExpensesPerTrip, getLoansPerTrip } from '../model/JSONUtils'
+import { getExpensesPerTrip, getLoansPerTrip } from '../model/JSONUtils'
 import styles from './styles.js'
 
 const util = require("util");
@@ -23,18 +23,14 @@ export default class TripOverviewScreen extends React.Component {
 	}
 
 	async fetchData() {
-		console.log("=========================== started loading ========================");
 		var trip = this.props.navigation.state.params.trip;
 		const expenses = await getExpensesPerTrip(trip.trip_id);
-		console.log(expenses);
 		this.setState({ expenses: expenses });
 	}
 
 	async getLoans() {
-		console.log("=========================== started loading ========================");
 		var trip = this.props.navigation.state.params.trip;
 		const loans = await getLoansPerTrip(trip.trip_id);
-		console.log(loans);
 		this.setState({ loans: loans });
 	}
 
@@ -101,102 +97,3 @@ export default class TripOverviewScreen extends React.Component {
 		);
 	}
 }
-/*
-const styles = StyleSheet.create({
-	headerText:
-		{
-			color: 'white',
-			fontSize: 50,
-			textAlign: 'center',
-		},
-	dateText:
-		{
-			fontSize: 20,
-			color: 'white',
-			marginTop: 20,
-			alignSelf: 'center',
-		},
-	expenseText:
-		{
-			textAlign: 'left',
-			alignSelf: 'stretch',
-			color: 'white',
-			fontSize: 30,
-			marginTop: 20,
-		},
-	head:
-		{
-			flexDirection: 'row',
-			alignSelf: 'stretch',
-			borderBottomWidth: 2,
-			borderBottomColor: 'black',
-			backgroundColor: 'white',
-		},
-	headthirdText:
-		{
-			width: 80,
-			marginLeft: 2,
-			fontSize: 21,
-		},
-	headFirstText:
-		{
-			width: 120,
-			marginLeft: 2,
-			fontSize: 21,
-		},
-	headSecText:
-		{
-			width: 100,
-			fontSize: 21,
-			textAlign: 'center',
-		},
-	headEditText:
-		{
-			marginLeft: 2,
-			fontSize: 21,
-			width: 60,
-		},
-	headText:
-		{
-			marginLeft: 5,
-			fontSize: 21,
-			textAlign: 'center',
-			alignSelf: 'stretch',
-
-		},
-	rows:
-		{
-			flexDirection: 'row',
-			backgroundColor: 'white',
-		},
-	rowText:
-		{
-			marginLeft: 5,
-			fontSize: 19,
-			width: 105,
-		},
-	tableView:
-		{
-			alignSelf: 'center',
-			marginTop: 20,
-		},
-	edit:
-		{
-			flexDirection: 'row',
-		},
-	editText:
-		{
-			textAlign: 'center',
-			fontSize: 19,
-			width: 50,
-			color: 'red',
-		},
-	imagecontainer: {
-		flex: 1,
-		width: undefined,
-		height: undefined,
-		backgroundColor: 'transparent',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-});*/
