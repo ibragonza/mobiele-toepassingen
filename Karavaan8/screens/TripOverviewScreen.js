@@ -44,7 +44,7 @@ export default class TripOverviewScreen extends React.Component {
 		var trip = this.props.navigation.state.params.trip;
 
 		var expensesView = this.state.expenses.map((entry, index) => (
-			<View style={styles.rows}>
+			<View style={styles.rows} key={"Expenses"+index}>
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
 				<Text style={styles.rowText}>{entry.amount} {this.state.preferredCurrency}</Text>
@@ -57,7 +57,7 @@ export default class TripOverviewScreen extends React.Component {
 		));
 
 		var loansView = this.state.loans.map((loan, index) => (
-			<View style={styles.rows}>
+			<View style={styles.rows} key={"Loans"+index}>
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
 				<Text style={styles.rowText}>{loan.amount} {this.state.preferredCurrency}</Text>
