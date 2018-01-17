@@ -72,10 +72,10 @@ export default class FirstScreen extends React.Component {
 			<View style={styles.buttonView}>
 				<TouchableHighlight onPress={() => navigate("TripOverviewScreen",{trip:entry})}>
 				<View>
-					<Text style={styles.buttonText}>{entry.destination}</Text>
-					<Text style={styles.buttonText}>{entry.start_date}</Text>
-					<Text style={styles.buttonText}>{entry.end_date}</Text>
-					<Text style={styles.buttonText}>{entry.trip_currency}</Text>
+					<Text style={styles.buttonViewText}>{entry.destination}</Text>
+					<Text style={styles.buttonViewText}>{entry.start_date}</Text>
+					<Text style={styles.buttonViewText}>{entry.end_date}</Text>
+					<Text style={styles.buttonViewText}>{entry.trip_currency}</Text>
 				</View>
 				</TouchableHighlight>
 			</View>

@@ -89,7 +89,12 @@ var styles = StyleSheet.create({
     	color: 'white',
     	textAlign: 'center',
     },
-    Modal :
+    buttonViewText:
+    {
+        fontSize: 20,
+        textAlign: 'center',
+    },
+    Modal:
     {
     	width: 200,
     	height: 40,
@@ -257,6 +262,10 @@ var styles = StyleSheet.create({
     buttonView:
     {
         width: 160,
+    },
+    buttonViewPeople:
+    {
+        width: 300,
     }
 });
 

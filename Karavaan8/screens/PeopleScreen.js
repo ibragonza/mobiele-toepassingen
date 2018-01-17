@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, ScrollView } from 'react-native';
 import { getPersons, deletePerson } from '../model/JSONUtils'
-//import styles from './styles.js'
+import styles from './styles.js'
 
 const util = require("util");
 
@@ -11,7 +11,7 @@ export default class PeopleScreen extends React.Component {
 		super(props);
 		this.state = { people : [], loaded : ""};
 		this.fetchPersons = this.fetchPersons.bind(this);
-	  this.deletePerson = this.deletePerson.bind(this);
+	    this.deletePerson = this.deletePerson.bind(this);
 		this.confirmDelete = this.confirmDelete.bind(this);
 
   }
@@ -87,11 +87,11 @@ export default class PeopleScreen extends React.Component {
 	    var people = [];
 	    var people = this.state.people.map((entry,index) => (
            <View style={styles.buttonContainer}>
-           		<View style={styles.buttonView}>
+           		<View style={styles.buttonViewPeople}>
                     <TouchableHighlight onPress={() => navigate("PeopleExpenses",{person:entry.name})}>
                         <View>
-                            <Text style={styles.buttonText}>{entry.name}</Text>
-                            <Text style={styles.buttonText}>{entry.email}</Text>
+                            <Text style={styles.buttonViewText}>{entry.name}</Text>
+                            <Text style={styles.buttonViewText}>{entry.email}</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
@@ -121,6 +121,7 @@ export default class PeopleScreen extends React.Component {
 
 }
 
+/*
 const styles = StyleSheet.create({
   header: {
     fontSize: 48,
@@ -200,4 +201,4 @@ const styles = StyleSheet.create({
    {
     width: 200,
    },
-});
+});*/
