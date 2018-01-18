@@ -8,15 +8,16 @@ const util = require("util");
 
 export default class ExpensesScreen extends React.Component {
 	constructor(props) {
+		console.disableYellowBox = true;
 		super(props);
 		this.state = {expenses:[],loans:[],person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
-        this.fetchData = this.fetchData.bind(this);
-    }
+		this.fetchData = this.fetchData.bind(this);
+	}
 
 	componentWillMount()
 	{
-    this.fetchData().done();
-    this.getLoans().done();
+	this.fetchData().done();
+	this.getLoans().done();
 	}
 	async fetchData()
 	{
@@ -106,7 +107,7 @@ export default class ExpensesScreen extends React.Component {
 						{loansView}
 					</View>
 		</Image>
-    );
+	);
   }
 }
 /*
