@@ -2,6 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { StyleSheet } from 'react-native';
 
 var styles = StyleSheet.create({
+	addTripEntryText:
+	{
+		fontSize: 24,
+		marginTop: 20,
+		color:'white',
+	},
     buttonImage:
     {
         flexDirection: 'row'
@@ -18,6 +24,11 @@ var styles = StyleSheet.create({
         flex: 1,
         marginTop: 40
     },
+	addButtonText:
+	{
+		fontSize: 24,
+		color : 'white',
+	},
     header:
     {
         fontSize: 50,
