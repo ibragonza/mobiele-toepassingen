@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, Dropdown, TextInput,ScrollView} from 'react-native';
-import OurPicker from '../view/OurPicker.js';
 import DatePicker from 'react-native-datepicker'
-import { createExpense, getTrips, removeTrip, getPersons, getCategories, getUsersCurrency } from '../model/JSONUtils'
-import { getAllCurrencies, convert} from '../model/Converter'
+import { createExpense, getTrips, getPersons, getCategories, getUsersCurrency } from '../model/JSONUtils'
+import { getAllCurrencies, convert } from '../model/Converter'
 import ModalDropdown from 'react-native-modal-dropdown';
 import styles from './styles.js'
 
@@ -13,7 +12,7 @@ export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
 		console.disableYellowBox = true;
-        this.state = {person: "", target:"",trip: "", expense_date: "", trips:[], people : [], currencies:[], amount:"", reason:"", categories : [], category:"ETEN", loaded:false, trip_currency: ""};
+        this.state = {person: "", target:"",trip: "", expense_date: "", trips:[], people : [], currencies:[], amount:"", reason:"", categories : [], category:"ETEN", loaded:false, currency: ""};
 		this.addExpense = this.addExpense.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
@@ -71,6 +70,7 @@ export default class AddExpense extends React.Component {
 				}
 				else
 				{
+					this.props.navigation.state.params.onGoBack();
 					this.props.navigation.goBack();
 				}
 			}
@@ -86,7 +86,7 @@ export default class AddExpense extends React.Component {
 			this.setState({categories : getCategories()});
 			this.setState({currencies : await getAllCurrencies()});
 		    const usersCurrency = await getUsersCurrency();
-			this.setState({trip_currency: usersCurrency})
+			this.setState({currency: usersCurrency})
             var setPerson = await getPersons();
             if(!setPerson)
             {
@@ -171,11 +171,12 @@ export default class AddExpense extends React.Component {
 
 					<Text style={styles.entryText}>Currency</Text>
 					<ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText}
-					defaultValue={this.state.trip_currency}
-					onSelect ={(idx,value) => this.setState({currency : value}) }/>
+					defaultValue={this.state.currency}
+					onSelect ={(idx,value) => this._handleChooseCurrency(value)}/>
 
 					<Text style={styles.entryText}>Category</Text>
-                    <ModalDropdown options={this.state.categories} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText} defaultIndex={0} defaultValue={this.state.category}
+                    <ModalDropdown options={this.state.categories} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText}
+                    defaultIndex={0} defaultValue={this.state.category}
 					onSelect ={(idx,value) => this.setState({category : value})}/>
 
                     <Text style={styles.entryText}>Reason</Text>
@@ -239,79 +240,10 @@ export default class AddExpense extends React.Component {
 
     _updateDefaultTripCurrency(currency)
     {
-        this.setState({trip_currency : currency})
+        this.setState({currency : currency})
+    }
+
+    _handleChooseCurrency(currency){
+        this.setState({currency : currency})
     }
 }
-/*
-const styles = StyleSheet.create({
-    header: {
-        fontSize: 48,
-        fontWeight: 'bold'
-    },
-    entryText: {
-        fontSize: 24,
-		marginTop : 20,
-    },
-	chosenText :
-	{
-		fontSize: 20,
-		color : 'red',
-	},
-    navbar: {
-        flex: 1,
-        marginTop: 40,
-    },
-    container: {
-        flex: 1,
-        width: undefined,
-        height: undefined,
-        backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    addExpensebutton:
-        {
-            marginTop: 5,
-            marginBottom: 10,
-            borderRadius: 3,
-            width: 200,
-            height: 70,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-			marginTop: 20,
-            backgroundColor: '#00FF7F',
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-  buttonText:
-  {
-	fontSize: 20,
-	color: 'white',
-	textAlign: 'center',
-  },
-  Modal :
-  {
-	width: 200,
-	height: 40,
-  },
-  dropdown :
-  {
-	backgroundColor: "#d3d3d3",
-	marginLeft:'auto',
-	marginRight:'auto',
-	width: 300,
-	borderWidth: 2,
-	borderColor: '#A2A794'
-  },
-  dropdownTextStyle:
-  {
-	color:'red',
-	backgroundColor:'#b3b3b3'
-  },
-  dropdownText :
-  {
-	color : 'red',
-	fontSize: 24,
-  },
-});
-*/

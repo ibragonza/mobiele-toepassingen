@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight, Component, AsyncStorage} from 'react-native';
+import {convertBack} from "./Converter"
 const util = require("util");
 
 export async function createExpense(senderID, targetId, tripId, value, currency, date, category, reason)
 {
+  console.log(value,currency);
   var expenseId = Math.random(); // improve dealing with this
   var json = {"expense_id" : expenseId,"sender_id":senderID.trim(),"target_id":targetId.trim(),"trip_id":tripId,"currency":currency,"date":date,"category":category,"reason":reason,"amount" : value};
   try {
@@ -90,6 +92,19 @@ export async function getTrips(){
         console.log(error);
         return [];
       }
+}
+
+export async function getTripDestinationById(trip_id)
+{
+    var trips = await getTrips();
+    var list = await createList(trips, "trip")
+    for(var i = 0; i < list.length; i++)
+    {
+        if(list[i].trip_id == trip_id){
+            return list[i].destination;
+        }
+    }
+    return "not found";
 }
 
 export async function getExpensesForId(tripId)
@@ -226,9 +241,11 @@ export async function getPersons()
 }
 
 export async function getExpensesPerTrip(tripid){
+  console.log("Trip ID: ",tripid);
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
@@ -236,6 +253,64 @@ export async function getExpensesPerTrip(tripid){
         var cur = obj[key];
         console.log(cur);
         if(cur.sender_id == na && cur.trip_id == tripid){
+          cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
+          arr.push(cur);
+        }
+      }
+    }else{
+      const arr = [];
+    }
+    return arr;
+  }catch(err){
+    console.log(err);
+    return [];
+  }
+}
+
+export async function getExpensesPerPerson(person){
+  person = person.trim();
+  console.log("Gave <-------------------",person);
+  try{
+    const na = await AsyncStorage.getItem('@Store:name');
+    const value = await AsyncStorage.getItem('@Store:expenses');
+    const currency = await getUsersCurrency();
+    const arr = [];
+    if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);  
+      for(key in obj){
+        var cur = obj[key];
+        console.log(cur);
+        if(cur.sender_id == na && cur.target_id == person){
+          cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
+          arr.push(cur);
+        }
+      }
+    }else{
+      const arr = [];
+    }
+    return arr;
+  }catch(err){
+    console.log(err);
+    return [];
+  }
+}
+
+export async function getLoansPerPerson(person){
+  person = person.trim();
+  try{
+    const na = await AsyncStorage.getItem('@Store:name');
+    const value = await AsyncStorage.getItem('@Store:expenses');
+    const currency = await getUsersCurrency();
+    const arr = [];
+    if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);  
+      for(key in obj){
+        var cur = obj[key];
+        if(cur.target_id == na && cur.sender_id == person){
+          cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
@@ -253,6 +328,7 @@ export async function getExpenses(tripid){
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
@@ -260,6 +336,8 @@ export async function getExpenses(tripid){
         var cur = obj[key];
         console.log(cur);
         if(cur.sender_id == na){
+          cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
@@ -277,6 +355,7 @@ export async function getLoans(){
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       console.log(JSON.stringify(value));
@@ -285,6 +364,8 @@ export async function getLoans(){
         var cur = obj[key];
         console.log(cur);
         if(cur.target_id == na){
+          cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
@@ -302,12 +383,15 @@ export async function getLoansPerTrip(tripid){
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
+    const currency = await getUsersCurrency();
     const arr = [];
     if (value !== null && na !==null){ // build in that user can do jackshit before a name is chosen
       const obj = JSON.parse(value);  
       for(key in obj){
         var cur = obj[key];
         if(cur.target_id == na && cur.trip_id == tripid){
+          cur.amount = await convertBack(cur.amount,currency);
+          cur.currency = currency;
           arr.push(cur);
         }
       }
@@ -376,6 +460,60 @@ export async function getUsersCurrency()
       } catch (error) {
         // Error retrieving data
         console.log(error);
-        return [];
+        return "EUR"; //return EUR by default
       }
+}
+
+export async function createList(objects, type)
+{
+    var result = [];
+    if(type == "trip")
+    {
+        for(var key in objects)
+        {
+            result.push({
+                trip_id : objects[key].trip_id,
+                destination : objects[key].destination,
+                start_date : objects[key].start_date,
+                end_date : objects[key].end_date,
+                trip_currency : objects[key].trip_currency
+            })
+
+        }
+    }
+    else if(type == "person")
+    {
+        for(var key in objects)
+        {
+            result.push({
+                name : objects[key].name,
+                person_id : objects[key].person_id,
+                email : objects[key].email
+            })
+        }
+    }
+    return result;
+}
+
+
+export async function getPersonsOverview()
+{
+    const you = await AsyncStorage.getItem('@Store:name');
+	try {
+        const value = await AsyncStorage.getItem('@Store:persons');
+        if (value !== null){
+            var obj = JSON.parse(value);
+            for(var person in obj){
+                if(person == you){
+                    delete obj[person];
+                }
+            }
+            return obj;
+        }else{
+            return [];
+        }
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
 }

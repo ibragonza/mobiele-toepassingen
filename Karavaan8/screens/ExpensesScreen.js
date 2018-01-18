@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, ScrollView, Image, Dropdown } from 'react-native';
-import OurPicker from '../view/OurPicker.js';
-import { createExpense, getTrips,removeTrip,getPersons,getExpenses,getLoans } from '../model/JSONUtils'
+import { getExpenses,getLoans } from '../model/JSONUtils'
 import styles from './styles.js'
 
 const util = require("util");
@@ -11,27 +10,28 @@ export default class ExpensesScreen extends React.Component {
 		console.disableYellowBox = true;
 		super(props);
 		this.state = {expenses:[],loans:[],person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
-		this.fetchData = this.fetchData.bind(this);
-	}
-
+        this.fetchData = this.fetchData.bind(this);
+    }
 	componentWillMount()
 	{
-	this.fetchData().done();
-	this.getLoans().done();
+    this.fetchData().done();
+		this.getLoans().done();
 	}
+
+	refresh(){
+		this.fetchData();
+		this.getLoans();
+	}
+
 	async fetchData()
 	{
-		console.log("=========================== started loading ========================");
 		const expenses = await getExpenses();
-		console.log(expenses);
 		this.setState({ expenses: expenses });
   }
   
   async getLoans()
 	{
-		console.log("=========================== started loading ========================");
 		const loans = await getLoans();
-		console.log(loans);
 		this.setState({ loans: loans });
   }
   /*
@@ -47,20 +47,23 @@ export default class ExpensesScreen extends React.Component {
     var { navigate } = this.props.navigation;
 
     var expensesView = this.state.expenses.map((entry, index) => (
-			<View style={styles.rows}>
+            <TouchableHighlight key={"ExpensesBut"+index} onPress={() => navigate("ExpenseDetails", {expense : entry})}>
+			<View style={styles.rows} key={"Expenses"+index}>
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
 				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={navigate()}>
+				<TouchableHighlight style={styles.edit} onPress={() => alert("test")}>
 					<View>
 						<Text style={styles.editText}>X</Text>
 					</View>
 				</TouchableHighlight>
 			</View>
+			</TouchableHighlight>
 		));
 
 		var loansView = this.state.loans.map((loan, index) => (
-			<View style={styles.rows}>
+		    <TouchableHighlight key={"LoansBut"+index} onPress={() => navigate("ExpenseDetails", {expense : entry})}>
+			<View style={styles.rows} key={"Loans"+index}>
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
 				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
@@ -70,6 +73,7 @@ export default class ExpensesScreen extends React.Component {
 					</View>
 				</TouchableHighlight>
 			</View>
+			</TouchableHighlight>
 		));
 
 
@@ -80,7 +84,7 @@ export default class ExpensesScreen extends React.Component {
 			<Text style={styles.header}>Expenses</Text>
 		</View>
 		<View style={styles.navbar}>
-		<TouchableHighlight style={styles.addButton} onPress={() => navigate("AddExpense", {})}>
+		<TouchableHighlight style={styles.addButton} onPress={() => navigate("AddExpense", {onGoBack: () => this.refresh()})}>
 			<View>
 				<Text style={styles.buttonText}>ADD EXPENSE</Text>
 			</View>
