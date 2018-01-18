@@ -14,6 +14,18 @@ export async function clearExpenses()
 	}
 }
 
+export async function clearTransactions()
+{
+	try
+	{
+		await AsyncStorage.setItem('@Store:transactions',"[]");
+	}
+	catch (error)
+	{
+		console.log(error);
+	}
+}
+
 export async function clearPersons()
 {
 	try

@@ -38,7 +38,32 @@ export async function createExpense(senderID, targetId, tripId, value, currency,
   }
 }
 
-
+export async function createTransaction(from,to,amount){
+  var date = new Date();
+  var datestring = date.getFullYear() + "-" + date.getMonth()+1 + "-"+ date.getDate();
+  var n = {
+    from : from,
+    to : to,
+    amount : amount,
+    date: datestring
+  }
+  try {
+    const value = await AsyncStorage.getItem('@Store:transactions');
+    if (value !== null) {
+      var obj = JSON.parse(value);
+      obj.push(n);
+      var JsonString = JSON.stringify(obj);
+    } else {
+      var obj = [];
+      obj.push(n);
+      var JsonString = JSON.stringify(obj);
+    }
+    await AsyncStorage.setItem('@Store:transactions', JsonString);
+  } catch (error) {
+    // Error retrieving data
+    console.log(error);
+  }
+}
 
 export async function CreateTripJSON(trip_id, destination, startDate, endDate, trip_currency) {
   var trip_id = startDate.split("-").join("") + "" + endDate.split("-").join("") + Math.random();
@@ -166,7 +191,7 @@ export async function setPaid(expense_id) {
       var obj = JSON.parse(value);
       for (key in obj) {
         if (obj[key].expense_id == expense_id && obj[key].paid == "false") {
-
+          await createTransaction(obj[key].target_id,obj[key].sender_id,obj[key].amount);
           obj[key].paid = "true";
 
           break;
@@ -191,9 +216,11 @@ export async function payAmount(expense_id,amount,currency) {
           var expected = obj[key].amount;
           var newPaid = paid + amount;
           if(newPaid >= expected){
+            await createTransaction(obj[key].target_id,obj[key].sender_id,obj[key].amount);
             obj[key].paid = "true";
             obj[key].amount_paid = expected;
           }else{
+            await createTransaction(obj[key].target_id,obj[key].sender_id,amount);
             obj[key].amount_paid = newPaid;
           }
           break;
@@ -312,6 +339,57 @@ export async function getExpensesPerPerson(person) {
           cur.amount = await convertBack(cur.amount, currency);
           cur.amount_paid = await convertBack(cur.amount_paid,currency);
           cur.currency = currency;
+          arr.push(cur);
+        }
+      }
+    } else {
+      const arr = [];
+    }
+    return arr;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
+export async function getTransactionsPerPerson(person) {
+  person = person.trim();
+  try {
+    const na = await AsyncStorage.getItem('@Store:name');
+    const value = await AsyncStorage.getItem('@Store:transactions');
+    const currency = await getUsersCurrency();
+    const arr = [];
+    if (value !== null && na !== null) { // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);
+      for (key in obj) {
+        var cur = obj[key];
+        if ((cur.to == na && cur.from == person) ||(cur.from == na && cur.to == person) ) {
+          cur.amount = await convertBack(cur.amount, currency);
+          arr.push(cur);
+        }
+      }
+    } else {
+      const arr = [];
+    }
+    return arr;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
+export async function getTransactions() {
+  try {
+    const na = await AsyncStorage.getItem('@Store:name');
+    const value = await AsyncStorage.getItem('@Store:transactions');
+    const currency = await getUsersCurrency();
+    const arr = [];
+    if (value !== null && na !== null) { // build in that user can do jackshit before a name is chosen
+      const obj = JSON.parse(value);
+      for (key in obj) {
+        var cur = obj[key];
+        if (cur.to == na ||cur.from == na) {
+          cur.amount = await convertBack(cur.amount, currency);
           arr.push(cur);
         }
       }

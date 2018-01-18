@@ -104,6 +104,11 @@ export default class PeopleExpenses extends React.Component {
 						</View>
 						{loansView}
 					</View>
+		<TouchableHighlight style={styles.addButton} onPress={() => navigate("TransactionHistoryPP",{person : this.state.person})}>
+			<View>
+				<Text style={styles.buttonText}>Transaction History</Text>
+			</View>
+		</TouchableHighlight>
 		</Image>
     );
   }

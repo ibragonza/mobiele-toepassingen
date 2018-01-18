@@ -109,6 +109,12 @@ export default class ExpensesScreen extends React.Component {
 					<Text style={styles.buttonText}>SPLIT EXPENSE</Text>
 				</View>
 			</TouchableHighlight>
+
+			<TouchableHighlight style={styles.addButton} onPress={() => navigate("TransactionHistory")}>
+				<View>
+					<Text style={styles.buttonText}>TRANSACTION HISTORY</Text>
+				</View>
+			</TouchableHighlight>
             </View>
 		</ScrollView>
 		</Image>
