@@ -82,33 +82,33 @@ export default class ExpensesScreen extends React.Component {
 		<View style={styles.navbar}>
 			<Text style={styles.header}>Expenses</Text>
 		</View>
-		<View style={styles.navbar}>
-		<TouchableHighlight style={styles.addButton} onPress={() => navigate("AddExpense", {onGoBack: () => this.refresh()})}>
-			<View>
-				<Text style={styles.buttonText}>ADD EXPENSE</Text>
-			</View>
-		</TouchableHighlight>
-		</View>
 		<Text style={styles.expenseText}>Money Lend</Text>
-					<View style={styles.tableView}>
-						<View style={styles.head}>
-							<Text style={styles.headText}>Description</Text>
-							<Text style={styles.headText}>To</Text>
-							<Text style={styles.headText}>Amount</Text>
-							<Text style={styles.headText}>Edit</Text>
-						</View>
-						{expensesView}
-					</View>
+            <View style={styles.tableView}>
+                <View style={styles.head}>
+                    <Text style={styles.headText}>Description</Text>
+                    <Text style={styles.headText}>To</Text>
+                    <Text style={styles.headText}>Amount</Text>
+                    <Text style={styles.headText}>Edit</Text>
+                </View>
+                {expensesView}
+            </View>
 		<Text style={styles.expenseText}>Money Borrowed</Text>
-					<View style={styles.tableView}>
-						<View style={styles.head}>
-							<Text style={styles.headText}>Description</Text>
-							<Text style={styles.headText}>From</Text>
-							<Text style={styles.headText}>Amount</Text>
-							<Text style={styles.headText}>Edit</Text>
-						</View>
-						{loansView}
-					</View>
+            <View style={styles.tableView}>
+                <View style={styles.head}>
+                    <Text style={styles.headText}>Description</Text>
+                    <Text style={styles.headText}>From</Text>
+                    <Text style={styles.headText}>Amount</Text>
+                    <Text style={styles.headText}>Edit</Text>
+                </View>
+                {loansView}
+            </View>
+            <View style={styles.navbar}>
+            <TouchableHighlight style={styles.addButton} onPress={() => navigate("AddExpense", {onGoBack: () => this.refresh()})}>
+                <View>
+                    <Text style={styles.buttonText}>ADD EXPENSE</Text>
+                </View>
+            </TouchableHighlight>
+            </View>
 		</Image>
     );
   }
