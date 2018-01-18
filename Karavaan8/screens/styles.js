@@ -222,8 +222,8 @@ var styles = StyleSheet.create({
     headText:
     {
         marginLeft: 5,
-        fontSize: 20,
-		width : 105,
+        fontSize: 18,
+		width: 95,
         textAlign: 'center',
         alignSelf: 'stretch',
     },
@@ -235,13 +235,30 @@ var styles = StyleSheet.create({
     rowText:
     {
         marginLeft: 5,
-        fontSize: 19,
-        width: 105,
+        fontSize: 18,
+        width: 95,
+        textAlign: 'center'
+    },
+    headTextTripOverview:
+    {
+        marginLeft: 5,
+        fontSize: 18,
+        width: 133,
+        textAlign: 'center',
+        alignSelf: 'stretch',
+    },
+    rowTextTripOverview:
+    {
+        marginLeft: 5,
+        fontSize: 18,
+        width: 133,
+        textAlign: 'center'
     },
     tableView:
     {
         alignSelf: 'center',
         marginTop: 20,
+        width: 400
     },
     edit:
     {
