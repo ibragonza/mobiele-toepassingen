@@ -42,7 +42,7 @@ export default class TripOverviewScreen extends React.Component {
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
 				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={() => navigate("ExpenseDetails", {expense : entry})}>
+				<TouchableHighlight style={styles.edit} onPress={() => navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})}>
 					<View>
 						<Text style={styles.editText}>X</Text>
 					</View>
@@ -55,7 +55,7 @@ export default class TripOverviewScreen extends React.Component {
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
 				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={navigate()}>
+				<TouchableHighlight style={styles.edit} onPress={navigate("ExpenseDetails",{expense : loan,onGoBack: () => this.refresh()})}>
 					<View>
 						<Text style={styles.editText}>X</Text>
 					</View>
