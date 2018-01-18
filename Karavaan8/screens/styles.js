@@ -113,6 +113,13 @@ var styles = StyleSheet.create({
     {
         fontSize: 20,
         textAlign: 'center',
+        opacity: 1
+    },
+    buttonViewTextExpense:
+    {
+        fontSize: 20,
+        textAlign: 'left',
+        opacity: 1
     },
     Modal:
     {
@@ -282,7 +289,24 @@ var styles = StyleSheet.create({
     buttonViewPeople:
     {
         width: 300,
-    }
+    },
+    expensesContainer:
+    {
+        opacity: 0.8,
+        width: 350
+    },
+    expensesDetailsText:
+    {
+        color: 'black',
+        fontSize: 24
+    },
+    buttonViewExpense:
+    {
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 10,
+        marginBottom: 10,
+    },
 });
 
 
