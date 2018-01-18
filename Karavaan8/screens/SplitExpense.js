@@ -12,9 +12,10 @@ export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
 		console.disableYellowBox = true;
-        this.state = {person: "", target:"",trip: "", expense_date: "", trips:[], people : [], currencies:[], amount:"", reason:"", categories : [], category:"FOOD", loaded:false, currency: ""};
-		this.addExpense = this.addExpense.bind(this);
-        this.fetchData = this.fetchData.bind(this);
+        this.state = {person0 : [], person1 : [], person2 : [], person3 :[], person4 : [],value0 : 0,value1:0, value2:0, value3:0,value4:0,trip: "", expense_date: "", trips:[], people : [], currencies:[], reason:"", categories : [], category:"FOOD", loaded:false, currency: ""};
+		this.fetchData = this.fetchData.bind(this);
+		this.setName = this.setName.bind(this);
+		this.setAmount = this.setAmount.bind(this);
     }
 
     componentWillMount() {
@@ -22,20 +23,12 @@ export default class AddExpense extends React.Component {
     }
 	async addExpense()
 	{
+		var participants = [];
+		var amounts = [];
 		try
 		{
 			var errorMessage = "Please fill in the : ";
             var bool = true;
-			if(this.state.person == "")
-			{
-                bool = false;
-				errorMessage += "Sender Username,";
-			}
-			if(this.state.target == "")
-			{
-                bool = false;
-				errorMessage += " Target Username,";
-			}
 			if(this.state.trip == "")
 			{
                 bool = false;
@@ -56,19 +49,56 @@ export default class AddExpense extends React.Component {
                 bool = false;
 				errorMessage + " Reason,";
 			}
+			if(this.state.person1 == "" && this.state.value1 == "" || isNaN(parseInt(this.state.value1)))
+			{
+				bool = false;
+			}
+			else
+			{
+				participants.push(this.state.person1);
+				amounts.push(this.state.value1);
+			}
+			if(this.state.person2 == "" && this.state.value2 == "" || isNaN(parseInt(this.state.value2)))
+			{
+				bool = false;
+			}
+			else {
+				participants.push(this.state.person2);
+				amounts.push(this.state.value2);
+			}
+			if(this.state.person3 == "" && this.state.value3 == "" || isNaN(parseInt(this.state.value3)))
+			{
+				bool = false;
+			}
+			else {
+				participants.push(this.state.person3);
+				amounts.push(this.state.value3);
+			}
+			if(this.state.person4 == "" && this.state.value4 == "" || isNaN(parseInt(this.state.value4)))
+			{
+				bool = false;
+			}
+			else {
+				participants.push(this.state.person4);
+				amounts.push(this.state.value4);
+			}
             if(bool){
-                var am = await convert(this.state.amount,this.state.currency);
-				var result =
+				console.log(participants);
+				console.log(amount);
+				for (var i = 0; i < participants; i++)
 				{
-					person: this.state.person.person_id,
-					target: this.state.target.person_id,
-					trip : this.state.trip.trip_id,
-					expense_date: this.state.expense_date,
-					category : this.state.category,
-					currency: this.state.currency,
-					amount: am,
-					reason: this.state.reason,
-				};
+					var am = await convert(amounts[i],this.state.currency);
+					var result = 
+					{
+						person : this.state.person0.person_id,
+						target : participants[i].person_id,
+						trip : this.state.trip.trip_id,
+						expense_date : this.state.expense_date,
+						category : this.state.category,
+						currency : this.state.currency,
+						amount : am,
+						reason : this.state.reason,
+					}
 				var setResult = await createExpense(result.person,result.target,result.trip,result.amount,result.currency,result.expense_date,result.category, result.reason)
 				if(!setResult)
 				{
@@ -76,10 +106,12 @@ export default class AddExpense extends React.Component {
 				}
 				else
 				{
-					this.props.navigation.state.params.onGoBack();
-					this.props.navigation.goBack();
+					console.log("succes");
 				}
-            }
+				}
+				this.props.navigation.state.params.onGoBack();
+				this.props.navigation.goBack();
+			}
 			else
 			{
 				errorMessage = errorMessage.substring(0, errorMessage.length - 1);
@@ -101,7 +133,7 @@ export default class AddExpense extends React.Component {
             var setPerson = await getPersons();
             if(!setPerson)
             {
-                Alert.alert("Oops, something went wrong :(");
+                console.log("Oops, something went wrong :(");
             }
             else
             {
@@ -113,52 +145,157 @@ export default class AddExpense extends React.Component {
 
         catch(error)
         {
-            alert(error);
+            console.log(error);
         }
 		this.setState({loaded : true});
   }
-
+  setName(id,naam)
+  {
+	if(id == "person0")
+	{
+		this.setState({person0 : naam});
+	}
+	if(id == "person1")
+	{
+		this.setState({person1 : naam});
+	}
+	if(id == "person2")
+	{
+		this.setState({person2 : naam});
+	}
+	if(id == "person3")
+	{
+		this.setState({person3 : naam});
+	}
+	if(id == "person4")
+	{
+		this.setState({person4 : naam});
+	}
+  }
+  setAmount(id,value)
+  {
+	if(id == "value0")
+	{
+		this.setState({value0 : value});
+	}
+	if(id == "value1")
+	{
+		this.setState({value1 : value});
+	}
+	if(id == "value2")
+	{
+		this.setState({value2 : value});
+	}
+	if(id == "value3")
+	{
+		this.setState({value3 : value});
+	}
+	if(id == "value4")
+	{
+		this.setState({value4 : value});
+	}
+  }
     render() {
 		if(!this.state.loaded)
 		{
 			return false;
 		}
-		else
-		{
         return (
             <Image source={require('../images/expense-background.png')} style={styles.container}>
 			<ScrollView>
                 <View style={styles.navbar}>
                     <Text style={styles.header}>Split Expense</Text>
-
-					<Text style={styles.entryText}>Sender Username</Text>
-                    <ModalDropdown options={this.state.people}
-                        style={styles.Modal}
-                        dropdownStyle={styles.dropdown}
-                        dropdownTextStyle={styles.dropdownTextStyle}
-                        textStyle={styles.chosenText}
-                        renderRow={this._person_renderRow.bind(this)}
-                        renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
-                        onSelect ={(idx,value) => this.setState({person : value}) }
-                        value={this.state.person.name}
-                    >
-                    <Text style={styles.chosenText}>Tap to choose: {this.state.person.name}</Text>
-                    </ModalDropdown>
-
-					<Text style={styles.entryText}>Target Username</Text>
                     <ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
+						renderRow={this._person_renderRow.bind(this)}
+                        renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
                         textStyle={styles.dropdownText}
                         options={this.state.people}
-                        renderRow={this._person_renderRow.bind(this)}
-                        renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
-                        onSelect ={(idx,value) => this.setState({target : value}) }
-                        value={this.state.target.name}>
-                    <Text style={styles.chosenText}>Tap to choose: {this.state.target.name}</Text>
+                        onSelect ={(idx,value) => this.setName("person0",value) }
+                        value={this.state.person0.name}>
+                    <Text style={styles.chosenText}>Tap to choose: {this.state.person0.name}</Text>
                     </ModalDropdown>
-
-                    <Text style={styles.entryText}>Link to trip</Text>
+					<Text style={styles.entryText}>Amount</Text>
+					<TextInput
+					style={styles.chosenText}
+					editable = {true}
+					keyboardType = 'numeric'
+					onChangeText={(value) => this.setAmount("value0",value)}
+                    />
+					<ModalDropdown style={styles.Modal}
+                        dropdownStyle={styles.dropdown}
+                        dropdownTextStyle={styles.dropdownTextStyle}
+						renderRow={this._person_renderRow.bind(this)}
+                        renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
+                        textStyle={styles.dropdownText}
+                        options={this.state.people}
+                        onSelect ={(idx,value) => this.setName("person1",value) }
+                        value={this.state.person1.name}>
+                    <Text style={styles.chosenText}>Tap to choose: {this.state.person1.name}</Text>
+                    </ModalDropdown>
+					<Text style={styles.entryText}>Amount</Text>
+					<TextInput
+					style={styles.chosenText}
+					editable = {true}
+					keyboardType = 'numeric'
+					onChangeText={(value) => this.setAmount("value1",value)}
+                    />
+					<ModalDropdown style={styles.Modal}
+                        dropdownStyle={styles.dropdown}
+                        dropdownTextStyle={styles.dropdownTextStyle}
+						renderRow={this._person_renderRow.bind(this)}
+                        renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
+                        textStyle={styles.dropdownText}
+                        options={this.state.people}
+                        onSelect ={(idx,value) => this.setName("person2",value) }
+                        value={this.state.person1.name}>
+                    <Text style={styles.chosenText}>Tap to choose: {this.state.person2.name}</Text>
+                    </ModalDropdown>
+					<Text style={styles.entryText}>Amount</Text>
+					<TextInput
+					style={styles.chosenText}
+					editable = {true}
+					keyboardType = 'numeric'
+					onChangeText={(value) => this.setAmount("value2",value)}
+                    />
+					<ModalDropdown style={styles.Modal}
+                        dropdownStyle={styles.dropdown}
+                        dropdownTextStyle={styles.dropdownTextStyle}
+						renderRow={this._person_renderRow.bind(this)}
+                        renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
+                        textStyle={styles.dropdownText}
+                        options={this.state.people}
+                        onSelect ={(idx,value) => this.setName("person3",value) }
+                        value={this.state.person1.name}>
+                    <Text style={styles.chosenText}>Tap to choose: {this.state.person3.name}</Text>
+                    </ModalDropdown>
+					<Text style={styles.entryText}>Amount</Text>
+					<TextInput
+					style={styles.chosenText}
+					editable = {true}
+					keyboardType = 'numeric'
+					onChangeText={(value) => this.setAmount("value3",value)}
+                    />
+					<ModalDropdown style={styles.Modal}
+						dropdownStyle={styles.dropdown}
+                        dropdownTextStyle={styles.dropdownTextStyle}
+						renderRow={this._person_renderRow.bind(this)}
+                        renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
+                        textStyle={styles.dropdownText}
+                        options={this.state.people}
+                        onSelect ={(idx,value) => this.setName("person4",value) }
+                        value={this.state.person1.name}>
+                    <Text style={styles.chosenText}>Tap to choose: {this.state.person4.name}</Text>
+                    </ModalDropdown>
+					<Text style={styles.entryText}>Amount</Text>
+					<TextInput
+					style={styles.chosenText}
+					editable = {true}
+					keyboardType = 'numeric'
+					onChangeText={(value) => this.setAmount("value4",value)}
+					/>
+<Text style={styles.entryText}>Link to trip</Text>
 					<ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
@@ -171,15 +308,6 @@ export default class AddExpense extends React.Component {
 
                     <Text style={styles.chosenText}>Tap to choose: {this.state.trip.destination}</Text>
                     </ModalDropdown>
-
-                    <Text style={styles.entryText}>Amount</Text>
-                    <TextInput
-                        style={styles.chosenText}
-                        editable = {true}
-						keyboardType = 'numeric'
-						onChangeText={(value) => this.setState({amount : value})}
-                    />
-
 					<Text style={styles.entryText}>Currency</Text>
 					<ModalDropdown options={this.state.currencies}
                         style={styles.Modal}
@@ -213,7 +341,6 @@ export default class AddExpense extends React.Component {
             </Image>
         );
 		}
-    }
     _trip_renderRow(rowData){
         return (
               <Text style={styles.chosenText}>
@@ -226,7 +353,6 @@ export default class AddExpense extends React.Component {
         let key = `spr_${rowID}`;
         return (<View key={key.trip_id} />);
     }
-
 	_person_renderRow(rowData){
         return (
               <Text style={styles.chosenText}>
