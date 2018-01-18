@@ -94,6 +94,19 @@ export async function getTrips(){
       }
 }
 
+export async function getTripDestinationById(trip_id)
+{
+    var trips = await getTrips();
+    var list = await createList(trips, "trip")
+    for(var i = 0; i < list.length; i++)
+    {
+        if(list[i].trip_id == trip_id){
+            return list[i].destination;
+        }
+    }
+    return "not found";
+}
+
 export async function getExpensesForId(tripId)
 {
 	try

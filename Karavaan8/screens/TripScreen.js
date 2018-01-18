@@ -26,7 +26,6 @@ export default class FirstScreen extends React.Component {
 	}
 	
 	async fetchData() {
-		console.log("FetchData too");
 		const trips = await getTrips();
 		var list = await createList(trips, "trip")
 		this.setState({trips : list});
