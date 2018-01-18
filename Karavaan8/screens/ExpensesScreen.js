@@ -46,19 +46,22 @@ export default class ExpensesScreen extends React.Component {
     var { navigate } = this.props.navigation;
 
     var expensesView = this.state.expenses.map((entry, index) => (
+            <TouchableHighlight onPress={() => navigate("ExpenseDetails", {expense : entry})}>
 			<View style={styles.rows}>
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
 				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={() => navigate("ExpenseDetails", {expense : entry})}>
+				<TouchableHighlight style={styles.edit} onPress={() => alert("test")}>
 					<View>
 						<Text style={styles.editText}>X</Text>
 					</View>
 				</TouchableHighlight>
 			</View>
+			</TouchableHighlight>
 		));
 
 		var loansView = this.state.loans.map((loan, index) => (
+		    <TouchableHighlight onPress={() => navigate("ExpenseDetails", {expense : entry})}>
 			<View style={styles.rows}>
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
@@ -69,6 +72,7 @@ export default class ExpensesScreen extends React.Component {
 					</View>
 				</TouchableHighlight>
 			</View>
+			</TouchableHighlight>
 		));
 
 
