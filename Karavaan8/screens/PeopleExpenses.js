@@ -47,7 +47,7 @@ export default class PeopleExpenses extends React.Component {
 		var { navigate } = this.props.navigation;
         
             var expensesView = this.state.expenses.map((entry, index) => (
-                    <TouchableHighlight onPress={() => navigate("ExpenseDetails", {expense : entry})}>
+                    <TouchableHighlight key={"PPExpense"+index} onPress={() => navigate("ExpenseDetails", {expense : entry})}>
                     <View style={styles.rows} >
                         <Text style={styles.rowText}>{entry.reason}</Text>
                         <Text style={styles.rowText}>{entry.target_id}</Text>
@@ -62,7 +62,7 @@ export default class PeopleExpenses extends React.Component {
                 ));
         
                 var loansView = this.state.loans.map((loan, index) => (
-                    <TouchableHighlight onPress={() => navigate("ExpenseDetails", {expense : loan})}>
+                    <TouchableHighlight key={"PPLoan"+index} onPress={() => navigate("ExpenseDetails", {expense : loan})}>
                     <View style={styles.rows}>
                         <Text style={styles.rowText}>{loan.reason}</Text>
                         <Text style={styles.rowText}>{loan.sender_id}</Text>

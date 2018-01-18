@@ -71,7 +71,7 @@ export default class PeopleScreen extends React.Component {
 	{
 	    var people = [];
 	    var people = this.state.people.map((entry,index) => (
-           <View style={styles.buttonContainer}>
+           <View style={styles.buttonContainer} key={"People"+index}>
            		<View style={styles.buttonViewPeople}>
                     <TouchableHighlight onPress={() => navigate("PeopleExpenses",{person:entry})}>
                         <View>
