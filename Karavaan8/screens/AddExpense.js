@@ -62,7 +62,7 @@ export default class AddExpense extends React.Component {
 					amount: am,
 					reason: this.state.reason,
 				};
-				
+
 				var setResult = await createExpense(result.person,result.target,result.trip,result.amount,result.currency,result.expense_date,result.category, result.reason)
 				if(!setResult)
 				{
@@ -119,7 +119,7 @@ export default class AddExpense extends React.Component {
 			<ScrollView>
                 <View style={styles.navbar}>
                     <Text style={styles.header}>Add an Expense</Text>
-					
+
 					<Text style={styles.entryText}>Sender Username</Text>
                     <ModalDropdown options={this.state.people}
                         style={styles.Modal}
@@ -133,7 +133,7 @@ export default class AddExpense extends React.Component {
                     >
                     <Text style={styles.chosenText}>Tap to choose: {this.state.person.name}</Text>
                     </ModalDropdown>
-					
+
 					<Text style={styles.entryText}>Target Username</Text>
                     <ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
@@ -142,11 +142,11 @@ export default class AddExpense extends React.Component {
                         options={this.state.people}
                         renderRow={this._person_renderRow.bind(this)}
                         renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
-                        onSelect ={(idx,value) => this.setState({target : value}) }	
+                        onSelect ={(idx,value) => this.setState({target : value}) }
                         value={this.state.target.name}>
                     <Text style={styles.chosenText}>Tap to choose: {this.state.target.name}</Text>
                     </ModalDropdown>
-					
+
                     <Text style={styles.entryText}>Link to trip</Text>
 					<ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
@@ -160,7 +160,7 @@ export default class AddExpense extends React.Component {
 
                     <Text style={styles.chosenText}>Tap to choose: {this.state.trip.destination}</Text>
                     </ModalDropdown>
-					
+
                     <Text style={styles.entryText}>Amount</Text>
                     <TextInput
                         style={styles.chosenText}
@@ -205,7 +205,7 @@ export default class AddExpense extends React.Component {
     }
     _trip_renderRow(rowData){
         return (
-              <Text>
+              <Text style={styles.chosenText}>
                 {`${rowData.destination}`}
               </Text>
             );

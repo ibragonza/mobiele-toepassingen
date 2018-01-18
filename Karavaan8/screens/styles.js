@@ -7,6 +7,8 @@ var styles = StyleSheet.create({
 		fontSize: 24,
 		marginTop: 20,
 		color:'white',
+		alignSelf: 'center',
+		fontWeight: 'bold'
 	},
     buttonImage:
     {
@@ -46,9 +48,11 @@ var styles = StyleSheet.create({
   	{
         backgroundColor: "white",
         fontSize: 20,
-        alignSelf: 'center',
+        textAlign: 'center',
         borderWidth: 2,
-        borderColor: 'white'
+        borderColor: 'white',
+        width: 350,
+        marginTop: 5
   	},
     button:
     {
@@ -113,23 +117,23 @@ var styles = StyleSheet.create({
     Modal:
     {
     	width: 350,
-    	height: 40,
     	backgroundColor: "white",
         borderWidth: 2,
         borderColor: '#A2A794'
     },
-    dropdown :
+    dropdown:
     {
     	backgroundColor: "white",
     	marginLeft:'auto',
     	marginRight:'auto',
     	width: 350,
     	borderWidth: 2,
-    	borderColor: '#A2A794'
+        borderColor: '#A2A794'
     },
     dropdownTextStyle:
     {
-    	textAlign: 'center'
+    	textAlign: 'center',
+    	fontSize: 20
     },
     textInput:
     {
