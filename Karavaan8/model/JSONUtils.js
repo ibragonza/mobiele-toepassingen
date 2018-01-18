@@ -494,3 +494,26 @@ export async function createList(objects, type)
     }
     return result;
 }
+
+
+export async function getPersonsOverview()
+{
+    const you = await AsyncStorage.getItem('@Store:name');
+	try {
+        const value = await AsyncStorage.getItem('@Store:persons');
+        if (value !== null){
+            var obj = JSON.parse(value);
+            for(var person in obj){
+                if(person == you){
+                    delete obj[person];
+                }
+            }
+            return obj;
+        }else{
+            return [];
+        }
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, ScrollView } from 'react-native';
-import { getPersons, deletePerson, createList } from '../model/JSONUtils'
+import { getPersons, deletePerson, createList, getPersonsOverview } from '../model/JSONUtils'
 import styles from './styles.js'
 
 const util = require("util");
@@ -26,14 +26,13 @@ export default class PeopleScreen extends React.Component {
     {
         try
         {
-            var setPerson = await getPersons(this.state.name);
-            if(!setPerson)
+            var people = await getPersonsOverview(this.state.name);
+            if(!people)
             {
                 Alert.alert("Oops, something went wrong :(");
             }
             else
             {
-                const people = await getPersons();
                 var list = await createList(people, "person")
                 this.setState({people : list});
                 this.setState({loaded : "True"});
