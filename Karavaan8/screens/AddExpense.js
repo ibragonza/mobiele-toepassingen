@@ -12,7 +12,7 @@ export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
 		console.disableYellowBox = true;
-        this.state = {person: "", target:"",trip: "", expense_date: "", trips:[], people : [], currencies:[], amount:"", reason:"", categories : [], category:"ETEN", loaded:false, trip_currency: ""};
+        this.state = {person: "", target:"",trip: "", expense_date: "", trips:[], people : [], currencies:[], amount:"", reason:"", categories : [], category:"ETEN", loaded:false, currency: ""};
 		this.addExpense = this.addExpense.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
@@ -86,7 +86,7 @@ export default class AddExpense extends React.Component {
 			this.setState({categories : getCategories()});
 			this.setState({currencies : await getAllCurrencies()});
 		    const usersCurrency = await getUsersCurrency();
-			this.setState({trip_currency: usersCurrency})
+			this.setState({currency: usersCurrency})
             var setPerson = await getPersons();
             if(!setPerson)
             {
@@ -171,11 +171,12 @@ export default class AddExpense extends React.Component {
 
 					<Text style={styles.entryText}>Currency</Text>
 					<ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText}
-					defaultValue={this.state.trip_currency}
-					onSelect ={(idx,value) => this.setState({currency : value}) }/>
+					defaultValue={this.state.currency}
+					onSelect ={(idx,value) => this._handleChooseCurrency(value)}/>
 
 					<Text style={styles.entryText}>Category</Text>
-                    <ModalDropdown options={this.state.categories} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText} defaultIndex={0} defaultValue={this.state.category}
+                    <ModalDropdown options={this.state.categories} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText}
+                    defaultIndex={0} defaultValue={this.state.category}
 					onSelect ={(idx,value) => this.setState({category : value})}/>
 
                     <Text style={styles.entryText}>Reason</Text>
@@ -239,6 +240,10 @@ export default class AddExpense extends React.Component {
 
     _updateDefaultTripCurrency(currency)
     {
+        this.setState({currency : currency})
+    }
+
+    _handleChooseCurrency(currency){
         this.setState({currency : currency})
     }
 }

@@ -1,19 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableHighlight, Image, ScrollView } from 'react-native';
-import { getPersons, deletePerson, createList, getPersonsOverview } from '../model/JSONUtils'
+import { deletePerson, createList, getPersonsOverview } from '../model/JSONUtils'
 import styles from './styles.js'
 
 const util = require("util");
 
 export default class PeopleScreen extends React.Component {
-  constructor(props)
+    constructor(props)
 	{
 		super(props);
 		this.state = { people : [], loaded : ""};
 		this.fetchPersons = this.fetchPersons.bind(this);
 	    this.deletePerson = this.deletePerson.bind(this);
 		this.confirmDelete = this.confirmDelete.bind(this);
-  }
+    }
   
     refresh() {
 		this.fetchPersons();
@@ -22,6 +22,7 @@ export default class PeopleScreen extends React.Component {
 	componentDidMount() {
 		this.fetchPersons().done();
 	}
+
     async fetchPersons()
     {
         try
@@ -60,32 +61,32 @@ export default class PeopleScreen extends React.Component {
         { cancelable: false })
     }
 
-  render() {
-    var {navigate} = this.props.navigation;
-	if(this.state.loaded == "")
-	{
-		return false;
-	}
-	else
-	{
-	    var people = [];
-	    var people = this.state.people.map((entry,index) => (
-           <View style={styles.buttonContainer} key={"People"+index}>
-           		<View style={styles.buttonViewPeople}>
-                    <TouchableHighlight onPress={() => navigate("PeopleExpenses",{person:entry})}>
-                        <View>
-                            <Text style={styles.buttonViewText}>{entry.name}</Text>
-                            <Text style={styles.buttonViewText}>{entry.email}</Text>
-                        </View>
-                    </TouchableHighlight>
+    render() {
+        var {navigate} = this.props.navigation;
+        if(this.state.loaded == "")
+        {
+		    return false;
+        }
+        else
+        {
+            var people = [];
+            var people = this.state.people.map((entry,index) => (
+               <View style={styles.buttonContainer} key={"People"+index}>
+                    <View style={styles.buttonViewPeople}>
+                        <TouchableHighlight onPress={() => navigate("PeopleExpenses",{person:entry})}>
+                            <View>
+                                <Text style={styles.buttonViewText}>{entry.name}</Text>
+                                <Text style={styles.buttonViewText}>{entry.email}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>
+                    <View>
+                        <TouchableHighlight style={styles.exitcolumn} onPress={() => this.confirmDelete(entry.person_id)}>
+                            <Text style={styles.exitText}>X</Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
-                <View>
-                    <TouchableHighlight style={styles.exitcolumn} onPress={() => this.confirmDelete(entry.person_id)}>
-                        <Text style={styles.exitText}>X</Text>
-                    </TouchableHighlight>
-                </View>
-            </View>
-        ));
+            ));
 
         return (
           <Image source={require('../images/people-background.png')} style={styles.container}>
