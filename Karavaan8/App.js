@@ -15,7 +15,7 @@ import TripOverviewScreen from './screens/TripOverviewScreen'
 import DeveloperScreen from './screens/DeveloperScreen'
 import PeopleExpenses from './screens/PeopleExpenses';
 import ExpenseDetails from './screens/ExpenseDetails';
-
+import SplitExpense from './screens/SplitExpense';
 const Navigation = StackNavigator({
 	First:{screen: FirstScreen},
 	Expenses : {screen: ExpensesScreen},
@@ -29,6 +29,7 @@ const Navigation = StackNavigator({
 	TransferMoney : {screen: TransferMoney},
 	DeveloperScreen : {screen : DeveloperScreen},
 	PeopleExpenses : {screen: PeopleExpenses},
-	ExpenseDetails : {screen : ExpenseDetails}
+	ExpenseDetails : {screen : ExpenseDetails},
+	SplitExpense : {screen : SplitExpense},
 });
 export default Navigation;

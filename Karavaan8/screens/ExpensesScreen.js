@@ -54,11 +54,6 @@ export default class ExpensesScreen extends React.Component {
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
 				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={() => alert("test")}>
-					<View>
-						<Text style={styles.editText}>X</Text>
-					</View>
-				</TouchableHighlight>
 			</View>
 			</TouchableHighlight>
 		));
@@ -69,11 +64,6 @@ export default class ExpensesScreen extends React.Component {
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
 				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={() => alert("Hallo")}>
-					<View>
-						<Text style={styles.editText}>X</Text>
-					</View>
-				</TouchableHighlight>
 			</View>
 			</TouchableHighlight>
 		));
@@ -82,6 +72,7 @@ export default class ExpensesScreen extends React.Component {
 
 	return (
 		<Image source={require('../images/expense-background.png')} style={styles.container}>
+		<ScrollView>
 		<View style={styles.navbar}>
 			<Text style={styles.header}>Expenses</Text>
 		</View>
@@ -91,7 +82,6 @@ export default class ExpensesScreen extends React.Component {
                     <Text style={styles.headText}>Description</Text>
                     <Text style={styles.headText}>To</Text>
                     <Text style={styles.headText}>Amount</Text>
-                    <Text style={styles.headText}>Edit</Text>
                 </View>
                 {expensesView}
             </View>
@@ -101,7 +91,6 @@ export default class ExpensesScreen extends React.Component {
                     <Text style={styles.headText}>Description</Text>
                     <Text style={styles.headText}>From</Text>
                     <Text style={styles.headText}>Amount</Text>
-                    <Text style={styles.headText}>Edit</Text>
                 </View>
                 {loansView}
             </View>
@@ -111,7 +100,13 @@ export default class ExpensesScreen extends React.Component {
                     <Text style={styles.buttonText}>ADD EXPENSE</Text>
                 </View>
             </TouchableHighlight>
+			<TouchableHighlight style={styles.addButton} onPress={() => navigate("SplitExpense", {onGoBack: () => this.refresh()})}>
+				<View>
+					<Text style={styles.buttonText}>SPLIT EXPENSE</Text>
+				</View>
+			</TouchableHighlight>
             </View>
+		</ScrollView>
 		</Image>
 	);
   }

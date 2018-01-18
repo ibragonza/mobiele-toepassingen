@@ -196,7 +196,7 @@ var styles = StyleSheet.create({
     },
     headFirstText:
     {
-        width: 120,
+        width: 110,
         marginLeft: 2,
         fontSize: 21,
     },
@@ -216,6 +216,7 @@ var styles = StyleSheet.create({
     {
         marginLeft: 5,
         fontSize: 21,
+		width : 105,
         textAlign: 'center',
         alignSelf: 'stretch',
     },
