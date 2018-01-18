@@ -25,12 +25,14 @@ export default class ExpensesScreen extends React.Component {
 	async fetchData()
 	{
 		const expenses = await getExpenses();
+		console.log(expenses);
 		this.setState({ expenses: expenses });
   }
   
   async getLoans()
 	{
 		const loans = await getLoans();
+		console.log(loans);
 		this.setState({ loans: loans });
   }
   /*
@@ -46,7 +48,7 @@ export default class ExpensesScreen extends React.Component {
     var { navigate } = this.props.navigation;
 
     var expensesView = this.state.expenses.map((entry, index) => (
-            <TouchableHighlight key={"ExpensesBut"+index} onPress={() => navigate("ExpenseDetails", {expense : entry})}>
+            <TouchableHighlight key={"ExpensesBut"+index} onPress={() => navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})}>
 			<View style={styles.rows} key={"Expenses"+index}>
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
@@ -61,7 +63,7 @@ export default class ExpensesScreen extends React.Component {
 		));
 
 		var loansView = this.state.loans.map((loan, index) => (
-		    <TouchableHighlight key={"LoansBut"+index} onPress={() => navigate("ExpenseDetails", {expense : entry})}>
+		    <TouchableHighlight key={"LoansBut"+index} onPress={() => navigate("ExpenseDetails", {expense : loan,onGoBack: () => this.refresh()})}>
 			<View style={styles.rows} key={"Loans"+index}>
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
