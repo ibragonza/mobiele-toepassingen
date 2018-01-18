@@ -24,21 +24,22 @@ export default class PeopleExpenses extends React.Component {
 	}
 
     async sendEmail(sendTo) {
-        email(sendTo, {
+        var emailAddress = sendTo.email;
+        email(emailAddress, {
         subject: 'Email from Karavaan',
-                 body: 'Some body right here'
+                 body: 'email sent from Karavaan app'
         }).catch(console.error)
     }
     
 	async fetchData() {
 		var person = this.props.navigation.state.params.person;
-		const expenses = await getExpensesPerPerson(person);
+		const expenses = await getExpensesPerPerson(person.name);
 		this.setState({ expenses: expenses });
 	}
 
 	async getLoans() {
 		var person = this.props.navigation.state.params.person;
-	    const loans = await getLoansPerPerson(person);
+	    const loans = await getLoansPerPerson(person.name);
 		this.setState({ loans: loans });
 	}
 
@@ -46,19 +47,22 @@ export default class PeopleExpenses extends React.Component {
 		var { navigate } = this.props.navigation;
         
             var expensesView = this.state.expenses.map((entry, index) => (
-                    <View style={styles.rows}>
+                    <TouchableHighlight onPress={() => navigate("ExpenseDetails", {expense : entry})}>
+                    <View style={styles.rows} >
                         <Text style={styles.rowText}>{entry.reason}</Text>
                         <Text style={styles.rowText}>{entry.target_id}</Text>
                         <Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
-                        <TouchableHighlight style={styles.edit} onPress={() => navigate("ExpenseDetails", {expense : entry})}>
+                        <TouchableHighlight style={styles.edit} onPress={() => alert("Hallo")}>
                             <View>
                                 <Text style={styles.editText}>X</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
+                    </TouchableHighlight>
                 ));
         
                 var loansView = this.state.loans.map((loan, index) => (
+                    <TouchableHighlight onPress={() => navigate("ExpenseDetails", {expense : loan})}>
                     <View style={styles.rows}>
                         <Text style={styles.rowText}>{loan.reason}</Text>
                         <Text style={styles.rowText}>{loan.sender_id}</Text>
@@ -69,11 +73,13 @@ export default class PeopleExpenses extends React.Component {
                             </View>
                         </TouchableHighlight>
                     </View>
+                    </TouchableHighlight>
+
                 ));
 
                 return (
 		<Image source={require('../images/expense-background.png')} style={styles.container}>
-			<Text style={styles.header}>Expenses for {this.state.person}</Text>
+			<Text style={styles.header}>Expenses for {this.state.person.name}</Text>
         <TouchableHighlight style={styles.addButton} onPress={() => this.sendEmail(this.state.person)}>
 			<View>
 				<Text style={styles.buttonText}>SEND MAIL</Text>
