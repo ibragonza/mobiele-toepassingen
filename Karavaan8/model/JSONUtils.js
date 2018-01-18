@@ -269,7 +269,8 @@ export async function getExpensesPerTrip(tripid){
 }
 
 export async function getExpensesPerPerson(person){
-  console.log("Person ID: ",person);
+  person = person.trim();
+  console.log("Gave <-------------------",person);
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
@@ -297,7 +298,7 @@ export async function getExpensesPerPerson(person){
 }
 
 export async function getLoansPerPerson(person){
-  console.log("Person ID: ",person);
+  person = person.trim();
   try{
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');
@@ -307,7 +308,6 @@ export async function getLoansPerPerson(person){
       const obj = JSON.parse(value);  
       for(key in obj){
         var cur = obj[key];
-        console.log(cur);
         if(cur.target_id == na && cur.sender_id == person){
           cur.amount = await convertBack(cur.amount,currency);
           cur.currency = currency;
