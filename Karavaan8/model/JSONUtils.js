@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, Component, AsyncStorage } from 'react-native';
-import { convertBack } from "./Converter"
+import { convertBack, convert } from "./Converter"
 const util = require("util");
 
 export async function createExpense(senderID, targetId, tripId, value, currency, date, category, reason) {
   var expenseId = Math.random(); // improve dealing with this
-  var json = { "expense_id": expenseId, "sender_id": senderID.trim(), "target_id": targetId.trim(), "trip_id": tripId, "currency": currency, "date": date, "category": category, "reason": reason, "amount": value, "paid": "false" };
+  var json = { "expense_id": expenseId, "sender_id": senderID.trim(), "target_id": targetId.trim(), "trip_id": tripId, "currency": currency, "date": date, "category": category, "reason": reason, "amount": value, "paid": "false",amount_paid:0 };
   try {
     const value = await AsyncStorage.getItem('@Store:expenses');
     if (value !== null) {
@@ -179,6 +179,33 @@ export async function setPaid(expense_id) {
   }
 }
 
+export async function payAmount(expense_id,amount,currency) {
+  try {
+    amount = await convert(amount,currency);
+    var value = await AsyncStorage.getItem('@Store:expenses');
+    if (value !== null) {
+      var obj = JSON.parse(value);
+      for (key in obj) {
+        if (obj[key].expense_id == expense_id) {
+          var paid = obj[key].amount_paid;
+          var expected = obj[key].amount;
+          var newPaid = paid + amount;
+          if(newPaid >= expected){
+            obj[key].paid = "true";
+            obj[key].amount_paid = expected;
+          }else{
+            obj[key].amount_paid = newPaid;
+          }
+          break;
+        }
+      }
+      await AsyncStorage.setItem('@Store:expenses', JSON.stringify(obj));
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function deletePerson(person_id) {
   var obj = await getPersons();
   delete obj[person_id];
@@ -255,6 +282,7 @@ export async function getExpensesPerTrip(tripid) {
         var cur = obj[key];
         if (cur.sender_id == na && cur.trip_id == tripid && cur.paid == "false") {
           cur.amount = await convertBack(cur.amount, currency);
+          cur.amount_paid = await convertBack(cur.amount_paid,currency);
           cur.currency = currency;
           arr.push(cur);
         }
@@ -282,6 +310,7 @@ export async function getExpensesPerPerson(person) {
         var cur = obj[key];
         if (cur.sender_id == na && cur.target_id == person && cur.paid == "false") {
           cur.amount = await convertBack(cur.amount, currency);
+          cur.amount_paid = await convertBack(cur.amount_paid,currency);
           cur.currency = currency;
           arr.push(cur);
         }
@@ -309,6 +338,7 @@ export async function getLoansPerPerson(person) {
         var cur = obj[key];
         if (cur.target_id == na && cur.sender_id == person && cur.paid == "false") {
           cur.amount = await convertBack(cur.amount, currency);
+          cur.amount_paid = await convertBack(cur.amount_paid,currency);
           cur.currency = currency;
           arr.push(cur);
         }
@@ -335,6 +365,7 @@ export async function getExpenses(tripid) {
         var cur = obj[key];
         if (cur.sender_id == na && cur.paid == "false") {
           cur.amount = await convertBack(cur.amount, currency);
+          cur.amount_paid = await convertBack(cur.amount_paid,currency);
           cur.currency = currency;
           arr.push(cur);
         }
@@ -361,6 +392,7 @@ export async function getLoans() {
         var cur = obj[key];
         if (cur.target_id == na && cur.paid == "false") {
           cur.amount = await convertBack(cur.amount, currency);
+          cur.amount_paid = await convertBack(cur.amount_paid,currency);
           cur.currency = currency;
           arr.push(cur);
         }
@@ -387,6 +419,7 @@ export async function getLoansPerTrip(tripid) {
         var cur = obj[key];
         if (cur.target_id == na && cur.trip_id == tripid && cur.paid == "false") {
           cur.amount = await convertBack(cur.amount, currency);
+          cur.amount_paid = await convertBack(cur.amount_paid,currency);
           cur.currency = currency;
           arr.push(cur);
         }

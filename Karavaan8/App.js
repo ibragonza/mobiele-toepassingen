@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight} from 'react-native';
-import TimerMixin from 'react-timer-mixin';
-import {StackNavigator} from 'react-navigation'; 
+import TimerMixin from 'react-timer-mixin'
+import {StackNavigator} from 'react-navigation'
 import FirstScreen from './screens/FirstScreen'
 import ExpensesScreen from './screens/ExpensesScreen'
 import TripScreen from './screens/TripScreen'
@@ -13,8 +13,9 @@ import AddPerson from './screens/AddPerson'
 import TransferMoney from './screens/TransferMoney'
 import TripOverviewScreen from './screens/TripOverviewScreen'
 import DeveloperScreen from './screens/DeveloperScreen'
-import PeopleExpenses from './screens/PeopleExpenses';
-import ExpenseDetails from './screens/ExpenseDetails';
+import PeopleExpenses from './screens/PeopleExpenses'
+import ExpenseDetails from './screens/ExpenseDetails'
+import PayPart from './screens/PayPart'
 
 const Navigation = StackNavigator({
 	First:{screen: FirstScreen},
@@ -29,6 +30,7 @@ const Navigation = StackNavigator({
 	TransferMoney : {screen: TransferMoney},
 	DeveloperScreen : {screen : DeveloperScreen},
 	PeopleExpenses : {screen: PeopleExpenses},
-	ExpenseDetails : {screen : ExpenseDetails}
+	ExpenseDetails : {screen : ExpenseDetails},
+	PayPart : {screen:PayPart}
 });
 export default Navigation;
