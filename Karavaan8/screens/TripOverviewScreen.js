@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, TouchableHighlight,TouchableOpacity, ScrollView, ImageBackground, Image } from 'react-native';
 import { getExpensesPerTrip, getLoansPerTrip } from '../model/JSONUtils'
 import styles from './styles.js'
 
@@ -8,8 +8,10 @@ const util = require("util");
 export default class TripOverviewScreen extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { expenses: [], loans: []};
+		this.state = { expenses: [], loans: [], disabled: false};
 		this.fetchData = this.fetchData.bind(this);
+		this.toLoanExpenseDetails = this.toLoanExpenseDetails.bind(this);
+		this.toExpenseDetails = this.toExpenseDetails.bind(this);
 	}
 	componentDidMount() {
 		this.fetchData().done();
@@ -19,6 +21,22 @@ export default class TripOverviewScreen extends React.Component {
 	refresh() {
 		this.fetchData();
 		this.getLoans();
+	}
+	toExpenseDetails(entry)
+	{
+		var touchable = this._touchable;
+		touchable.disabled = true;
+		//this.setState({disabled : true});
+		this.props.navigation.navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})
+		//this.setState({disabled : false});
+	}
+	toLoanExpenseDetails(loan)
+	{
+		//this.setState({disabled : true});
+		//navigate("ExpenseDetails",{expense : loan,onGoBack: () => this.refresh()})
+		//console.log("Hallo");
+		//this.setState({disabled : false});
+		navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})
 	}
 
 	async fetchData() {
@@ -38,29 +56,23 @@ export default class TripOverviewScreen extends React.Component {
 		var trip = this.props.navigation.state.params.trip;
 
 		var expensesView = this.state.expenses.map((entry, index) => (
+		<TouchableHighlight style={styles.edit} ref = {component => this._touchable = component} activeOpactity={this.state.disabled ? 0.3 : 1} onPress={ () => this.toExpenseDetails(entry)}>
 			<View style={styles.rows} key={"Expenses"+index}>
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
 				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={() => navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})}>
-					<View>
-						<Text style={styles.editText}>X</Text>
-					</View>
-				</TouchableHighlight>
 			</View>
+		</TouchableHighlight>
 		));
 
 		var loansView = this.state.loans.map((loan, index) => (
+			<TouchableOpacity style={styles.edit} activeOpactity={this.state.disabled ? 1 : 0.3} onPress={!this.state.disabled && this.toLoanExpenseDetails(loan)}>
 			<View style={styles.rows} key={"Loans"+index}>
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
 				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
-				<TouchableHighlight style={styles.edit} onPress={navigate("ExpenseDetails",{expense : loan,onGoBack: () => this.refresh()})}>
-					<View>
-						<Text style={styles.editText}>X</Text>
-					</View>
-				</TouchableHighlight>
 			</View>
+			</TouchableOpacity>
 		));
 
 		return (
@@ -71,10 +83,9 @@ export default class TripOverviewScreen extends React.Component {
 				<ScrollView>
 					<View style={styles.tableView}>
 						<View style={styles.head}>
-							<Text style={styles.headText}>Description</Text>
+							<Text style={styles.headFirstText}>Description</Text>
 							<Text style={styles.headText}>To</Text>
 							<Text style={styles.headText}>Amount</Text>
-							<Text style={styles.headText}>Edit</Text>
 						</View>
 						{expensesView}
 					</View>
@@ -84,10 +95,9 @@ export default class TripOverviewScreen extends React.Component {
 				<ScrollView>
 					<View style={styles.tableView}>
 						<View style={styles.head}>
-							<Text style={styles.headText}>Description</Text>
+							<Text style={styles.headFirstText}>Description</Text>
 							<Text style={styles.headText}>From</Text>
 							<Text style={styles.headText}>Amount</Text>
-							<Text style={styles.headText}>Edit</Text>
 						</View>
 						{loansView}
 					</View>
