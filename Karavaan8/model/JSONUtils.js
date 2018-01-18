@@ -4,7 +4,6 @@ import { convertBack } from "./Converter"
 const util = require("util");
 
 export async function createExpense(senderID, targetId, tripId, value, currency, date, category, reason) {
-  console.log(value, currency);
   var expenseId = Math.random(); // improve dealing with this
   var json = { "expense_id": expenseId, "sender_id": senderID.trim(), "target_id": targetId.trim(), "trip_id": tripId, "currency": currency, "date": date, "category": category, "reason": reason, "amount": value, "paid": "false" };
   try {

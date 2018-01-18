@@ -24,33 +24,39 @@ export default class AddExpense extends React.Component {
 	{
 		try
 		{
+            var bool = true;
 			if(this.state.person == "")
 			{
+                bool = false;
 				alert("Please enter your username");
 			}
 			if(this.state.target == "")
 			{
+                bool = false;
 				alert("Please choose target username");
 			}
 			if(this.state.trip == "")
 			{
+                bool = false;
 				alert("Please choose a trip");
 			}
 			if(this.state.expense_date == "")
 			{
+                bool = false;
 				alert("Please choose date"); //Misschien beter om automatisch datum op te halen?
 			}
 			if(this.state.amount == "")
 			{
+                bool = false;
 				alert("Please enter amount");
 			}
 			if(this.state.reason == "")
 			{
+                bool = false;
 				alert("Please enter a reason");
 			}
-			else
-			{
-				var am = await convert(this.state.amount,this.state.currency);
+            if(bool){
+                var am = await convert(this.state.amount,this.state.currency);
 				var result =
 				{
 					person: this.state.person.person_id,
@@ -73,7 +79,7 @@ export default class AddExpense extends React.Component {
 					this.props.navigation.state.params.onGoBack();
 					this.props.navigation.goBack();
 				}
-			}
+            }	
 		}
 		catch(error)
 		{
