@@ -91,7 +91,6 @@ export default class PeopleExpenses extends React.Component {
 							<Text style={styles.headText}>Description</Text>
 							<Text style={styles.headText}>To</Text>
 							<Text style={styles.headText}>Amount</Text>
-							<Text style={styles.headText}>Edit</Text>
 						</View>
 						{expensesView}
 					</View>

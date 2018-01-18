@@ -68,7 +68,6 @@ export default class AddExpense extends React.Component {
 					amount: am,
 					reason: this.state.reason,
 				};
-
 				var setResult = await createExpense(result.person,result.target,result.trip,result.amount,result.currency,result.expense_date,result.category, result.reason)
 				if(!setResult)
 				{
