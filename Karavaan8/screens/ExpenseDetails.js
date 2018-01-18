@@ -55,16 +55,26 @@ export default class ExpenseDetails extends React.Component {
         return (
 		<Image source={require('../images/expense-background.png')} style={styles.container}>
 			<Text style={styles.header}>Extra information</Text>
-            <View>
-                <View>
-                    <Text style={styles.buttonViewText}>Trip: {this.state.trip}</Text>
-                    <Text style={styles.buttonViewText}>{this.state.expense.amount}{this.state.expense.currency}</Text>
-                    <Text style={styles.buttonViewText}>{this.state.expense.date}</Text>
-                    <Text style={styles.buttonViewText}>Category: {this.state.expense.category}</Text>
-                    <Text style={styles.buttonViewText}>Reason: {this.state.expense.reason}</Text>
-                    <Text style={styles.buttonViewText}>Sender: {this.state.expense.sender_id}</Text>
-                    <Text style={styles.buttonViewText}>Receiver: {this.state.expense.target_id}</Text>
-                    <Text style={styles.buttonViewText}>Paid: {this.state.expense.paid}</Text>
+            <View style={styles.buttonContainer}>
+                <View style={styles.buttonViewExpense}>
+                    <Text style={styles.buttonViewTextExpense}>Trip:</Text>
+                    <Text style={styles.buttonViewTextExpense}>Amount:</Text>
+                    <Text style={styles.buttonViewTextExpense}>Date</Text>
+                    <Text style={styles.buttonViewTextExpense}>Category:</Text>
+                    <Text style={styles.buttonViewTextExpense}>Reason:</Text>
+                    <Text style={styles.buttonViewTextExpense}>Sender:</Text>
+                    <Text style={styles.buttonViewTextExpense}>Receiver:</Text>
+                    <Text style={styles.buttonViewTextExpense}>Paid:</Text>
+                </View>
+                <View style={styles.buttonViewExpense}>
+                    <Text style={styles.buttonViewTextExpense}>{this.state.trip}</Text>
+                    <Text style={styles.buttonViewTextExpense}>{this.state.expense.amount}{this.state.expense.currency}</Text>
+                    <Text style={styles.buttonViewTextExpense}>{this.state.expense.date}</Text>
+                    <Text style={styles.buttonViewTextExpense}>{this.state.expense.category}</Text>
+                    <Text style={styles.buttonViewTextExpense}>{this.state.expense.reason}</Text>
+                    <Text style={styles.buttonViewTextExpense}>{this.state.expense.sender_id}</Text>
+                    <Text style={styles.buttonViewTextExpense}>{this.state.expense.target_id}</Text>
+                    <Text style={styles.buttonViewTextExpense}>{this.state.expense.paid}</Text>
                 </View>
             </View>
             <TouchableHighlight style={styles.addButton} onPress={() => this.pay() }>
