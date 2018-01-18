@@ -66,19 +66,19 @@ export default class AddTripScreen extends React.Component {
 					<View style={styles.navbar}>
 						<Text style={styles.header}>Add a trip</Text>
 
-						<Text style={styles.addTripEntryText}>BESTEMMING</Text>
+						<Text style={styles.addTripEntryText}>Destination</Text>
 						<TextInput style={styles.textInput} onChangeText={(destination) => this.setState({ destination })} value={this.state.destination} />
 
-						<Text style={styles.addTripEntryText}>STARTDATUM</Text>
+						<Text style={styles.addTripEntryText}>Start Date</Text>
 						<DatePicker style={styles.date} date={this.state.start_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
 							onDateChange={(date) => { this.setState({ start_date: date }) }} customStyles={{ dateText: { color: 'black', }, placeholderText: { color: 'black', }, }} />
 
-						<Text style={styles.addTripEntryText}>EINDDATUM</Text>
+						<Text style={styles.addTripEntryText}>End Date</Text>
 						<DatePicker style={styles.date} date={this.state.end_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
 							onDateChange={(date) => { this.setState({ end_date: date }) }} customStyles={{ dateText: { color: 'black', }, placeholderText: { color: 'black', }, }} />
 
 						<Text style={styles.addTripEntryText}>Default Currency</Text>
-						<ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.dropdownText} defaultIndex={0} defaultValue={this.state.trip_currency}
+						<ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText} defaultIndex={0} defaultValue={this.state.trip_currency}
 							onSelect={(idx, value) => this.setState({ trip_currency: value })} />
 
 						<TouchableHighlight style={styles.addButton} onPress={this.send}>

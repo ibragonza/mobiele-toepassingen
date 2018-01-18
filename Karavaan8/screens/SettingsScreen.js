@@ -68,8 +68,16 @@ componentDidMount()
 	<View style={styles.navbar}>
 		<Text style={styles.header}>Settings</Text>
 		<Text style={styles.entryText}>Default Currency</Text>
-		<ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.dropdownText} defaultIndex={0} defaultValue={this.state.currency}
-		onSelect ={(idx,value) => this.setState({currency : value}) }/>
+
+		<ModalDropdown options={this.state.currencies}
+            style={styles.Modal}
+            dropdownStyle={styles.dropdown}
+            dropdownTextStyle={styles.dropdownTextStyle}
+            textStyle={styles.chosenText}
+            defaultIndex={0} defaultValue={this.state.currency}
+            onSelect ={(idx,value) => this.setState({currency : value})}
+         />
+
 		<Text style={styles.entryText}>Name</Text>
 			<TextInput style={styles.textInput} editable={true}  onChangeText={(text) => this.setState({name:text})} defaultValue={this.state.name}/>
 		<TouchableHighlight style={styles.addButton} onPress={() => this.confirmSettings()}>
