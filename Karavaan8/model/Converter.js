@@ -54,5 +54,6 @@ export async function convertBack(amountinEur,wantedCurrency){
 		var rate = currencyRates[wantedCurrency];
         amount = amount * (rate * 1);  
     }
+    amount = Math.round(amount * 100) / 100;   //rounding to 2 digits
 	return amount;
 }

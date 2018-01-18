@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image } from 'react-native';
-import { getTripDestinationById, setPaid } from '../model/JSONUtils'
+import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image, TextInput, AsyncStorage } from 'react-native';
+import { getTripDestinationById, payAmount } from '../model/JSONUtils'
 import styles from './styles.js'
 
 const util = require("util");
@@ -8,29 +8,37 @@ const util = require("util");
 export default class ExpenseDetails extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { expense : this.props.navigation.state.params.expense, trip : "",amount_left:0};
+		this.state = { expense : this.props.navigation.state.params.expense, trip : "", payCurrency : "EUR",amount:0,amount_left:0};
         this.fetchData = this.fetchData.bind(this);
         this.pay = this.pay.bind(this);
 	}
     componentWillMount()
     {
         this.fetchData().done();
+        this.getPreferredCurrency().done();
     }
     
     refresh(){
-        this.props.navigation.state.params.onGoBack();
-        this.props.navigation.goBack();
+        this.fetchData();
     }
 
+    async getPreferredCurrency(){
+        const cur = await AsyncStorage.getItem('@Store:currency');
+        this.setState({payCurrency:cur});
+    }
 
     async pay(){
-        try{
-            await setPaid(this.state.expense.expense_id);
-            this.props.navigation.state.params.onGoBack();
-            this.props.navigation.goBack();
-        }catch(e){
-            console.log(e);
-        }
+        if(this.state.amount > this.state.amount_left){
+            Alert.alert("We know","You're generous ... but you're paying too much!");
+        }else{
+            try{
+                await payAmount(this.state.expense.expense_id,this.state.amount,this.state.payCurrency);
+                this.props.navigation.state.params.onGoBack();
+                this.props.navigation.goBack();
+            }catch(e){
+                console.log(e);
+            }
+        } 
     }
     async fetchData()
     {
@@ -38,7 +46,6 @@ export default class ExpenseDetails extends React.Component {
         var paid = this.state.expense.amount_paid;
         var left = amount - paid;
         this.setState({amount_left:left});
-
         try
         {
             var trip = await getTripDestinationById(this.state.expense.trip_id);
@@ -61,7 +68,7 @@ export default class ExpenseDetails extends React.Component {
 		var { navigate } = this.props.navigation;
         return (
 		<Image source={require('../images/expense-background.png')} style={styles.container}>
-			<Text style={styles.header}>Extra information</Text>
+			<Text style={styles.header}>Partially Pay</Text>
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonViewExpense}>
                     <Text style={styles.buttonViewTextExpense}>Trip:</Text>
@@ -77,7 +84,7 @@ export default class ExpenseDetails extends React.Component {
                 </View>
                 <View style={styles.buttonViewExpense}>
                     <Text style={styles.buttonViewTextExpense}>{this.state.trip}</Text>
-                    <Text style={styles.buttonViewTextExpense}>{this.state.expense.amount}{this.state.expense.currency}</Text>
+                    <Text style={styles.buttonViewTextExpense}>{this.state.expense.amount} {this.state.expense.currency}</Text>
                     <Text style={styles.buttonViewTextExpense}>{this.state.expense.date}</Text>
                     <Text style={styles.buttonViewTextExpense}>{this.state.expense.category}</Text>
                     <Text style={styles.buttonViewTextExpense}>{this.state.expense.reason}</Text>
@@ -88,14 +95,16 @@ export default class ExpenseDetails extends React.Component {
                     <Text style={styles.buttonViewTextExpense}>{this.state.amount_left} {this.state.expense.currency}</Text>
                 </View>
             </View>
+            <Text style={styles.entryText}>Pay Amount (in {this.state.payCurrency})</Text>
+                    <TextInput
+                        style={styles.chosenText}
+                        editable = {true}
+						keyboardType = 'numeric'
+						onChangeText={(value) => this.setState({amount : value})}
+                    />
             <TouchableHighlight style={styles.addButton} onPress={() => this.pay() }>
                     <View>
-                        <Text style={styles.buttonText}>SET PAID</Text>
-                    </View>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.addButton} onPress={() => navigate("PayPart",{expense : this.state.expense,onGoBack: () => this.refresh()}) }>
-                    <View>
-                        <Text style={styles.buttonText}>PAY PART</Text>
+                        <Text style={styles.buttonText}>PAY</Text>
                     </View>
             </TouchableHighlight>
 		</Image>

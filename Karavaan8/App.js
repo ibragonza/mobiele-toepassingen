@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight} from 'react-native';
-import TimerMixin from 'react-timer-mixin';
-import {StackNavigator} from 'react-navigation'; 
+import TimerMixin from 'react-timer-mixin'
+import {StackNavigator} from 'react-navigation'
 import FirstScreen from './screens/FirstScreen'
 import ExpensesScreen from './screens/ExpensesScreen'
 import TripScreen from './screens/TripScreen'
@@ -13,9 +13,11 @@ import AddPerson from './screens/AddPerson'
 import TransferMoney from './screens/TransferMoney'
 import TripOverviewScreen from './screens/TripOverviewScreen'
 import DeveloperScreen from './screens/DeveloperScreen'
-import PeopleExpenses from './screens/PeopleExpenses';
-import ExpenseDetails from './screens/ExpenseDetails';
-import SplitExpense from './screens/SplitExpense';
+import PeopleExpenses from './screens/PeopleExpenses'
+import ExpenseDetails from './screens/ExpenseDetails'
+import PayPart from './screens/PayPart'
+import SplitExpense from './screens/SplitExpense'
+
 const Navigation = StackNavigator({
 	First:{screen: FirstScreen},
 	Expenses : {screen: ExpensesScreen},
@@ -30,6 +32,7 @@ const Navigation = StackNavigator({
 	DeveloperScreen : {screen : DeveloperScreen},
 	PeopleExpenses : {screen: PeopleExpenses},
 	ExpenseDetails : {screen : ExpenseDetails},
-	SplitExpense : {screen : SplitExpense},
+	PayPart : {screen:PayPart},
+	SplitExpense : {screen : SplitExpense}
 });
 export default Navigation;

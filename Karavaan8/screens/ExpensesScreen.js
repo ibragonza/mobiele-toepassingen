@@ -53,6 +53,7 @@ export default class ExpensesScreen extends React.Component {
 			<View style={styles.rows} key={"Expenses"+index}>
 				<Text style={styles.rowText}>{entry.reason}</Text>
 				<Text style={styles.rowText}>{entry.target_id}</Text>
+				<Text style ={styles.headText}>{entry.amount_paid}</Text>
 				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
 			</View>
 			</TouchableHighlight>
@@ -63,6 +64,7 @@ export default class ExpensesScreen extends React.Component {
 			<View style={styles.rows} key={"Loans"+index}>
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
+				<Text style ={styles.headText}>{loan.amount_paid}</Text>
 				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
 			</View>
 			</TouchableHighlight>
@@ -81,6 +83,7 @@ export default class ExpensesScreen extends React.Component {
                 <View style={styles.head}>
                     <Text style={styles.headText}>Description</Text>
                     <Text style={styles.headText}>To</Text>
+										<Text style ={styles.headText}>Paid</Text>
                     <Text style={styles.headText}>Amount</Text>
                 </View>
                 {expensesView}
@@ -90,6 +93,7 @@ export default class ExpensesScreen extends React.Component {
                 <View style={styles.head}>
                     <Text style={styles.headText}>Description</Text>
                     <Text style={styles.headText}>From</Text>
+										<Text style ={styles.headText}>Paid</Text>
                     <Text style={styles.headText}>Amount</Text>
                 </View>
                 {loansView}
