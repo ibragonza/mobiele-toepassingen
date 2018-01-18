@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image } from 'react-native';
-import { getExpenses, getTripDestinationById } from '../model/JSONUtils'
+import { getTripDestinationById } from '../model/JSONUtils'
 import styles from './styles.js'
 
 const util = require("util");
@@ -21,7 +21,6 @@ export default class ExpenseDetails extends React.Component {
         try
         {
             var trip = await getTripDestinationById(this.state.expense.trip_id);
-            console.log(trip)
             if(!trip)
             {
                 Alert.alert("Oops, something went wrong :(");
@@ -51,7 +50,6 @@ export default class ExpenseDetails extends React.Component {
                     <Text style={styles.buttonViewText}>Reason: {this.state.expense.reason}</Text>
                     <Text style={styles.buttonViewText}>Sender: {this.state.expense.sender_id}</Text>
                     <Text style={styles.buttonViewText}>Receiver: {this.state.expense.target_id}</Text>
-
                 </View>
             </View>
 		</Image>
