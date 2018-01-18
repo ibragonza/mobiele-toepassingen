@@ -2,6 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { StyleSheet } from 'react-native';
 
 var styles = StyleSheet.create({
+	addTripEntryText:
+	{
+		fontSize: 24,
+		marginTop: 20,
+		color:'white',
+	},
     buttonImage:
     {
         flexDirection: 'row'
@@ -16,8 +22,14 @@ var styles = StyleSheet.create({
     navbar:
     {
         flex: 1,
-        marginTop: 40
+        marginTop: 40,
+        alignSelf: 'center'
     },
+	addButtonText:
+	{
+		fontSize: 24,
+		color : 'white',
+	},
     header:
     {
         fontSize: 50,
@@ -28,11 +40,15 @@ var styles = StyleSheet.create({
     {
         fontSize: 24,
   		marginTop : 20,
+  		alignSelf: 'center'
     },
   	chosenText :
   	{
-  		fontSize: 20,
-  		color : 'red',
+        backgroundColor: "white",
+        fontSize: 20,
+        alignSelf: 'center',
+        borderWidth: 2,
+        borderColor: 'white'
   	},
     button:
     {
@@ -96,28 +112,24 @@ var styles = StyleSheet.create({
     },
     Modal:
     {
-    	width: 200,
+    	width: 350,
     	height: 40,
-    	backgroundColor: "white"
+    	backgroundColor: "white",
+        borderWidth: 2,
+        borderColor: '#A2A794'
     },
     dropdown :
     {
-    	backgroundColor: "#d3d3d3",
+    	backgroundColor: "white",
     	marginLeft:'auto',
     	marginRight:'auto',
-    	width: 300,
+    	width: 350,
     	borderWidth: 2,
     	borderColor: '#A2A794'
     },
     dropdownTextStyle:
     {
-        color:'red',
-    	backgroundColor:'#b3b3b3'
-    },
-    dropdownText:
-    {
-    	color : 'red',
-    	fontSize: 24,
+    	textAlign: 'center'
     },
     textInput:
     {
@@ -142,7 +154,6 @@ var styles = StyleSheet.create({
         marginLeft:'auto',
         marginRight:'auto',
         backgroundColor:'white',
-
     },
     text:
     {
@@ -159,10 +170,11 @@ var styles = StyleSheet.create({
     expenseText:
     {
         textAlign: 'left',
-        alignSelf: 'stretch',
+        alignSelf: 'center',
         color: '#2784A3',
         fontSize: 30,
         marginTop: 20,
+
     },
     head:
     {

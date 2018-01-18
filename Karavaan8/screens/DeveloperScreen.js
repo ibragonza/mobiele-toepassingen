@@ -1,17 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,TouchableOpacity, ScrollView,ImageBackground, Image} from 'react-native';
+import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
 import { clearExpenses, clearTrips,clearPersons } from '../model/DevUtils'
 import { getAllCurrencies } from '../model/Converter'
 import TripButton from '../view/TripButton.js';
-
-const util = require("util");
 
 export default class DeveloperScreen extends React.Component {
 	constructor(props)
 	{
 		super(props);
 		console.disableYellowBox = true;
-		this.state = {currency : "EUR", currencies: [], name: "Vogels",loaded : false,disabled : false};
+		this.state = {currency : "EUR", currencies: [], name: "Vogels",loaded : false};
 		this.clearExp = this.clearExp.bind(this);
 		this.clearTrip = this.clearTrip.bind(this);
 		this.clearPeople = this.clearPeople.bind(this);
@@ -19,7 +17,6 @@ export default class DeveloperScreen extends React.Component {
 	}
 	async clearExp()
 	{
-		this.setState({disabled:false});
 		try
 		{
 			await clearExpenses();
@@ -29,8 +26,6 @@ export default class DeveloperScreen extends React.Component {
 		{
 			console.log(error);
 		}
-		console.log("Succes");
-		this.setState({disabled:true});
 	}
 	
 	async clearTrip()
@@ -59,7 +54,6 @@ export default class DeveloperScreen extends React.Component {
 	}
 	async getCurrentCurrencies()
 	{
-		this.state.disabled = true;
 		try
 		{
 			await getAllCurrencies();
@@ -69,7 +63,6 @@ export default class DeveloperScreen extends React.Component {
 		{
 			console.log("DeveloperScreen : "+ error);
 		}
-		this.state.disabled = false;
 	}
 	render() {
 	return (
@@ -95,14 +88,14 @@ export default class DeveloperScreen extends React.Component {
 					<Text style={styles.addButtonText}>Clear Trips</Text>
 				</View>
 			</TouchableHighlight>
-			<TouchableOpacity style={styles.addTripbutton} activeOpacity={this.state.disabled ? 1 : 0.5} onPress={() => !this.state.disabled && this.getCurrentCurrencies()}>
+			<TouchableHighlight style={styles.addTripbutton} onPress={() => this.getCurrentCurrencies()}>
 				<View>
 					<Text style={styles.addButtonText}>Get Currencies</Text>
 				</View>
-			</TouchableOpacity>
+			</TouchableHighlight>
 		</ScrollView>
 		</Image>
-    );
+	);
   }
 }
 

@@ -60,25 +60,24 @@ export default class AddTripScreen extends React.Component {
 		}
 		else {
 			var { navigate } = this.props.navigation;
-			const tableHead = ['Head', 'Head2', 'Head3', 'Head4'];
-			const tableData = [['1', '2', '3', '4'], ['a', 'b', 'c', 'd']];
 			return (
 				<Image source={require('../images/addTrip.jpg')} style={styles.container}>
+				<ScrollView>
 					<View style={styles.navbar}>
 						<Text style={styles.header}>Add a trip</Text>
 
-						<Text style={styles.entryText}>BESTEMMING</Text>
+						<Text style={styles.addTripEntryText}>BESTEMMING</Text>
 						<TextInput style={styles.textInput} onChangeText={(destination) => this.setState({ destination })} value={this.state.destination} />
 
-						<Text style={styles.entryText}>STARTDATUM</Text>
+						<Text style={styles.addTripEntryText}>STARTDATUM</Text>
 						<DatePicker style={styles.date} date={this.state.start_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
 							onDateChange={(date) => { this.setState({ start_date: date }) }} customStyles={{ dateText: { color: 'black', }, placeholderText: { color: 'black', }, }} />
 
-						<Text style={styles.entryText}>EINDDATUM</Text>
+						<Text style={styles.addTripEntryText}>EINDDATUM</Text>
 						<DatePicker style={styles.date} date={this.state.end_date} mode="date" placeholder="select date" format="DD-MM-YYYY" confirmBtnText="Confirm" cancelBtnText="Cancel"
 							onDateChange={(date) => { this.setState({ end_date: date }) }} customStyles={{ dateText: { color: 'black', }, placeholderText: { color: 'black', }, }} />
 
-						<Text style={styles.entryText}>Default currency for trip</Text>
+						<Text style={styles.addTripEntryText}>Default Currency</Text>
 						<ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.dropdownText} defaultIndex={0} defaultValue={this.state.trip_currency}
 							onSelect={(idx, value) => this.setState({ trip_currency: value })} />
 
@@ -86,6 +85,7 @@ export default class AddTripScreen extends React.Component {
 							<Text>VOEG TOE</Text>
 						</TouchableHighlight>
 					</View>
+				</ScrollView>
 				</Image>
 			);
 		}
