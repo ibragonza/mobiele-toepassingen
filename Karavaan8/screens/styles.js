@@ -222,7 +222,7 @@ var styles = StyleSheet.create({
     headText:
     {
         marginLeft: 5,
-        fontSize: 21,
+        fontSize: 20,
 		width : 105,
         textAlign: 'center',
         alignSelf: 'stretch',
