@@ -7,6 +7,7 @@ const util = require("util");
 
 export default class ExpensesScreen extends React.Component {
 	constructor(props) {
+		console.disableYellowBox = true;
 		super(props);
 		this.state = {expenses:[],loans:[],person: "", target:"",trip: "", expense_date: "",trips:[], people : [],currency:"EURO",amount:"",reason:"",category:"ETEN",loaded:false };
         this.fetchData = this.fetchData.bind(this);
@@ -110,7 +111,7 @@ export default class ExpensesScreen extends React.Component {
             </TouchableHighlight>
             </View>
 		</Image>
-    );
+	);
   }
 }
 /*
