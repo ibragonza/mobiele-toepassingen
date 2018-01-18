@@ -12,7 +12,7 @@ export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
 		console.disableYellowBox = true;
-        this.state = {person: "", target:"",trip: "", expense_date: "", trips:[], people : [], currencies:[], amount:"", reason:"", categories : [], category:"ETEN", loaded:false, currency: ""};
+        this.state = {person: "", target:"",trip: "", expense_date: "", trips:[], people : [], currencies:[], amount:"", reason:"", categories : [], category:"FOOD", loaded:false, currency: ""};
 		this.addExpense = this.addExpense.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
@@ -121,14 +121,14 @@ export default class AddExpense extends React.Component {
                     <Text style={styles.header}>Add an Expense</Text>
 					
 					<Text style={styles.entryText}>Sender Username</Text>
-                    <ModalDropdown style={styles.Modal}
+                    <ModalDropdown options={this.state.people}
+                        style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
-                        textStyle={styles.dropdownText}
-                        options={this.state.people}
+                        textStyle={styles.chosenText}
                         renderRow={this._person_renderRow.bind(this)}
                         renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
-                        onSelect ={(idx,value) => this.setState({person : value}) }	
+                        onSelect ={(idx,value) => this.setState({person : value}) }
                         value={this.state.person.name}
                     >
                     <Text style={styles.chosenText}>Tap to choose: {this.state.person.name}</Text>
@@ -170,9 +170,13 @@ export default class AddExpense extends React.Component {
                     />
 
 					<Text style={styles.entryText}>Currency</Text>
-					<ModalDropdown options={this.state.currencies} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText}
-					defaultValue={this.state.currency}
-					onSelect ={(idx,value) => this._handleChooseCurrency(value)}/>
+					<ModalDropdown options={this.state.currencies}
+                        style={styles.Modal}
+                        dropdownStyle={styles.dropdown}
+                        dropdownTextStyle={styles.dropdownTextStyle}
+                        textStyle={styles.chosenText}
+					    defaultValue={this.state.currency}
+					    onSelect ={(idx,value) => this._handleChooseCurrency(value)}/>
 
 					<Text style={styles.entryText}>Category</Text>
                     <ModalDropdown options={this.state.categories} style={styles.Modal} dropdownStyle={styles.dropdown} dropdownTextStyle={styles.dropdownTextStyle} textStyle={styles.chosenText}
@@ -201,13 +205,9 @@ export default class AddExpense extends React.Component {
     }
     _trip_renderRow(rowData){
         return (
-              <TouchableHighlight>
-                <View>
-                  <Text>
-                    {`${rowData.destination}`}
-                  </Text>
-                </View>
-              </TouchableHighlight>
+              <Text>
+                {`${rowData.destination}`}
+              </Text>
             );
     }
 
@@ -218,13 +218,9 @@ export default class AddExpense extends React.Component {
 
 	_person_renderRow(rowData){
         return (
-              <TouchableHighlight>
-                <View>
-                  <Text>
-                    {`${rowData.name}`}
-                  </Text>
-                </View>
-              </TouchableHighlight>
+              <Text style={styles.chosenText}>
+                {`${rowData.name}`}
+              </Text>
             );
     }
     _person_renderSeparator(rowID){
