@@ -216,7 +216,7 @@ export async function payAmount(expense_id,amount,currency) {
           var expected = obj[key].amount;
           var newPaid = paid + amount;
           if(newPaid >= expected){
-            await createTransaction(obj[key].target_id,obj[key].sender_id,obj[key].amount);
+            await createTransaction(obj[key].target_id,obj[key].sender_id,amount);
             obj[key].paid = "true";
             obj[key].amount_paid = expected;
           }else{
