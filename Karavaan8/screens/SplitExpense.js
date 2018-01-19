@@ -8,11 +8,11 @@ import styles from './styles.js'
 
 const util = require("util");
 
-export default class AddExpense extends React.Component {
+export default class SplitExpense extends React.Component {
     constructor(props) {
         super(props);
 		console.disableYellowBox = true;
-        this.state = {person0 : "", person1 : "", person2 : "", person3 :"", person4 :"",value0 : 0,value1:0, value2:0, value3:0,value4:0,trip: "", expense_date: "", trips:[], people : [], currencies:[], reason:"", categories : [], category:"FOOD", loaded:false, currency: ""};
+        this.state = {sender: "", person0 : "", person1 : "", person2 : "", person3 :"", person4 :"",value0 : 0,value1:0, value2:0, value3:0,value4:0,trip: "", expense_date: "", trips:[], people : [], currencies:[], reason:"", categories : [], category:"FOOD", loaded:false, currency: ""};
 		this.fetchData = this.fetchData.bind(this);
 		this.setName = this.setName.bind(this);
 		this.setAmount = this.setAmount.bind(this);
@@ -29,6 +29,11 @@ export default class AddExpense extends React.Component {
 		{
 			var errorMessage = "Please fill in the : ";
             var bool = true;
+            if(this.state.sender == "")
+            {
+                bool = false;
+                errorMessage += " Sender,";
+            }
 			if(this.state.trip == "")
 			{
                 bool = false;
@@ -44,17 +49,23 @@ export default class AddExpense extends React.Component {
                 bool = false;
 				errorMessage += " Reason,";
 			}
-			if(this.state.person0 == "")
+			if(this.state.person0 != "")
 			{
-				bool = false;
-				errorMessage += " Person0 ,";
+				if(this.state.value0 == "" || isNaN(parseInt(this.state.value0)))
+                {
+                    bool = false;
+                    errorMessage += " Person0 ,";
+                }
+                else
+                {
+                    participants.push(this.state.person0);
+                    amounts.push(this.state.value0);
+                }
 			}
-			console.log("Person1 : "+this.state.person1.name);
-			if(this.state.person1.name != "")
+			if(this.state.person1 != "")
 			{
 				if(this.state.value1 == "" || isNaN(parseInt(this.state.value1)))
 				{
-					console.log("Kom ik hier");
 					bool = false;
 					errorMessage += " Person1 ,";
 				}
@@ -64,14 +75,10 @@ export default class AddExpense extends React.Component {
 					amounts.push(this.state.value1);
 				}
 			}
-			console.log("Ik kom hier");
-			if(this.state.person2.name != "")
+			if(this.state.person2 != "")
 			{
-				console.log(this.state.value2);
 				if(this.state.value2 == "" || !isNaN(parseInt(this.state.value2)))
 				{
-					console.log(this.state.value2 == "");
-					console.log(!isNaN(parseInt(this.state.value2)));
 					bool = false;
 					errorMessage += " Person2 ,";
 				}
@@ -81,7 +88,7 @@ export default class AddExpense extends React.Component {
 					amounts.push(this.state.value2);
 				}
 			}
-			if(this.state.person3.name != "")
+			if(this.state.person3 != "")
 			{
 				if(this.state.value3 == "" || isNaN(parseInt(this.state.value3)))
 				{
@@ -94,7 +101,7 @@ export default class AddExpense extends React.Component {
 					amounts.push(this.state.value3);
 				}
 			}
-			if(this.state.person4.name != "")
+			if(this.state.person4 != "")
 			{
 				if(this.state.value4 == "" || isNaN(parseInt(this.state.value4)))
 				{
@@ -108,13 +115,12 @@ export default class AddExpense extends React.Component {
 				}
 			}
             if(bool){
-				
-				for (var i = 0; i < participants; i++)
+				for (var i = 0; i < participants.length; i++)
 				{
 					var am = await convert(amounts[i],this.state.currency);
 					var result = 
 					{
-						person : this.state.person0.person_id,
+						sender : this.state.sender.person_id,
 						target : participants[i].person_id,
 						trip : this.state.trip.trip_id,
 						expense_date : this.state.expense_date,
@@ -123,16 +129,16 @@ export default class AddExpense extends React.Component {
 						amount : am,
 						reason : this.state.reason,
 					}
-					console.log(result + "Hallo");
-				var setResult = await createExpense(result.person,result.target,result.trip,result.amount,result.currency,result.expense_date,result.category, result.reason)
-				if(!setResult)
-				{
-					alert("Oops, something went wrong :(");
-				}
-				else
-				{
-					console.log("succes");
-				}
+
+                    var setResult = await createExpense(result.sender, result.target,result.trip,result.amount,result.currency,result.expense_date,result.category, result.reason)
+                    if(!setResult)
+                    {
+                        alert("Oops, something went wrong :(");
+                    }
+                    else
+                    {
+                        console.log("succes");
+                    }
 				}
 				this.props.navigation.state.params.onGoBack();
 				this.props.navigation.goBack();
@@ -230,6 +236,21 @@ export default class AddExpense extends React.Component {
 			<ScrollView>
                 <View style={styles.navbar}>
                     <Text style={styles.header}>Split Expense</Text>
+
+                    <Text style={styles.entryText}>Target Username</Text>
+                    <ModalDropdown style={styles.Modal}
+                        dropdownStyle={styles.dropdown}
+                        dropdownTextStyle={styles.dropdownTextStyle}
+                        renderRow={this._person_renderRow.bind(this)}
+                        renderSeparator={(rowID) => this._person_renderSeparator(rowID)}
+                        textStyle={styles.dropdownText}
+                        options={this.state.people}
+                        onSelect ={(idx,value) => this.setState({sender : value}) }
+                        value={this.state.sender.name}>
+                    <Text style={styles.chosenText}>Tap to choose: {this.state.sender.name}</Text>
+                    </ModalDropdown>
+
+                    <Text style={styles.entryText}>Person 1</Text>
                     <ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
@@ -242,6 +263,14 @@ export default class AddExpense extends React.Component {
                     <Text style={styles.chosenText}>Tap to choose: {this.state.person0.name}</Text>
                     </ModalDropdown>
 					<Text style={styles.entryText}>Amount</Text>
+                    <TextInput
+                        style={styles.chosenText}
+                        editable = {true}
+                        keyboardType = 'numeric'
+                        onChangeText={(value) => this.setAmount("value0",value)}
+                    />
+
+					<Text style={styles.entryText}>Person 2</Text>
 					<ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
@@ -255,11 +284,13 @@ export default class AddExpense extends React.Component {
                     </ModalDropdown>
 					<Text style={styles.entryText}>Amount</Text>
 					<TextInput
-					style={styles.chosenText}
-					editable = {true}
-					keyboardType = 'numeric'
-					onChangeText={(value) => this.setAmount("value1",value)}
+                        style={styles.chosenText}
+                        editable = {true}
+                        keyboardType = 'numeric'
+                        onChangeText={(value) => this.setAmount("value1",value)}
                     />
+
+                    <Text style={styles.entryText}>Person 3</Text>
 					<ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
@@ -268,16 +299,18 @@ export default class AddExpense extends React.Component {
                         textStyle={styles.dropdownText}
                         options={this.state.people}
                         onSelect ={(idx,value) => this.setName("person2",value) }
-                        value={this.state.person1.name}>
+                        value={this.state.person2.name}>
                     <Text style={styles.chosenText}>Tap to choose: {this.state.person2.name}</Text>
                     </ModalDropdown>
 					<Text style={styles.entryText}>Amount</Text>
 					<TextInput
-					style={styles.chosenText}
-					editable = {true}
-					keyboardType = 'numeric'
-					onChangeText={(value) => this.setAmount("value2",value)}
+                        style={styles.chosenText}
+                        editable = {true}
+                        keyboardType = 'numeric'
+                        onChangeText={(value) => this.setAmount("value2",value)}
                     />
+
+                    <Text style={styles.entryText}>Person 4</Text>
 					<ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
@@ -291,11 +324,13 @@ export default class AddExpense extends React.Component {
                     </ModalDropdown>
 					<Text style={styles.entryText}>Amount</Text>
 					<TextInput
-					style={styles.chosenText}
-					editable = {true}
-					keyboardType = 'numeric'
-					onChangeText={(value) => this.setAmount("value3",value)}
+                        style={styles.chosenText}
+                        editable = {true}
+                        keyboardType = 'numeric'
+                        onChangeText={(value) => this.setAmount("value3",value)}
                     />
+
+                    <Text style={styles.entryText}>Person 5</Text>
 					<ModalDropdown style={styles.Modal}
 						dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
@@ -309,12 +344,13 @@ export default class AddExpense extends React.Component {
                     </ModalDropdown>
 					<Text style={styles.entryText}>Amount</Text>
 					<TextInput
-					style={styles.chosenText}
-					editable = {true}
-					keyboardType = 'numeric'
-					onChangeText={(value) => this.setAmount("value4",value)}
+                        style={styles.chosenText}
+                        editable = {true}
+                        keyboardType = 'numeric'
+                        onChangeText={(value) => this.setAmount("value4",value)}
 					/>
-<Text style={styles.entryText}>Link to trip</Text>
+
+                    <Text style={styles.entryText}>Link to trip</Text>
 					<ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
@@ -324,9 +360,9 @@ export default class AddExpense extends React.Component {
                         renderSeparator={(rowID) => this._trip_renderSeparator(rowID)}
                         onSelect ={(idx,value) => this._handleChooseTrip(value)}
 						value={this.state.trip.trip_id}>
-
                     <Text style={styles.chosenText}>Tap to choose: {this.state.trip.destination}</Text>
                     </ModalDropdown>
+
 					<Text style={styles.entryText}>Currency</Text>
 					<ModalDropdown options={this.state.currencies}
                         style={styles.Modal}
@@ -360,6 +396,7 @@ export default class AddExpense extends React.Component {
             </Image>
         );
 		}
+
     _trip_renderRow(rowData){
         return (
               <Text style={styles.chosenText}>
