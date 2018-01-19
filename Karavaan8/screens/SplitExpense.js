@@ -51,10 +51,11 @@ export default class SplitExpense extends React.Component {
 			}
 			if(this.state.person0 != "")
 			{
-				if(this.state.value0 == "" || isNaN(parseInt(this.state.value0)))
+				if(isNaN(parseFloat(this.state.value0))  || this.state.value0.trim() == "" || parseFloat(this.state.value0) <= 0)
                 {
+					console.log("Ik kom hier in");
                     bool = false;
-                    errorMessage += " Person0 ,";
+                    errorMessage += " Person1 ,";
                 }
                 else
                 {
@@ -64,10 +65,10 @@ export default class SplitExpense extends React.Component {
 			}
 			if(this.state.person1 != "")
 			{
-				if(this.state.value1 == "" || isNaN(parseInt(this.state.value1)))
+				if(isNaN(parseFloat(this.state.value1)) || this.state.value1.trim() == "" || parseFloat(this.state.value1) <= 0)
 				{
 					bool = false;
-					errorMessage += " Person1 ,";
+					errorMessage += " Person2 ,";
 				}
 				else
 				{
@@ -77,10 +78,10 @@ export default class SplitExpense extends React.Component {
 			}
 			if(this.state.person2 != "")
 			{
-				if(this.state.value2 == "" || !isNaN(parseInt(this.state.value2)))
+				if( isNaN(parseFloat(this.state.value2)) || this.state.value2.trim() == "" || parseFloat(this.state.value2) <= 0)
 				{
 					bool = false;
-					errorMessage += " Person2 ,";
+					errorMessage += " Person3 ,";
 				}
 				else
 				{
@@ -90,10 +91,10 @@ export default class SplitExpense extends React.Component {
 			}
 			if(this.state.person3 != "")
 			{
-				if(this.state.value3 == "" || isNaN(parseInt(this.state.value3)))
+				if( isNaN(parseFloat(this.state.value3)) || this.state.value3.trim() == "" || parseFloat(this.state.value3) <= 0)
 				{
 					bool = false;
-					errorMessage += " Person3 ,";
+					errorMessage += " Person4 ,";
 				}
 				else
 				{
@@ -103,10 +104,10 @@ export default class SplitExpense extends React.Component {
 			}
 			if(this.state.person4 != "")
 			{
-				if(this.state.value4 == "" || isNaN(parseInt(this.state.value4)))
+				if(isNaN(parseFloat(this.state.value4)) || this.state.value4.trim() == "" || parseFloat(this.state.value4) <= 0)
 				{
 					bool = false;
-					errorMessage += " Person4 ,";
+					errorMessage += " Person5 ,";
 				}
 				else
 				{
@@ -237,7 +238,7 @@ export default class SplitExpense extends React.Component {
                 <View style={styles.navbar}>
                     <Text style={styles.header}>Split Expense</Text>
 
-                    <Text style={styles.entryText}>Target Username</Text>
+                    <Text style={styles.entryText}>Sender Username</Text>
                     <ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
