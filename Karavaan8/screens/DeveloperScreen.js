@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TouchableHighlight,ScrollView,ImageBackground, Image} from 'react-native';
-import { clearExpenses, clearTrips,clearPersons } from '../model/DevUtils'
+import { clearExpenses, clearTrips,clearPersons, clearTransactions } from '../model/DevUtils'
 import { getAllCurrencies } from '../model/Converter'
 import TripButton from '../view/TripButton.js';
 
@@ -13,6 +13,7 @@ export default class DeveloperScreen extends React.Component {
 		this.clearExp = this.clearExp.bind(this);
 		this.clearTrip = this.clearTrip.bind(this);
 		this.clearPeople = this.clearPeople.bind(this);
+		this.clearTrans = this.clearTrans.bind(this);
 		this.getCurrentCurrencies = this.getCurrentCurrencies.bind(this);
 	}
 	async clearExp()
@@ -28,6 +29,20 @@ export default class DeveloperScreen extends React.Component {
 		}
 	}
 	
+	async clearTrans()
+	{
+		try
+		{
+			await clearTransactions();
+			alert("Succesfully deleted Transactions");
+		}
+		catch(error)
+		{
+			console.log(error);
+		}
+	}
+	
+
 	async clearTrip()
 	{
 		try
@@ -91,6 +106,11 @@ export default class DeveloperScreen extends React.Component {
 			<TouchableHighlight style={styles.addTripbutton} onPress={() => this.getCurrentCurrencies()}>
 				<View>
 					<Text style={styles.addButtonText}>Get Currencies</Text>
+				</View>
+			</TouchableHighlight>
+			<TouchableHighlight style={styles.addTripbutton} onPress={() => this.clearTrans()}>
+				<View>
+					<Text style={styles.addButtonText}>Clear Transactions</Text>
 				</View>
 			</TouchableHighlight>
 		</ScrollView>

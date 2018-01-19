@@ -17,6 +17,8 @@ import PeopleExpenses from './screens/PeopleExpenses'
 import ExpenseDetails from './screens/ExpenseDetails'
 import PayPart from './screens/PayPart'
 import SplitExpense from './screens/SplitExpense'
+import TransactionHistoryPP from './screens/TransactionHistoryPP'
+import TransactionHistory from './screens/TransactionHistory'
 
 const Navigation = StackNavigator({
 	First:{screen: FirstScreen},
@@ -33,6 +35,8 @@ const Navigation = StackNavigator({
 	PeopleExpenses : {screen: PeopleExpenses},
 	ExpenseDetails : {screen : ExpenseDetails},
 	PayPart : {screen:PayPart},
-	SplitExpense : {screen : SplitExpense}
+	SplitExpense : {screen : SplitExpense},
+	TransactionHistoryPP : { screen : TransactionHistoryPP},
+	TransactionHistory : {screen: TransactionHistory}
 });
 export default Navigation;
