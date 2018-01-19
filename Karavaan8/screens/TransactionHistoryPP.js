@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image, AsyncStorage } from 'react-native';
 import { getTransactionsPerPerson } from '../model/JSONUtils'
 import styles from './styles.js'
 import email from 'react-native-email'
@@ -9,21 +9,28 @@ const util = require("util");
 export default class TransactionHistoryPP extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { transactions: [], person:this.props.navigation.state.params.person };
+		this.state = { transactions: [], person:this.props.navigation.state.params.person, payCurrency : "EUR" };
 		this.fetchData = this.fetchData.bind(this);
 	}
 
 	componentDidMount() {
 		this.fetchData().done();
+		this.getPreferredCurrency().done();
 	}
 
 	refresh() {
 		this.fetchData();
 	}
+
+	async getPreferredCurrency(){
+        const cur = await AsyncStorage.getItem('@Store:currency');
+        this.setState({payCurrency:cur});
+    }
     
 	async fetchData() {
 		var person = this.props.navigation.state.params.person;
-        const transactions = await getTransactionsPerPerson(person.name);
+		const transactions = await getTransactionsPerPerson(person.name);
+		const currency = await getPreferredCurrency();
         console.log(transactions);
 		this.setState({ transactions: transactions });
 	}
@@ -37,7 +44,7 @@ export default class TransactionHistoryPP extends React.Component {
                         <Text style={styles.rowText}>{entry.date}</Text>
                         <Text style={styles.rowText}>{entry.from}</Text>
                         <Text style={styles.rowText}>{entry.to}</Text>
-                        <Text style={styles.rowText}>{entry.amount}</Text>
+                        <Text style={styles.rowText}>{entry.amount} {this.state.payCurrency}</Text>
                     </View>
                 ));
         
