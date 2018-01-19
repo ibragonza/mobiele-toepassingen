@@ -182,10 +182,10 @@ var styles = StyleSheet.create({
     {
         textAlign: 'left',
         alignSelf: 'center',
-        color: '#2784A3',
+        color: 'black',
         fontSize: 30,
         marginTop: 20,
-
+        fontWeight: 'bold'
     },
     head:
     {
