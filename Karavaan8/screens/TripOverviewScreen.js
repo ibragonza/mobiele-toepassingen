@@ -36,7 +36,7 @@ export default class TripOverviewScreen extends React.Component {
 		//navigate("ExpenseDetails",{expense : loan,onGoBack: () => this.refresh()})
 		//console.log("Hallo");
 		//this.setState({disabled : false});
-		navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})
+		this.props.navigation.navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})
 	}
 
 	async fetchData() {
