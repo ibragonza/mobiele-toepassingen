@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, TouchableHighlight, ScrollView, ImageBackground, Image, AsyncStorage } from 'react-native';
 import { getTransactions } from '../model/JSONUtils'
 import styles from './styles.js'
 import email from 'react-native-email'
@@ -9,20 +9,26 @@ const util = require("util");
 export default class TransactionHistory extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { transactions: [] };
+		this.state = { transactions: [], payCurrency:"EUR" };
 		this.fetchData = this.fetchData.bind(this);
 	}
 
 	componentDidMount() {
 		this.fetchData().done();
+		this.getPreferredCurrency().done();
 	}
 
 	refresh() {
 		this.fetchData();
 	}
+
+	async getPreferredCurrency(){
+        const cur = await AsyncStorage.getItem('@Store:currency');
+        this.setState({payCurrency:cur});
+    }
     
 	async fetchData() {
-        const transactions = await getTransactions();
+		const transactions = await getTransactions();
         console.log(transactions);
 		this.setState({ transactions: transactions });
 	}
@@ -36,7 +42,7 @@ export default class TransactionHistory extends React.Component {
                         <Text style={styles.rowText}>{entry.date}</Text>
                         <Text style={styles.rowText}>{entry.from}</Text>
                         <Text style={styles.rowText}>{entry.to}</Text>
-                        <Text style={styles.rowText}>{entry.amount}</Text>
+                        <Text style={styles.rowText}>{entry.amount} {this.state.payCurrency}</Text>
                     </View>
                 ));
         
@@ -48,7 +54,7 @@ export default class TransactionHistory extends React.Component {
                             <Text style={styles.headText}>Date</Text>
 							<Text style={styles.headText}>From</Text>
 							<Text style={styles.headText}>To</Text>
-							<Text style={styles.headText}>Amount</Text>
+							<Text style={styles.headText}>Amount </Text>
 						</View>
 						{view}
 					</View>
