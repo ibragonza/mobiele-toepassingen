@@ -324,6 +324,46 @@ export async function getExpensesPerTrip(tripid) {
   }
 }
 
+export async function getBalance(){
+  try{
+    const na = await AsyncStorage.getItem('@Store:name');
+    const expenses = await AsyncStorage.getItem('@Store:expenses');
+    const transactions = await AsyncStorage.getItem('@Store:transactions');
+    const currency = await getUsersCurrency();
+    var total = 0;
+    if (na !== null){
+      if(expenses != null){
+        const obj = JSON.parse(expenses);
+        for (key in obj) {
+          var cur = obj[key];
+          if(cur.target_id == na){
+            total += cur.amount;
+          }
+          if(cur.sender_id == na){
+            total -= cur.amount;
+          }
+        }
+      }
+      if(transactions != null){
+        const obj = JSON.parse(transactions);
+        for (key in obj) {
+          var cur = obj[key];
+          if(cur.to == na){
+            total += cur.amount;
+          }
+          if(cur.from == na){
+            total -= cur.amount;
+          }
+        }
+      }
+      total = await convertBack(total,currency);
+      return total;
+    }
+  }catch(e){
+    console.log(e);
+  }
+}
+
 export async function getExpensesPerPerson(person) {
   person = person.trim();
   try {

@@ -33,7 +33,7 @@ export default class TransactionHistoryPP extends React.Component {
 		var { navigate } = this.props.navigation;
         
             var view = this.state.transactions.map((entry, index) => (
-                    <View style={styles.rows} >
+                    <View style={styles.rows} key={index} >
                         <Text style={styles.rowText}>{entry.date}</Text>
                         <Text style={styles.rowText}>{entry.from}</Text>
                         <Text style={styles.rowText}>{entry.to}</Text>

@@ -15,6 +15,7 @@ export default class FirstScreen extends React.Component {
           <TouchableHighlight style={styles.button} onPress={() => navigate("People", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/person.png')} style={styles.icon} /><Text style={styles.buttonTextF}>People</Text></View></TouchableHighlight>
           <TouchableHighlight style={styles.button} onPress={() => navigate("Expenses", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/expenses.png')} style={styles.icon} /><Text style={styles.buttonTextF}>Expenses</Text></View></TouchableHighlight>
           <TouchableHighlight style={styles.button} onPress={() => navigate("Settings", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/settings.png')} style={styles.icon} /><Text style={styles.buttonTextF}>Settings</Text></View></TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => navigate("Balance", {})} title="Best"><View style={styles.buttonImage}><Image source={require('../images/expenses.png')} style={styles.icon} /><Text style={styles.buttonTextF}>Balance</Text></View></TouchableHighlight>
         </View>
 		</ScrollView>
       </Image>
