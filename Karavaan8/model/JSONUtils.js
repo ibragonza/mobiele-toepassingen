@@ -298,7 +298,6 @@ export async function getPersons() {
 }
 
 export async function getExpensesPerTrip(tripid) {
-  console.log("Trip ID: ", tripid);
   try {
     const na = await AsyncStorage.getItem('@Store:name');
     const value = await AsyncStorage.getItem('@Store:expenses');

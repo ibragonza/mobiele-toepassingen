@@ -49,13 +49,10 @@ export default class SplitExpense extends React.Component {
                 bool = false;
 				errorMessage += " Reason,";
 			}
-			console.log(this.state.person0.name);
-			console.log(this.state.value0);
 			if(this.state.person0 != "")
 			{
 				if(isNaN(parseFloat(this.state.value0))  || this.state.value0.trim() == "" || parseFloat(this.state.value0) <= 0)
                 {
-					console.log("Ik kom hier in");
                     bool = false;
                     errorMessage += " Person1 ,";
                 }
@@ -65,19 +62,15 @@ export default class SplitExpense extends React.Component {
                     amounts.push(this.state.value0);
                 }
 			}
-			console.log(this.state.person1.name);
-			console.log(this.state.value1);
 			if(this.state.person1 != "")
 			{
 				if(isNaN(parseFloat(this.state.value1)) || this.state.value1.trim() == "" || parseFloat(this.state.value1) <= 0)
 				{
-					console.log("Hallo");
 					bool = false;
 					errorMessage += " Person2 ,";
 				}
 				else
 				{
-					console.log("olla");
 					participants.push(this.state.person1);
 					amounts.push(this.state.value1);
 				}
@@ -136,7 +129,6 @@ export default class SplitExpense extends React.Component {
 						amount : am,
 						reason : this.state.reason,
 					}
-					console.log(result);
                     var setResult = await createExpense(result.sender, result.target,result.trip,result.amount,result.currency,result.expense_date,result.category, result.reason)
                     if(!setResult)
                     {

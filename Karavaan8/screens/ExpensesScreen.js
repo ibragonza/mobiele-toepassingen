@@ -26,14 +26,12 @@ export default class ExpensesScreen extends React.Component {
 	async fetchData()
 	{
 		const expenses = await getExpenses();
-		console.log(expenses);
 		this.setState({ expenses: expenses });
   }
   
   async getLoans()
 	{
 		const loans = await getLoans();
-		console.log(loans);
 		this.setState({ loans: loans });
   }
   /*

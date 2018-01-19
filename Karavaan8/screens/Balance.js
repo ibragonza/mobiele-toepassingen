@@ -24,7 +24,6 @@ export default class Balance extends React.Component {
     
 	async fetchData() {
         const total = await getBalance();
-        console.log(total);
 		this.setState({ total: total });
 	}
 
