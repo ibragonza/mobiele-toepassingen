@@ -39,10 +39,10 @@ export default class TransactionHistory extends React.Component {
         
             var view = this.state.transactions.map((entry, index) => (
                     <View style={styles.rows} key={index}>
-                        <Text style={styles.rowText}>{entry.date}</Text>
-                        <Text style={styles.rowText}>{entry.from}</Text>
-                        <Text style={styles.rowText}>{entry.to}</Text>
-                        <Text style={styles.rowText}>{entry.amount} {this.state.payCurrency}</Text>
+                        <Text style={styles.rowTextTransactionOverview}>{entry.date}</Text>
+                        <Text style={styles.rowTextTransactionOverview}>{entry.from}</Text>
+                        <Text style={styles.rowTextTransactionOverview}>{entry.to}</Text>
+                        <Text style={styles.rowTextTransactionOverview}>{entry.amount} {this.state.payCurrency}</Text>
                     </View>
                 ));
         
@@ -51,10 +51,10 @@ export default class TransactionHistory extends React.Component {
 			<Text style={styles.header}>Transactions History</Text>
 					<View style={styles.tableView}>
 						<View style={styles.head}>
-                            <Text style={styles.headText}>Date</Text>
-							<Text style={styles.headText}>From</Text>
-							<Text style={styles.headText}>To</Text>
-							<Text style={styles.headText}>Amount </Text>
+                            <Text style={styles.headTextTransactionOverview}>Date</Text>
+							<Text style={styles.headTextTransactionOverview}>From</Text>
+							<Text style={styles.headTextTransactionOverview}>To</Text>
+							<Text style={styles.headTextTransactionOverview}>Amount </Text>
 						</View>
 						{view}
 					</View>

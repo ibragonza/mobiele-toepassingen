@@ -51,10 +51,10 @@ export default class ExpensesScreen extends React.Component {
     var expensesView = this.state.expenses.map((entry, index) => (
             <TouchableHighlight key={"ExpensesBut"+index} onPress={() => navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})}>
 			<View style={styles.rows} key={"Expenses"+index}>
-				<Text style={styles.rowText}>{entry.reason}</Text>
-				<Text style={styles.rowText}>{entry.target_id}</Text>
-				<Text style={styles.rowText}>{entry.amount_paid}</Text>
-				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{entry.reason}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{entry.target_id}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{entry.amount_paid}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{entry.amount} {entry.currency}</Text>
 			</View>
 			</TouchableHighlight>
 		));
@@ -62,10 +62,10 @@ export default class ExpensesScreen extends React.Component {
 		var loansView = this.state.loans.map((loan, index) => (
 		    <TouchableHighlight key={"LoansBut"+index} onPress={() => navigate("ExpenseDetails", {expense : loan,onGoBack: () => this.refresh()})}>
 			<View style={styles.rows} key={"Loans"+index}>
-				<Text style={styles.rowText}>{loan.reason}</Text>
-				<Text style={styles.rowText}>{loan.sender_id}</Text>
-				<Text style={styles.rowText}>{loan.amount_paid}</Text>
-				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{loan.reason}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{loan.sender_id}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{loan.amount_paid}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{loan.amount} {loan.currency}</Text>
 			</View>
 			</TouchableHighlight>
 		));
@@ -81,20 +81,20 @@ export default class ExpensesScreen extends React.Component {
 		<Text style={styles.expenseText}>Money Lend</Text>
             <View style={styles.tableView}>
                 <View style={styles.head}>
-                    <Text style={styles.headText}>Description</Text>
-                    <Text style={styles.headText}>To</Text>
-					<Text style={styles.headText}>Paid</Text>
-                    <Text style={styles.headText}>Amount</Text>
+                    <Text style={styles.headTextTransactionOverview}>Description</Text>
+                    <Text style={styles.headTextTransactionOverview}>To</Text>
+					<Text style={styles.headTextTransactionOverview}>Paid</Text>
+                    <Text style={styles.headTextTransactionOverview}>Amount</Text>
                 </View>
                 {expensesView}
             </View>
 		<Text style={styles.expenseText}>Money Borrowed</Text>
             <View style={styles.tableView}>
                 <View style={styles.head}>
-                    <Text style={styles.headText}>Description</Text>
-                    <Text style={styles.headText}>From</Text>
-					<Text style={styles.headText}>Paid</Text>
-                    <Text style={styles.headText}>Amount</Text>
+                    <Text style={styles.headTextTransactionOverview}>Description</Text>
+                    <Text style={styles.headTextTransactionOverview}>From</Text>
+					<Text style={styles.headTextTransactionOverview}>Paid</Text>
+                    <Text style={styles.headTextTransactionOverview}>Amount</Text>
                 </View>
                 {loansView}
             </View>

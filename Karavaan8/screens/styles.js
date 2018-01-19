@@ -227,6 +227,14 @@ var styles = StyleSheet.create({
         textAlign: 'center',
         alignSelf: 'stretch',
     },
+    headTextTransactionOverview:
+    {
+        marginLeft: 5,
+        fontSize: 18,
+        width: 100,
+        textAlign: 'center',
+        alignSelf: 'stretch',
+    },
     rows:
     {
         flexDirection: 'row',
@@ -237,6 +245,13 @@ var styles = StyleSheet.create({
         marginLeft: 5,
         fontSize: 18,
         width: 133,
+        textAlign: 'center'
+    },
+    rowTextTransactionOverview:
+    {
+        marginLeft: 5,
+        fontSize: 18,
+        width: 100,
         textAlign: 'center'
     },
     tableView:
