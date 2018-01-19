@@ -46,15 +46,15 @@ export default class AddExpense extends React.Component {
                 bool = false;
 				errorMessage += " Date,";
 			}
-			if(isNaN(parseFloat(this.state.amount)) || this.state.amount == "")
+			if(isNaN(parseFloat(this.state.amount)) || parseFloat(this.state.amount) <= 0 || this.state.amount == "")
 			{
                 bool = false;
 				errorMessage += " Amount,";
 			}
-			if(this.state.reason == "")
+			if(this.state.reason == "" || this.state.reason.length > 30)
 			{
                 bool = false;
-				errorMessage + " Reason,";
+				errorMessage += " Reason,";
 			}
             if(bool){
                 var am = await convert(this.state.amount,this.state.currency);
@@ -194,7 +194,7 @@ export default class AddExpense extends React.Component {
                     defaultIndex={0} defaultValue={this.state.category}
 					onSelect ={(idx,value) => this.setState({category : value})}/>
 
-                    <Text style={styles.entryText}>Reason</Text>
+                    <Text style={styles.entryText}>Reason Max(30)</Text>
                     <TextInput
                         style={styles.chosenText}
                         keyboardType='numeric'

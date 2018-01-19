@@ -48,8 +48,7 @@ export default class PeopleScreen extends React.Component {
     async deletePerson(person_id)
     {
         const people = await deletePerson(person_id);
-        var list = await createList(people, "person")
-        this.setState({people : list});
+        this.refresh();
 		
   	}
 
