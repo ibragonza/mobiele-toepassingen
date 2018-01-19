@@ -29,7 +29,6 @@ export default class TransactionHistory extends React.Component {
     
 	async fetchData() {
 		const transactions = await getTransactions();
-        console.log(transactions);
 		this.setState({ transactions: transactions });
 	}
 
