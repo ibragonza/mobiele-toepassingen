@@ -58,9 +58,9 @@ export default class TripOverviewScreen extends React.Component {
 		var expensesView = this.state.expenses.map((entry, index) => (
 		<TouchableHighlight style={styles.edit} ref = {component => this._touchable = component} activeOpactity={this.state.disabled ? 0.3 : 1} onPress={ () => this.toExpenseDetails(entry)}>
 			<View style={styles.rows} key={"Expenses"+index}>
-				<Text style={styles.rowTextTripOverview}>{entry.reason}</Text>
-				<Text style={styles.rowTextTripOverview}>{entry.target_id}</Text>
-				<Text style={styles.rowTextTripOverview}>{entry.amount} {entry.currency}</Text>
+				<Text style={styles.rowText}>{entry.reason}</Text>
+				<Text style={styles.rowText}>{entry.target_id}</Text>
+				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
 			</View>
 		</TouchableHighlight>
 		));
@@ -68,9 +68,9 @@ export default class TripOverviewScreen extends React.Component {
 		var loansView = this.state.loans.map((loan, index) => (
 			<TouchableOpacity style={styles.edit} activeOpactity={this.state.disabled ? 1 : 0.3} onPress={!this.state.disabled && this.toLoanExpenseDetails(loan)}>
 			<View style={styles.rows} key={"Loans"+index}>
-				<Text style={styles.rowTextTripOverview}>{loan.reason}</Text>
-				<Text style={styles.rowTextTripOverview}>{loan.sender_id}</Text>
-				<Text style={styles.rowTextTripOverview}>{loan.amount} {loan.currency}</Text>
+				<Text style={styles.rowText}>{loan.reason}</Text>
+				<Text style={styles.rowText}>{loan.sender_id}</Text>
+				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
 			</View>
 			</TouchableOpacity>
 		));
@@ -78,14 +78,14 @@ export default class TripOverviewScreen extends React.Component {
 		return (
 			<Image source={require('../images/tripOverview.jpeg')} style={styles.container}>
 				<Text style={styles.header}>Your trip to {trip.destination}</Text>
-				<Text style={styles.dateText}>From {trip.start_date} To {trip.end_date}</Text>
+				<Text style={styles.dateText}>From {trip.start_date} to {trip.end_date}</Text>
 				<Text style={styles.expenseText}>Money Lend</Text>
 				<ScrollView>
 					<View style={styles.tableView}>
 						<View style={styles.head}>
-							<Text style={styles.headTextTripOverview}>Description</Text>
-							<Text style={styles.headTextTripOverview}>To</Text>
-							<Text style={styles.headTextTripOverview}>Amount</Text>
+							<Text style={styles.headText}>Description</Text>
+							<Text style={styles.headText}>To</Text>
+							<Text style={styles.headText}>Amount</Text>
 						</View>
 						{expensesView}
 					</View>
@@ -95,9 +95,9 @@ export default class TripOverviewScreen extends React.Component {
 				<ScrollView>
 					<View style={styles.tableView}>
 						<View style={styles.head}>
-							<Text style={styles.headTextTripOverview}>Description</Text>
-							<Text style={styles.headTextTripOverview}>From</Text>
-							<Text style={styles.headTextTripOverview}>Amount</Text>
+							<Text style={styles.headText}>Description</Text>
+							<Text style={styles.headText}>From</Text>
+							<Text style={styles.headText}>Amount</Text>
 						</View>
 						{loansView}
 					</View>
