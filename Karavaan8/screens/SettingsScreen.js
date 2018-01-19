@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Alert,TouchableHighlight,Image,TextInput,Picker,AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View,Alert,TouchableHighlight,Image,TextInput,ScrollView,Picker,AsyncStorage} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {getAllCurrencies} from '../model/Converter'
 import styles from './styles.js'
@@ -66,6 +66,7 @@ componentDidMount()
     return (
       <Image source={require('../images/settings-background.png')} style={styles.container}>
 	<View style={styles.navbar}>
+	<ScrollView>
 		<Text style={styles.header}>Settings</Text>
 		<Text style={styles.entryText}>Default Currency</Text>
 
@@ -85,6 +86,7 @@ componentDidMount()
 				<Text style={styles.buttonText}>Confirm</Text>
 			</View>
 		</TouchableHighlight>
+	</ScrollView>
     </View>
     </Image>
     );
