@@ -191,7 +191,8 @@ export async function setPaid(expense_id) {
       var obj = JSON.parse(value);
       for (key in obj) {
         if (obj[key].expense_id == expense_id && obj[key].paid == "false") {
-          await createTransaction(obj[key].target_id,obj[key].sender_id,obj[key].amount);
+          var left = obj[key].amount - obj[key].amount_paid;
+          await createTransaction(obj[key].target_id,obj[key].sender_id,left);
           obj[key].paid = "true";
 
           break;

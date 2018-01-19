@@ -174,7 +174,7 @@ var styles = StyleSheet.create({
     dateText:
     {
         fontSize: 20,
-        color: 'white',
+        color: 'black',
         marginTop: 20,
         alignSelf: 'center',
     },
@@ -223,7 +223,15 @@ var styles = StyleSheet.create({
     {
         marginLeft: 5,
         fontSize: 18,
-		width: 95,
+		width: 133,
+        textAlign: 'center',
+        alignSelf: 'stretch',
+    },
+    headTextTransactionOverview:
+    {
+        marginLeft: 5,
+        fontSize: 18,
+        width: 100,
         textAlign: 'center',
         alignSelf: 'stretch',
     },
@@ -236,22 +244,14 @@ var styles = StyleSheet.create({
     {
         marginLeft: 5,
         fontSize: 18,
-        width: 95,
+        width: 133,
         textAlign: 'center'
     },
-    headTextTripOverview:
+    rowTextTransactionOverview:
     {
         marginLeft: 5,
         fontSize: 18,
-        width: 133,
-        textAlign: 'center',
-        alignSelf: 'stretch',
-    },
-    rowTextTripOverview:
-    {
-        marginLeft: 5,
-        fontSize: 18,
-        width: 133,
+        width: 100,
         textAlign: 'center'
     },
     tableView:

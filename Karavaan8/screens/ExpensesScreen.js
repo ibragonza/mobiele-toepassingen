@@ -51,10 +51,10 @@ export default class ExpensesScreen extends React.Component {
     var expensesView = this.state.expenses.map((entry, index) => (
             <TouchableHighlight key={"ExpensesBut"+index} onPress={() => navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})}>
 			<View style={styles.rows} key={"Expenses"+index}>
-				<Text style={styles.rowText}>{entry.reason}</Text>
-				<Text style={styles.rowText}>{entry.target_id}</Text>
-				<Text style={styles.rowText}>{entry.amount_paid}</Text>
-				<Text style={styles.rowText}>{entry.amount} {entry.currency}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{entry.reason}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{entry.target_id}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{entry.amount_paid}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{entry.amount} {entry.currency}</Text>
 			</View>
 			</TouchableHighlight>
 		));
@@ -62,10 +62,10 @@ export default class ExpensesScreen extends React.Component {
 		var loansView = this.state.loans.map((loan, index) => (
 		    <TouchableHighlight key={"LoansBut"+index} onPress={() => navigate("ExpenseDetails", {expense : loan,onGoBack: () => this.refresh()})}>
 			<View style={styles.rows} key={"Loans"+index}>
-				<Text style={styles.rowText}>{loan.reason}</Text>
-				<Text style={styles.rowText}>{loan.sender_id}</Text>
-				<Text style={styles.rowText}>{loan.amount_paid}</Text>
-				<Text style={styles.rowText}>{loan.amount} {loan.currency}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{loan.reason}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{loan.sender_id}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{loan.amount_paid}</Text>
+				<Text style={styles.rowTextTransactionOverview}>{loan.amount} {loan.currency}</Text>
 			</View>
 			</TouchableHighlight>
 		));
@@ -81,20 +81,20 @@ export default class ExpensesScreen extends React.Component {
 		<Text style={styles.expenseText}>Money Lend</Text>
             <View style={styles.tableView}>
                 <View style={styles.head}>
-                    <Text style={styles.headText}>Description</Text>
-                    <Text style={styles.headText}>To</Text>
-					<Text style={styles.headText}>Paid</Text>
-                    <Text style={styles.headText}>Amount</Text>
+                    <Text style={styles.headTextTransactionOverview}>Description</Text>
+                    <Text style={styles.headTextTransactionOverview}>To</Text>
+					<Text style={styles.headTextTransactionOverview}>Paid</Text>
+                    <Text style={styles.headTextTransactionOverview}>Amount</Text>
                 </View>
                 {expensesView}
             </View>
 		<Text style={styles.expenseText}>Money Borrowed</Text>
             <View style={styles.tableView}>
                 <View style={styles.head}>
-                    <Text style={styles.headText}>Description</Text>
-                    <Text style={styles.headText}>From</Text>
-					<Text style={styles.headText}>Paid</Text>
-                    <Text style={styles.headText}>Amount</Text>
+                    <Text style={styles.headTextTransactionOverview}>Description</Text>
+                    <Text style={styles.headTextTransactionOverview}>From</Text>
+					<Text style={styles.headTextTransactionOverview}>Paid</Text>
+                    <Text style={styles.headTextTransactionOverview}>Amount</Text>
                 </View>
                 {loansView}
             </View>
@@ -121,142 +121,3 @@ export default class ExpensesScreen extends React.Component {
 	);
   }
 }
-/*
-const styles = StyleSheet.create({
-  header: {
-    fontSize: 48,
-    fontWeight: 'bold'
-  },
-  navbar: {
-    flex: 1,
-    marginTop: 40,
-  },
-  navbarText:
-    {
-      fontSize: 20,
-    },
-  container: {
-    flex: 1,
-    width: undefined,
-    height: undefined,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button:
-    {
-      marginTop: 5,
-      marginBottom: 10,
-      borderRadius: 3,
-      width: 200,
-      height: 70,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      backgroundColor: '#00FF7F',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  buttonText:
-    {
-      fontSize: 20,
-      color: 'white',
-      textAlign: 'center',
-    },
-    headerText:
-		{
-			color: 'white',
-			fontSize: 50,
-			textAlign: 'center',
-		},
-	dateText:
-		{
-			fontSize: 20,
-			color: 'white',
-			marginTop: 20,
-			alignSelf: 'center',
-		},
-	expenseText:
-		{
-			textAlign: 'left',
-			alignSelf: 'stretch',
-			color: '#2784A3',
-			fontSize: 30,
-			marginTop: 20,
-		},
-	head:
-		{
-			flexDirection: 'row',
-			alignSelf: 'stretch',
-			borderBottomWidth: 2,
-			borderBottomColor: 'black',
-			backgroundColor: 'white',
-		},
-	headthirdText:
-		{
-			width: 80,
-			marginLeft: 2,
-			fontSize: 21,
-		},
-	headFirstText:
-		{
-			width: 120,
-			marginLeft: 2,
-			fontSize: 21,
-		},
-	headSecText:
-		{
-			width: 100,
-			fontSize: 21,
-			textAlign: 'center',
-		},
-	headEditText:
-		{
-			marginLeft: 2,
-			fontSize: 21,
-			width: 60,
-		},
-	headText:
-		{
-			marginLeft: 5,
-			fontSize: 21,
-			textAlign: 'center',
-			alignSelf: 'stretch',
-
-		},
-	rows:
-		{
-			flexDirection: 'row',
-			backgroundColor: 'white',
-		},
-	rowText:
-		{
-			marginLeft: 5,
-			fontSize: 19,
-			width: 105,
-		},
-	tableView:
-		{
-			alignSelf: 'center',
-			marginTop: 20,
-		},
-	edit:
-		{
-			flexDirection: 'row',
-			backgroundColor : 'black',
-		},
-	editText:
-		{
-			textAlign: 'center',
-			fontSize: 19,
-			width: 50,
-			color: 'red',
-		},
-	imagecontainer: {
-		flex: 1,
-		width: undefined,
-		height: undefined,
-		backgroundColor: 'transparent',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-});*/
