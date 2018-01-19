@@ -12,7 +12,7 @@ export default class AddExpense extends React.Component {
     constructor(props) {
         super(props);
 		console.disableYellowBox = true;
-        this.state = {person0 : [], person1 : [], person2 : [], person3 :[], person4 : [],value0 : 0,value1:0, value2:0, value3:0,value4:0,trip: "", expense_date: "", trips:[], people : [], currencies:[], reason:"", categories : [], category:"FOOD", loaded:false, currency: ""};
+        this.state = {person0 : "", person1 : "", person2 : "", person3 :"", person4 :"",value0 : 0,value1:0, value2:0, value3:0,value4:0,trip: "", expense_date: "", trips:[], people : [], currencies:[], reason:"", categories : [], category:"FOOD", loaded:false, currency: ""};
 		this.fetchData = this.fetchData.bind(this);
 		this.setName = this.setName.bind(this);
 		this.setAmount = this.setAmount.bind(this);
@@ -39,52 +39,76 @@ export default class AddExpense extends React.Component {
                 bool = false;
 				errorMessage += " Date,";
 			}
-			if(this.state.amount == "")
-			{
-                bool = false;
-				errorMessage += " Amount,";
-			}
 			if(this.state.reason == "")
 			{
                 bool = false;
-				errorMessage + " Reason,";
+				errorMessage += " Reason,";
 			}
-			if(this.state.person1 == "" && this.state.value1 == "" || isNaN(parseInt(this.state.value1)))
+			if(this.state.person0 == "")
 			{
 				bool = false;
+				errorMessage += " Person0 ,";
 			}
-			else
+			console.log("Person1 : "+this.state.person1.name);
+			if(this.state.person1.name != "")
 			{
-				participants.push(this.state.person1);
-				amounts.push(this.state.value1);
+				if(this.state.value1 == "" || isNaN(parseInt(this.state.value1)))
+				{
+					console.log("Kom ik hier");
+					bool = false;
+					errorMessage += " Person1 ,";
+				}
+				else
+				{
+					participants.push(this.state.person1);
+					amounts.push(this.state.value1);
+				}
 			}
-			if(this.state.person2 == "" && this.state.value2 == "" || isNaN(parseInt(this.state.value2)))
+			console.log("Ik kom hier");
+			if(this.state.person2.name != "")
 			{
-				bool = false;
+				console.log(this.state.value2);
+				if(this.state.value2 == "" || !isNaN(parseInt(this.state.value2)))
+				{
+					console.log(this.state.value2 == "");
+					console.log(!isNaN(parseInt(this.state.value2)));
+					bool = false;
+					errorMessage += " Person2 ,";
+				}
+				else
+				{
+					participants.push(this.state.person2);
+					amounts.push(this.state.value2);
+				}
 			}
-			else {
-				participants.push(this.state.person2);
-				amounts.push(this.state.value2);
-			}
-			if(this.state.person3 == "" && this.state.value3 == "" || isNaN(parseInt(this.state.value3)))
+			if(this.state.person3.name != "")
 			{
-				bool = false;
+				if(this.state.value3 == "" || isNaN(parseInt(this.state.value3)))
+				{
+					bool = false;
+					errorMessage += " Person3 ,";
+				}
+				else
+				{
+					participants.push(this.state.person3);
+					amounts.push(this.state.value3);
+				}
 			}
-			else {
-				participants.push(this.state.person3);
-				amounts.push(this.state.value3);
-			}
-			if(this.state.person4 == "" && this.state.value4 == "" || isNaN(parseInt(this.state.value4)))
+			if(this.state.person4.name != "")
 			{
-				bool = false;
-			}
-			else {
-				participants.push(this.state.person4);
-				amounts.push(this.state.value4);
+				if(this.state.value4 == "" || isNaN(parseInt(this.state.value4)))
+				{
+					bool = false;
+					errorMessage += " Person4 ,";
+				}
+				else
+				{
+					participants.push(this.state.person4);
+					amounts.push(this.state.value4);
+				}
 			}
             if(bool){
-				console.log(participants);
-				console.log(amount);
+				
 				for (var i = 0; i < participants; i++)
 				{
 					var am = await convert(amounts[i],this.state.currency);
@@ -99,6 +123,7 @@ export default class AddExpense extends React.Component {
 						amount : am,
 						reason : this.state.reason,
 					}
+					console.log(result + "Hallo");
 				var setResult = await createExpense(result.person,result.target,result.trip,result.amount,result.currency,result.expense_date,result.category, result.reason)
 				if(!setResult)
 				{
@@ -217,12 +242,6 @@ export default class AddExpense extends React.Component {
                     <Text style={styles.chosenText}>Tap to choose: {this.state.person0.name}</Text>
                     </ModalDropdown>
 					<Text style={styles.entryText}>Amount</Text>
-					<TextInput
-					style={styles.chosenText}
-					editable = {true}
-					keyboardType = 'numeric'
-					onChangeText={(value) => this.setAmount("value0",value)}
-                    />
 					<ModalDropdown style={styles.Modal}
                         dropdownStyle={styles.dropdown}
                         dropdownTextStyle={styles.dropdownTextStyle}
