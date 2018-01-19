@@ -32,9 +32,13 @@ export default class ExpenseDetails extends React.Component {
             Alert.alert("We know","You're generous ... but you're paying too much!");
         }else{
             try{
-                await payAmount(this.state.expense.expense_id,this.state.amount,this.state.payCurrency);
-                this.props.navigation.state.params.onGoBack();
-                this.props.navigation.goBack();
+                if(!isNaN(parseFloat(this.state.amount))){
+                    await payAmount(this.state.expense.expense_id,this.state.amount,this.state.payCurrency);
+                    this.props.navigation.state.params.onGoBack();
+                    this.props.navigation.goBack();
+                }else{
+                    alert("You did not enter a number, dummy!");
+                }  
             }catch(e){
                 console.log(e);
             }

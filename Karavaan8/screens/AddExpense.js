@@ -46,7 +46,7 @@ export default class AddExpense extends React.Component {
                 bool = false;
 				errorMessage += " Date,";
 			}
-			if(this.state.amount == "")
+			if(!isNaN(parseFloat(this.state.amount)) || this.state.amount == "")
 			{
                 bool = false;
 				errorMessage += " Amount,";
