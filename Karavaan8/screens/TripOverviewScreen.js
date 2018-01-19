@@ -26,17 +26,11 @@ export default class TripOverviewScreen extends React.Component {
 	{
 		var touchable = this._touchable;
 		touchable.disabled = true;
-		//this.setState({disabled : true});
 		this.props.navigation.navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})
-		//this.setState({disabled : false});
 	}
 	toLoanExpenseDetails(loan)
 	{
-		//this.setState({disabled : true});
-		//navigate("ExpenseDetails",{expense : loan,onGoBack: () => this.refresh()})
-		//console.log("Hallo");
-		//this.setState({disabled : false});
-		this.props.navigation.navigate("ExpenseDetails", {expense : entry,onGoBack: () => this.refresh()})
+		this.props.navigation.navigate("ExpenseDetails", {expense : loan,onGoBack: () => this.refresh()})
 	}
 
 	async fetchData() {
@@ -66,7 +60,7 @@ export default class TripOverviewScreen extends React.Component {
 		));
 
 		var loansView = this.state.loans.map((loan, index) => (
-			<TouchableOpacity style={styles.edit} activeOpactity={this.state.disabled ? 1 : 0.3} onPress={!this.state.disabled && this.toLoanExpenseDetails(loan)}>
+			<TouchableOpacity style={styles.edit} activeOpactity={this.state.disabled ? 1 : 0.3} onPress={ () => this.toLoanExpenseDetails(loan)}>
 			<View style={styles.rows} key={"Loans"+index}>
 				<Text style={styles.rowText}>{loan.reason}</Text>
 				<Text style={styles.rowText}>{loan.sender_id}</Text>
