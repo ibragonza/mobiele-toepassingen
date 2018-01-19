@@ -30,8 +30,6 @@ export default class TransactionHistoryPP extends React.Component {
 	async fetchData() {
 		var person = this.props.navigation.state.params.person;
 		const transactions = await getTransactionsPerPerson(person.name);
-		const currency = await getPreferredCurrency();
-        console.log(transactions);
 		this.setState({ transactions: transactions });
 	}
 
