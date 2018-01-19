@@ -29,19 +29,25 @@ export default class AddTripScreen extends React.Component {
 
 	async send() {
 		var { navigate } = this.props.navigation;
-		if (this.state.destination == "") {
-			Alert.alert("The Destination cannot be zero");
-		}
-		else {
-			var result =
+		var startdate = this.state.start_date.split('-');
+		var enddate = this.state.end_date.split('-');
+		var checker = false;
+		if(startdate[2] <= enddate[2] && this.state.destination.trim() != "" )
+		{
+			if(startdate[1] <= enddate[1])
+			{
+				if(startdate[0] <= enddate[0])
 				{
+					checker = true;
+					var result =
+					{
 					destination: this.state.destination,
 					start_date: this.state.start_date,
 					end_date: this.state.end_date,
 					trip_id: "0",
 					trip_currency: this.state.trip_currency
-				};
-			try {
+					};
+				try {
 				var setResult = await CreateTripJSON(result.trip_id, result.destination, result.start_date, result.end_date, result.trip_currency);
 				if (!setResult) {
 					Alert.alert("Oops, something went wrong :(");
@@ -49,9 +55,15 @@ export default class AddTripScreen extends React.Component {
 					this.props.navigation.state.params.onGoBack();
 					this.props.navigation.goBack();
 			}
-			catch (error) {
+				catch (error) {
 				console.log(error);
 			}
+				}
+			}
+		}
+		if(!checker)
+		{
+			alert("Please make sure your Dates and Destination are okay");
 		}
 	}
 	render() {
