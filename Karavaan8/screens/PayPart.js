@@ -32,7 +32,7 @@ export default class ExpenseDetails extends React.Component {
             Alert.alert("We know","You're generous ... but you're paying too much!");
         }else{
             try{
-                if(!isNaN(parseFloat(this.state.amount)) || parseFloat(this.state.amount) <= 0){
+                if(!isNaN(parseFloat(this.state.amount)) && parseFloat(this.state.amount) > 0){
                     await payAmount(this.state.expense.expense_id,this.state.amount,this.state.payCurrency);
                     this.props.navigation.state.params.onGoBack();
                     this.props.navigation.goBack();
