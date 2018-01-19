@@ -48,7 +48,7 @@ export default class AddPerson extends React.Component {
             <Image source={require('../images/expense-background.png')} style={styles.container}>
                 <View style={styles.navbar}>
                     <Text style={styles.header}>Add a Person</Text>
-                    <Text style={styles.entryText}>Name</Text>
+                    <Text style={styles.entryText}>Unique Username</Text>
                     <TextInput
                         style={styles.textInput}
                         editable={true}
